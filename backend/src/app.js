@@ -1,19 +1,22 @@
 import express from "express";
 import bodyParser from "body-parser";
-import a from "~/controllers";
+import a from "./controllers";
+import morgan from "morgan";
+import { env } from "./configs/environment";
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+if (env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
 app.get("/", (req, res) => {
+  console.log(a);
   res.status(200).json({
-    message: "I am using babel in NodeJS",
-    status: "success",
+    status: a,
   });
 });
 
-const PORT = process.env.PORT || 4200;
-app.listen(PORT, () => {
-  console.log(a);
-});
+export default app;
