@@ -1,12 +1,13 @@
-import AppResponse from "~/utils/AppResponse";
-import { StatusCodes } from "http-status-codes";
-
-const signUp = (reqBody) => {
-    return new AppResponse({
-        message: "Register success",
-        statusCode: StatusCodes.OK,
-        metadata: reqBody,
+import User from "~/models/user.model";
+const signUp = async (reqBody) => {
+    const newUser = await User.create({
+        name: reqBody.name,
+        email: reqBody.email,
+        password: reqBody.password,
+        passwordConfirm: reqBody.passwordConfirm
     });
+    newUser.password = undefined
+    return newUser
 };
 
 export const authService = {
