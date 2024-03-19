@@ -1,6 +1,5 @@
-import { StatusCodes } from 'http-status-codes'
 import Joi from 'joi'
-import AppError from '~/utils/AppError'
+import validationsObject from '~/utils/ValidationError'
 
 const signUp = async (req, res, next) => {
     const pattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/
@@ -22,14 +21,7 @@ const signUp = async (req, res, next) => {
         })
     })
     const validationResult = correctCondition.validate(req.body, { abortEarly: false })
-    if (!validationResult.error) {
-        next()
-    }
-    else {
-        const message = validationResult.error.details[0].message
-        next(new AppError(message, StatusCodes.UNPROCESSABLE_ENTITY))
-    }
-
+    validationsObject(validationResult, next)
 }
 
 export const userValidation = { signUp }
