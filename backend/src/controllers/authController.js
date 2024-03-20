@@ -6,7 +6,7 @@ import { authService } from "~/services/authService";
 import AppError from "~/utils/AppError";
 import AppResponse from "~/utils/AppResponse";
 import catchAsync from "~/utils/catchAsync";
-import jwt from 'jsonwebtoken'
+import JWT from 'jsonwebtoken'
 
 const signUp = async (req, res, next) => {
     return new AppResponse({
@@ -45,6 +45,15 @@ const logOut = async (req, res, next) => {
     }).send(res)
 }
 
+const updatePassword = async (req, res, next) => {
+    const data = await authService.updatePassword(req)
+    const newData = SetCookieAndSetData(res, data)
+    return new AppResponse({
+        message: "update password success",
+        statusCode: StatusCodes.OK,
+        metadata: newData
+    }).send(res)
+}
 
 const protect = catchAsync(async (req, res, next) => {
     let token;
@@ -64,7 +73,13 @@ const protect = catchAsync(async (req, res, next) => {
             new AppError('You are not logged in! Please log in to get access.', 401)
         );
     }
-    const decodeUser = jwt.verify(token, keyToken.publicKey)
+    const decodeUser = await JWT.verify(token, keyToken.publicKey)
+    if (!decodeUser) {
+        console.log('error');
+        return next(
+            new AppError('You are not logged in! Please log in to get access.', 403)
+        );
+    }
     const currentUser = await User.findById(decodeUser.userId);
     if (!currentUser) {
         return next(
@@ -91,4 +106,4 @@ const restrictTo = (...roles) => {
         next();
     };
 };
-export const authController = { signUp, login, refreshToken, logOut, restrictTo, protect };
+export const authController = { signUp, login, refreshToken, logOut, restrictTo, protect, updatePassword };

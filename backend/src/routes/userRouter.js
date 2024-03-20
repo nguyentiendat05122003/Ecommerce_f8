@@ -7,18 +7,20 @@ const router = Express.Router();
 
 router.post("/signup", userValidation.signUp, authController.signUp);
 router.post("/login", catchAsync(authController.login));
-
 router.post("/logout", catchAsync(authController.logOut));
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
 
 router.post("/refreshToken", catchAsync(authController.refreshToken));
+router.patch('/updateMyPassword', catchAsync(authController.updatePassword));
+
+router.use(authController.restrictTo('admin'));
 router
     .route('/')
-    .get(userController.getAllUsers)
+    .get(catchAsync(userController.getAllUsers))
 router
     .route('/:id')
     .get(catchAsync(userController.getUser))
     .patch(catchAsync(userController.updateUser))
+    .delete(catchAsync(userController.deleteUser));
 export default router;

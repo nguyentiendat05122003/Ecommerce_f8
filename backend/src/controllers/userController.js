@@ -26,5 +26,14 @@ const getAllUsers = async (req, res, next) => {
     }).send(res);
 }
 
+const deleteUser = async (req, res, next) => {
+    return new AppResponse({
+        message: "delete user success",
+        statusCode: StatusCodes.OK,
+        metadata: await userService.deleteUser(req),
+    }).send(res);
+}
 
-export const userController = { getUser, updateUser, getAllUsers } 
+
+
+export const userController = { getUser, updateUser, getAllUsers, deleteUser } 

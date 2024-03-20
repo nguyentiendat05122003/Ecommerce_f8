@@ -4,7 +4,6 @@ import getInfoData from "~/utils/getInfoData";
 import crypto from 'crypto'
 import AppError from "~/utils/AppError";
 import KeyToken from "~/models/keyToken.model";
-import jwt from 'jsonwebtoken'
 const createSendToken = async (user) => {
     const { _id, email } = user
     const privateKey = crypto.randomBytes(64).toString('hex')
@@ -92,9 +91,27 @@ const logOut = async (req) => {
     }
 }
 
+const updatePassword = async (req) => {
+    const user = await User.findById(req.user.id).select('+password');
+
+    if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+        throw new AppError('Your current password is wrong.', 401);
+    }
+
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    await user.save();
+
+    const tokens = await createSendToken(user)
+    return {
+        user: getInfoData(user, ['_id', 'name', 'email']),
+        tokens
+    }
+}
 export const authService = {
     signUp,
     login,
     refreshToken,
-    logOut
+    logOut,
+    updatePassword
 };
