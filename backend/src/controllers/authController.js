@@ -1,7 +1,12 @@
 import { StatusCodes } from "http-status-codes";
 import { SetCookieAndSetData } from "~/helpers/SetCookieAndSetData";
+import KeyToken from "~/models/keyToken.model";
+import User from "~/models/user.model";
 import { authService } from "~/services/authService";
+import AppError from "~/utils/AppError";
 import AppResponse from "~/utils/AppResponse";
+import catchAsync from "~/utils/catchAsync";
+import jwt from 'jsonwebtoken'
 
 const signUp = async (req, res, next) => {
     return new AppResponse({
@@ -40,4 +45,50 @@ const logOut = async (req, res, next) => {
     }).send(res)
 }
 
-export const authController = { signUp, login, refreshToken, logOut };
+
+const protect = catchAsync(async (req, res, next) => {
+    let token;
+    const userId = req.headers.client_id
+    if (!userId) return next(new AppError('Miss userId'))
+    const keyToken = await KeyToken.findOne({ user: userId }).lean()
+    if (!keyToken) return next(new AppError('User not found'))
+    const accessToken = req.headers.access_token
+    if (
+        accessToken &&
+        accessToken.startsWith('Bearer')
+    ) {
+        token = accessToken.split(' ')[1];
+    }
+    if (!token) {
+        return next(
+            new AppError('You are not logged in! Please log in to get access.', 401)
+        );
+    }
+    const decodeUser = jwt.verify(token, keyToken.publicKey)
+    const currentUser = await User.findById(decodeUser.userId);
+    if (!currentUser) {
+        return next(
+            new AppError(
+                'The user belonging to this token does no longer exist.',
+                401
+            )
+        );
+    }
+
+    req.user = currentUser;
+    req.keyToken = keyToken;
+    next();
+});
+
+const restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(
+                new AppError('You do not have permission to perform this action', 403)
+            );
+        }
+
+        next();
+    };
+};
+export const authController = { signUp, login, refreshToken, logOut, restrictTo, protect };

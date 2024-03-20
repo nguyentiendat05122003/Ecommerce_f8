@@ -11,15 +11,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+if (env.NODE_ENV === "dev") {
+  app.use(morgan("dev"));
+}
 //init db
 dbConnect;
 
 //init router
 router(app)
 
-if (env.NODE_ENV === "dev") {
-  app.use(morgan("dev"));
-}
+
 
 app.use(errorHandlerMiddleware);
 

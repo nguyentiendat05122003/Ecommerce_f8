@@ -17,7 +17,8 @@ const signUp = async (req, res, next) => {
         password: Joi.string().regex(pattern).required(),
         passwordConfirmation: Joi.valid(Joi.ref('password')).required().messages({
             "any.only": "Password confirm does not match",
-        })
+        }),
+        role: Joi.string().valid('user', 'admin'),
     })
     const validationResult = correctCondition.validate(req.body, { abortEarly: false })
     validationsObject(validationResult, next)

@@ -20,7 +20,8 @@ const signUp = async (reqBody) => {
         name: reqBody.name,
         email: reqBody.email,
         password: reqBody.password,
-        passwordConfirm: reqBody.passwordConfirm
+        passwordConfirm: reqBody.passwordConfirm,
+        role: reqBody.role
     });
     newUser.password = undefined
     return newUser
@@ -46,40 +47,34 @@ const login = async (reqBody) => {
 
 const refreshToken = async (req) => {
     const refreshToken = req.cookies.refreshToken;
+    const { userId, email } = req.user
+    const keyToken = req.keyToken
     if (!refreshToken)
         throw new AppError('You are not logged in! Please log in to get access.', 401)
-    const foundToken = await KeyToken.findOne({ refreshToken: refreshToken })
-    if (!foundToken) {
-        throw new AppError('Token not valid', 400)
+    if (keyToken.refreshTokensUsed.includes(refreshToken)) {
+        await KeyToken.deleteOne({ refreshToken: refreshToken })
+        throw new AppError('Something wrong, Please login again', 401)
     }
-    else {
-        if (!foundToken.refreshTokensUsed.includes(refreshToken)) {
-            const validRefreshToken = await jwt.verify(refreshToken, foundToken.privateKey);
-            if (validRefreshToken) {
-                const { userId, email } = validRefreshToken
-                const tokens = await keyTokenService.createTokenPair({ userId, email }, foundToken.publicKey, foundToken.privateKey)
-                await foundToken.updateOne({
-                    $set: {
-                        refreshToken: tokens.refreshToken
-                    },
-                    $addToSet: {
-                        refreshTokensUsed: refreshToken
-                    }
-                })
-                return {
-                    user: { userId, email },
-                    tokens
-                }
-            }
-            else {
-                throw new AppError('Token not valid', 400)
-            }
+    if (keyToken.refreshToken !== refreshToken) {
+        throw new AppError('You are not logged in! Please log in to get access.', 401)
+    }
+    const foundUser = await User.findOne({ email: email })
+    if (!foundUser) {
+        throw new AppError('User not found', 404)
+    }
+    const holderToken = await KeyToken.findOne({ refreshToken: refreshToken })
+    const tokens = await keyTokenService.createTokenPair({ userId, email }, holderToken.publicKey, holderToken.privateKey)
+    await holderToken.updateOne({
+        $set: {
+            refreshToken: tokens.refreshToken
+        },
+        $addToSet: {
+            refreshTokensUsed: refreshToken
         }
-        else {
-            await KeyToken.deleteOne({ refreshToken: refreshToken })
-            throw new AppError('Something wrong, Please login again', 401)
-        }
-
+    })
+    return {
+        user: { userId, email },
+        tokens
     }
 
 }
