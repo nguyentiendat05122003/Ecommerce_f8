@@ -31,4 +31,13 @@ const refreshToken = async (req, res, next) => {
     }).send(res)
 }
 
-export const authController = { signUp, login, refreshToken };
+const logOut = async (req, res, next) => {
+    await authService.logOut(req)
+    res.clearCookie("refreshToken");
+    return new AppResponse({
+        message: "logout success",
+        statusCode: StatusCodes.OK,
+    }).send(res)
+}
+
+export const authController = { signUp, login, refreshToken, logOut };

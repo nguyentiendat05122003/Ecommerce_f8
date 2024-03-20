@@ -84,8 +84,22 @@ const refreshToken = async (req) => {
 
 }
 
+const logOut = async (req) => {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+        throw new AppError('You are not logged in! Please log in to get access.', 401)
+    const foundToken = await KeyToken.findOne({ refreshToken: refreshToken })
+    if (!foundToken) {
+        throw new AppError('Token not valid', 400)
+    }
+    else {
+        await KeyToken.deleteOne({ refreshToken: refreshToken })
+    }
+}
+
 export const authService = {
     signUp,
     login,
-    refreshToken
+    refreshToken,
+    logOut
 };
