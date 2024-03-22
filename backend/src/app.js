@@ -24,7 +24,6 @@ dbConnect;
 router(app)
 
 
-
 app.use(errorHandlerMiddleware);
 
 export default app;

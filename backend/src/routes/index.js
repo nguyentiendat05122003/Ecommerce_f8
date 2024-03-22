@@ -1,7 +1,7 @@
+import AppError from "~/utils/AppError";
 import userRouter from "./userRouter";
 function router(app) {
     app.use("/api/v1/users", userRouter);
-
     //handle not found router
     app.all("*", (req, res, next) => {
         const error = new AppError(

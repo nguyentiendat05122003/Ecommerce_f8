@@ -1,5 +1,6 @@
 import AppError from '~/utils/AppError'
 import APIFeatures from '~/utils/ApiFeature';
+import { Types } from 'mongoose';
 const deleteOne = Model =>
     async (req) => {
         const doc = await Model.findByIdAndDelete(req.params.id).lean();
@@ -35,9 +36,10 @@ const createOne = Model =>
 
 const getOne = (Model, popOptions) =>
     async (req) => {
-        let query = Model.findById(req.params.id);
+        console.log('param', req.params.id);
+        let query = Model.findById(new Types.ObjectId(req.params.id));
         if (popOptions) query = query.populate(popOptions);
-        const doc = await query.lean();
+        const doc = await query
 
         if (!doc) {
             throw new AppError('No document found with that ID', 404);

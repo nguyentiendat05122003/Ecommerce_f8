@@ -73,26 +73,29 @@ const protect = catchAsync(async (req, res, next) => {
             new AppError('You are not logged in! Please log in to get access.', 401)
         );
     }
-    const decodeUser = await JWT.verify(token, keyToken.publicKey)
-    if (!decodeUser) {
-        console.log('error');
-        return next(
-            new AppError('You are not logged in! Please log in to get access.', 403)
-        );
-    }
-    const currentUser = await User.findById(decodeUser.userId);
-    if (!currentUser) {
-        return next(
-            new AppError(
-                'The user belonging to this token does no longer exist.',
-                401
-            )
-        );
-    }
+    JWT.verify(token, keyToken.publicKey, async function (err, decodeUser) {
+        if (err) {
+            return next(
+                new AppError(
+                    'The user belonging to this token does no longer exist.',
+                    401
+                )
+            );
+        }
+        const currentUser = await User.findById(decodeUser.userId);
+        if (!currentUser) {
+            return next(
+                new AppError(
+                    'The user belonging to this token does no longer exist.',
+                    401
+                )
+            );
+        }
 
-    req.user = currentUser;
-    req.keyToken = keyToken;
-    next();
+        req.user = currentUser;
+        req.keyToken = keyToken;
+        next();
+    })
 });
 
 const restrictTo = (...roles) => {

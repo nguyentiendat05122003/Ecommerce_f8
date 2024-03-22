@@ -34,6 +34,21 @@ const deleteUser = async (req, res, next) => {
     }).send(res);
 }
 
+const getMe = async (req, res, next) => {
+    req.params.id = req.user._id.valueOf()
+    next();
+}
 
 
-export const userController = { getUser, updateUser, getAllUsers, deleteUser } 
+const updateMe = async (req, res, next) => {
+    return new AppResponse({
+        message: "update me success",
+        statusCode: StatusCodes.OK,
+        metadata: await userService.updateMe(req),
+    }).send(res);
+}
+
+
+
+
+export const userController = { getUser, updateUser, getAllUsers, deleteUser, getMe, updateMe } 
