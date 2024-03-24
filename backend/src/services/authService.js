@@ -4,6 +4,7 @@ import getInfoData from "~/utils/getInfoData";
 import crypto from 'crypto'
 import AppError from "~/utils/AppError";
 import KeyToken from "~/models/keyToken.model";
+import { Email } from "~/utils/email";
 const createSendToken = async (user) => {
     const { _id, email } = user
     const privateKey = crypto.randomBytes(64).toString('hex')
@@ -23,6 +24,7 @@ const signUp = async (reqBody) => {
         role: reqBody.role
     });
     newUser.password = undefined
+    await new Email(newUser, 'url').sendWelcome()
     return newUser
 };
 
