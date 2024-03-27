@@ -109,4 +109,23 @@ const restrictTo = (...roles) => {
         next();
     };
 };
-export const authController = { signUp, login, refreshToken, logOut, restrictTo, protect, updatePassword };
+
+const resetPassword = async (req, res, next) => {
+    const data = await authService.resetPassword(req)
+    console.log(data);
+    const newData = SetCookieAndSetData(res, data)
+    return new AppResponse({
+        message: "reset password success",
+        statusCode: StatusCodes.OK,
+        metadata: newData,
+    }).send(res);
+}
+
+const forgotPassword = async (req, res, next) => {
+    return new AppResponse({
+        statusCode: StatusCodes.OK,
+        metadata: await authService.forgotPassword(req)
+    }).send(res)
+}
+
+export const authController = { signUp, login, refreshToken, logOut, restrictTo, protect, updatePassword, forgotPassword, resetPassword };

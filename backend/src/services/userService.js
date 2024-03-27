@@ -30,4 +30,5 @@ const updateMe = async (req) => {
 
 };
 
+
 export const userService = { getUser, updateUser, getAllUsers, deleteUser, updateMe };

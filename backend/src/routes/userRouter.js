@@ -9,6 +9,8 @@ const router = Express.Router();
 router.post("/signup", userValidation.signUp, authController.signUp);
 router.post("/login", catchAsync(authController.login));
 router.post("/logout", catchAsync(authController.logOut));
+router.post("/forgotPassword", catchAsync(authController.forgotPassword));
+router.post("/resetPassword/:token", catchAsync(authController.resetPassword));
 
 router.use(authController.protect);
 
