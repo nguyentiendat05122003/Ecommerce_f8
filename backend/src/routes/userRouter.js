@@ -7,7 +7,7 @@ import { userValidation } from "~/validations/userValidation";
 const router = Express.Router();
 
 router.post("/signup", userValidation.signUp, authController.signUp);
-router.post("/login", catchAsync(authController.login));
+router.post("/login", userValidation.login, catchAsync(authController.login));
 router.post("/logout", catchAsync(authController.logOut));
 router.post("/forgotPassword", catchAsync(authController.forgotPassword));
 router.post("/resetPassword/:token", catchAsync(authController.resetPassword));
@@ -15,7 +15,7 @@ router.post("/resetPassword/:token", catchAsync(authController.resetPassword));
 router.use(authController.protect);
 
 router.post("/refreshToken", catchAsync(authController.refreshToken));
-router.patch('/updateMyPassword', catchAsync(authController.updatePassword));
+router.patch('/updateMyPassword', userValidation.updatePassword, catchAsync(authController.updatePassword));
 
 router.get("/me", catchAsync(userController.getMe), userController.getUser)
 router.patch("/updateMe", uploadUserPhoto, catchAsync(userController.updateMe))

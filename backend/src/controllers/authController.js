@@ -91,6 +91,11 @@ const protect = catchAsync(async (req, res, next) => {
                 )
             );
         }
+        if (currentUser.changedPasswordAfter(decodeUser.iat)) {
+            return next(
+                new AppError('User recently changed password! Please log in again.', 401)
+            );
+        }
 
         req.user = currentUser;
         req.keyToken = keyToken;

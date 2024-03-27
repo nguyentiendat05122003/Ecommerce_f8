@@ -1,8 +1,8 @@
 import Joi from 'joi'
+import { patternPassword } from '~/constants'
 import validationsObject from '~/utils/ValidationError'
 
 const signUp = async (req, res, next) => {
-    const pattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/
     const correctCondition = Joi.object({
         name: Joi.string().required().min(3).max(20).trim().messages({
             'string.empty': `"name" cannot be an empty field`,
@@ -14,7 +14,7 @@ const signUp = async (req, res, next) => {
                 'any.required': `"email" is a required field`
             }
         ),
-        password: Joi.string().regex(pattern).required(),
+        password: Joi.string().regex(patternPassword).required(),
         passwordConfirmation: Joi.valid(Joi.ref('password')).required().messages({
             "any.only": "Password confirm does not match",
         }),
@@ -24,4 +24,30 @@ const signUp = async (req, res, next) => {
     validationsObject(validationResult, next)
 }
 
-export const userValidation = { signUp }
+const login = async (req, res, next) => {
+    const correctCondition = Joi.object({
+        email: Joi.string().email().required().strict().trim().messages(
+            {
+                'string.empty': `Please enter a valid email address.`,
+                'any.required': `"email" is a required field`
+            }
+        ),
+        password: Joi.string().regex(patternPassword).required(),
+    })
+    const validationResult = correctCondition.validate(req.body, { abortEarly: false })
+    validationsObject(validationResult, next)
+}
+
+const updatePassword = async (req, res, next) => {
+    const correctCondition = Joi.object({
+        passwordCurrent: Joi.string().regex(patternPassword).required(),
+        password: Joi.string().regex(patternPassword).required(),
+        passwordConfirmation: Joi.valid(Joi.ref('password')).required().messages({
+            "any.only": "Password confirm does not match",
+        }),
+    })
+    const validationResult = correctCondition.validate(req.body, { abortEarly: false })
+    validationsObject(validationResult, next)
+}
+
+export const userValidation = { signUp, login, updatePassword }
