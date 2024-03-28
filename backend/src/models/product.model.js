@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
-    product: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Product',
-        required: [true]
-    },
     name: {
         type: String,
         required: [true, "Please enter name laptop"],
