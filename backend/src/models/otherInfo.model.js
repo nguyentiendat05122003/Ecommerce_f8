@@ -4,9 +4,6 @@ const otherInfoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    desc: {
-        type: String,
-    },
 
 }, {
     timestamps: true
