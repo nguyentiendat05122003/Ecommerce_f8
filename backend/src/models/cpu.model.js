@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-const otherInfoSchema = new mongoose.Schema({
+const CPUSchema = new mongoose.Schema({
     value: {
         type: String,
-        required: true,
     },
     desc: {
         type: String,
@@ -13,8 +12,8 @@ const otherInfoSchema = new mongoose.Schema({
 });
 
 
-const OtherInfo = mongoose.model("OtherInfo", otherInfoSchema);
+const CPU = mongoose.model("CPU", CPUSchema);
 
 
 
-export default OtherInfo
+export default CPU

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const otherInfoSchema = new mongoose.Schema({
+const screenRefreshRateSchema = new mongoose.Schema({
     value: {
         type: String,
         required: true,
@@ -13,8 +13,8 @@ const otherInfoSchema = new mongoose.Schema({
 });
 
 
-const OtherInfo = mongoose.model("OtherInfo", otherInfoSchema);
+const ScreenRefreshRate = mongoose.model("ScreenRefreshRate", screenRefreshRateSchema);
 
 
 
-export default OtherInfo
+export default ScreenRefreshRate

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const otherInfoSchema = new mongoose.Schema({
+const screenResolutionSchema = new mongoose.Schema({
     value: {
         type: String,
         required: true,
@@ -13,8 +13,8 @@ const otherInfoSchema = new mongoose.Schema({
 });
 
 
-const OtherInfo = mongoose.model("OtherInfo", otherInfoSchema);
+const ScreenResolution = mongoose.model("ScreenResolution", screenResolutionSchema);
 
 
 
-export default OtherInfo
+export default ScreenResolution
