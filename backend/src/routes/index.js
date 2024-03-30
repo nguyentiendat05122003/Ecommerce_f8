@@ -6,6 +6,12 @@ import brandProductRouter from "./brandProductRouter";
 import cpuProductRouter from "./cpuRouter";
 import diskRouter from "./diskRouter";
 import ramRouter from './ramRouter'
+import screenRefreshRateRouter from './screenRefreshRateRouter'
+import screenResolutionRouter from './screenResolutionRouter'
+import screenSizeRouter from './screenSizeRouter'
+import specialFeaturesRouter from './specialFeaturesRouter'
+import otherInfoRouter from './otherInfoRouter'
+
 
 function router(app) {
     app.use("/api/v1/users", userRouter);
@@ -15,6 +21,11 @@ function router(app) {
     app.use("/api/v1/cpu", cpuProductRouter);
     app.use("/api/v1/disk", diskRouter);
     app.use("/api/v1/ram", ramRouter);
+    app.use("/api/v1/screenResolution", screenResolutionRouter);
+    app.use("/api/v1/screenRefreshRate", screenRefreshRateRouter);
+    app.use("/api/v1/screenSize", screenSizeRouter);
+    app.use("/api/v1/specialFeatures", specialFeaturesRouter);
+    app.use("/api/v1/otherInfo", otherInfoRouter);
     //handle not found router
     app.all("*", (req, res, next) => {
         const error = new AppError(
