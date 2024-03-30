@@ -40,6 +40,57 @@ const productSchema = new mongoose.Schema({
         default: true,
         select: false,
     },
+    brand: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'BrandProduct'
+    },
+    typeProduct: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'TypeProduct'
+    },
+    cpu: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'CPU'
+    },
+    disk: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'Disk'
+    },
+    ram: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'Ram'
+    },
+    screenRefreshRate: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'ScreenRefreshRate'
+    },
+    screenResolution: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'ScreenResolution'
+    },
+    screenSize: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'ScreenSize'
+    },
+    screenSpecialFeatures: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'ScreenSpecialFeatures'
+    },
+    other: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'OtherInfo'
+        }
+    ]
 }, {
     timestamps: true
 });

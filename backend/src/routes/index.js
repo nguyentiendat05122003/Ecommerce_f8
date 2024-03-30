@@ -5,6 +5,7 @@ import typeProductRouter from "./typeProductRouter";
 import brandProductRouter from "./brandProductRouter";
 import cpuProductRouter from "./cpuRouter";
 import diskRouter from "./diskRouter";
+import ramRouter from './ramRouter'
 
 function router(app) {
     app.use("/api/v1/users", userRouter);
@@ -13,6 +14,7 @@ function router(app) {
     app.use("/api/v1/brandProducts", brandProductRouter);
     app.use("/api/v1/cpu", cpuProductRouter);
     app.use("/api/v1/disk", diskRouter);
+    app.use("/api/v1/ram", ramRouter);
     //handle not found router
     app.all("*", (req, res, next) => {
         const error = new AppError(
