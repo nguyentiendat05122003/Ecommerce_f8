@@ -4,9 +4,12 @@ const typeProductSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    desc: {
+    thumb: {
         type: String,
         required: true,
+    },
+    desc: {
+        type: String,
     },
 
 }, {

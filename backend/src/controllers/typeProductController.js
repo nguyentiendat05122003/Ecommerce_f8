@@ -1,9 +1,14 @@
 import { StatusCodes } from "http-status-codes";
 import { typeService } from "~/services/typeService";
 import AppResponse from "~/utils/AppResponse";
+import { uploadImageTypeProduct } from "~/utils/Upload";
 
 
 const createTypeProduct = async (req, res, next) => {
+    if (req.file) {
+        const path = await uploadImageTypeProduct({ path: req.file.path })
+        req.body.thumb = path
+    }
     return new AppResponse({
         message: "create type of product success",
         statusCode: StatusCodes.OK,

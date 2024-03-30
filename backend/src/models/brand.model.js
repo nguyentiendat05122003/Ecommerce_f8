@@ -4,7 +4,7 @@ const brandSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    logo: {
+    thumb: {
         type: String,
         required: true,
     },
