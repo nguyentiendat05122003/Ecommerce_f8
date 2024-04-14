@@ -6,11 +6,9 @@ const URL = `${env.MONGODB_URI}/${db.name}`;
 
 //SINGLETON PATTERN
 class DataBase {
-  constructor() {
-    this.connect();
-  }
-  connect() {
-    mongoose.connect(URL).then(() => {
+  constructor() {}
+  async connect() {
+    await mongoose.connect(URL).then(() => {
       console.log(`Connected!`);
     });
   }
