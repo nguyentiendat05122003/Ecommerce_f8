@@ -1,0 +1,58 @@
+import mongoose from "mongoose";
+const paymentSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      require: true,
+    },
+    gender: {
+      type: Boolean,
+    },
+    address: {
+      type: String,
+      require: true,
+    },
+    phone: {
+      type: String,
+      require: true,
+    },
+    desc: {
+      type: String,
+    },
+    paid: {
+      type: String,
+      require: true,
+      default: false,
+    },
+    total_amount: {
+      type: Number,
+      require: true,
+    },
+    detail_payment: {
+      type: [
+        {
+          productId: {
+            type: mongoose.Schema.ObjectId,
+            required: true,
+            ref: "Product",
+          },
+          quantity: Number,
+          price: Number,
+        },
+      ],
+      require: true,
+    },
+    userId: {
+      type: mongoose.Schema.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Payment = mongoose.model("Payment", paymentSchema);
+
+export default Payment;
