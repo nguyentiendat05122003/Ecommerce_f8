@@ -18,7 +18,6 @@ const cartSchema = new mongoose.Schema(
       required: true,
       default: [],
     },
-    //[{productId,quantity}]
     cart_userId: {
       type: mongoose.Schema.ObjectId,
       required: true,
