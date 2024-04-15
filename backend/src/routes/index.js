@@ -17,6 +17,7 @@ import reviewRouter from "./reviewRouter";
 import cartRouter from "./cartRouter";
 import paymentRouter from "./paymentRouter";
 import providerRouter from "./providerRouter";
+import supplierInvoiceRouter from "./supplierInvoiceRouter";
 
 function router(app) {
   app.use("/api/v1/users", userRouter);
@@ -37,6 +38,7 @@ function router(app) {
   app.use("/api/v1/cart", cartRouter);
   app.use("/api/v1/payment", paymentRouter);
   app.use("/api/v1/provider", providerRouter);
+  app.use("/api/v1/supplierInvoice", supplierInvoiceRouter);
   //handle not found router
   app.all("*", (req, res, next) => {
     const error = new AppError(
