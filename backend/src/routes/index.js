@@ -14,6 +14,7 @@ import otherInfoRouter from "./otherInfoRouter";
 import typeBrandRouter from "./typeBrandRouter";
 import commentRouter from "./commentRouter";
 import reviewRouter from "./reviewRouter";
+import cartRouter from "./cartRouter";
 
 function router(app) {
   app.use("/api/v1/users", userRouter);
@@ -31,6 +32,7 @@ function router(app) {
   app.use("/api/v1/typeBrand", typeBrandRouter);
   app.use("/api/v1/comment", commentRouter);
   app.use("/api/v1/review", reviewRouter);
+  app.use("/api/v1/cart", cartRouter);
   //handle not found router
   app.all("*", (req, res, next) => {
     const error = new AppError(
