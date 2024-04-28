@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 import localFont from "next/font/local";
 
@@ -48,9 +49,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${archivo.variable} ${archivoSemiExpanded.variable}`}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <h1>Layout</h1>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
