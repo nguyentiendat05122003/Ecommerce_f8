@@ -21,6 +21,12 @@ module.exports = {
         archivo: ["var(--font-archivo)"],
         archivoSemiExpanded: ["var(--font-archivoSemiExpanded)"],
       },
+      borderWidth: {
+        min: ["var(--min)"],
+      },
+      height: {
+        searchHeight: ["var(--search-height)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

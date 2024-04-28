@@ -57,8 +57,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <h1>Layout</h1>
-          {children}
+          <div className="px-4">{children}</div>
         </ThemeProvider>
       </body>
     </html>
