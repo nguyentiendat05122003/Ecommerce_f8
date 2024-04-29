@@ -28,6 +28,7 @@
       --linear-sm-light: linear-gradient(177deg, #00193B 0%, #035ECF 100%);
       --glass: linear-gradient(134.73deg, rgba(1, 88, 83, 0.0001) 32.33%, rgba(0, 112, 117, 0.186708) 79.27%);
       --transition: .3s ease-in-out;
+      --backDrop: linear-gradient(0deg,rgba(3,94,207,0.20) 0%,rgba(3,94,207,0.20) 100%), #031123;
     }
 
     .dark {
@@ -41,7 +42,9 @@
       --border: 228, 43%, 36%, 0.4;
       --shadow: 0px 3px 14px 214, 100%, 18%;
       --linear-sm-dark: linear-gradient(177deg, #5FA3FF 0%, #035ECF 100%);
+      --backDrop: linear-gradient(0deg,rgba(3,94,207,0.20) 0%,rgba(3,94,207,0.20) 100%), #031123;
     }
+
   }
 
   @layer base {
@@ -98,4 +101,12 @@
   .subheading-3 {
       font-size: 12px;
   }
-  }
+}
+.swiper-pagination .swiper-pagination-bullet{
+  background-color: #fff;
+  display: inline-block;
+  margin: 0px 2px;
+  width: 24px;
+  height: 2px;
+  border-radius: unset;
+}

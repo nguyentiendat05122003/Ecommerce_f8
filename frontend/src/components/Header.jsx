@@ -2,9 +2,19 @@ import Logo from "@/components/Logo";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { AlignJustify, Bell, MessageSquare, Search } from "lucide-react";
-
 export default function Header() {
   const user = true;
   return (
@@ -36,23 +46,53 @@ export default function Header() {
         <ModeToggle />
         {user ? (
           <>
-            <div className="relative h-fit xl:mr-1.5">
-              <Button
-                className=" hover:bg-transparent leading-none text-gray dark:text-gray-red xl:text-[20px]"
-                variant="ghost"
-                size="icon"
-              >
-                <Bell />
-                <span
-                  className="absolute w-3 h-3 rounded-full bg-red top-0 -right-0 border-[2px]  border-background
+            <Sheet className="bg-backDrop !opacity-80">
+              <SheetTrigger asChild>
+                <div className="relative h-fit xl:mr-1.5">
+                  <Button
+                    className=" hover:bg-transparent leading-none text-gray dark:text-gray-red xl:text-[20px]"
+                    variant="ghost"
+                    size="icon"
+                  >
+                    <Bell />
+                    <span
+                      className="absolute w-3 h-3 rounded-full bg-red top-0 -right-0 border-[2px]  border-background
                                   xl:w-6 xl:h-6 xl:-top-2 xl:-right-2 xl:flex xl:items-center xl:justify-center"
-                >
-                  <span className="hidden text-xs font-bold xl:block text-white dark:text-[#00193B]">
-                    2
-                  </span>
-                </span>
-              </Button>
-            </div>
+                    >
+                      <span className="hidden text-xs font-bold xl:block text-white dark:text-[#00193B]">
+                        2
+                      </span>
+                    </span>
+                  </Button>
+                </div>
+              </SheetTrigger>
+              <SheetContent className="bg-widget">
+                <SheetHeader>
+                  <SheetTitle>Edit profile</SheetTitle>
+                  <SheetDescription>
+                    Make changes to your profile here. Click save when you're
+                    done.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Name
+                    </Label>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Username
+                    </Label>
+                  </div>
+                </div>
+                <SheetFooter>
+                  <SheetClose asChild>
+                    <Button type="submit">Save changes</Button>
+                  </SheetClose>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
             <div className="relative h-fit xl:mr-1.5">
               <Button
                 className="hover:bg-transparent  leading-none text-gray dark:text-gray-red xl:text-[20px]"
