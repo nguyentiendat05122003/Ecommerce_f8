@@ -33,11 +33,12 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        inputBorder: "hsl(var(--accent))",
+        accent: "hsl(var(--accent))",
         red: "hsl(var(--red))",
         green: "hsl(var(--green))",
         widget: "hsl(var(--widget))",
         backDrop: "var(--backDrop)",
+        inputBorder: "hsl(var(--input-border))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -60,6 +61,7 @@ module.exports = {
       },
       dropShadow: {
         main: "var(--shadow)",
+        hoverShadow: "var(--hover-shadow)",
       },
     },
   },

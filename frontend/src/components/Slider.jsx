@@ -21,7 +21,7 @@ export default function Slider() {
   const navigationNextRef = useRef(null);
   return (
     <>
-      <div className="content flex items-start justify-between gap-5">
+      <div className="hidden xl:flex content  items-start justify-between gap-5">
         <div className="flex-1">
           <div className="relative carousel max-w-[988px] max-h-[240px] group">
             <Swiper

@@ -9,7 +9,7 @@ export default function ListBrand() {
       <div className="">
         <Badge
           variant="outline"
-          className=" cursor-pointer min-h-[36px] w-[100px] flex justify-center border-min border-solid border-inputBorder"
+          className=" cursor-pointer min-h-[36px] w-[100px] flex justify-center border-min border-solid border-accent"
         >
           <Link href="/" className="">
             <Image className="w-auto h-[20px]" src={logo} alt="logo" />

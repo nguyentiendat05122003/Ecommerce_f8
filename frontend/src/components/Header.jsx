@@ -23,7 +23,7 @@ export default function Header() {
       <AlignJustify className="sm:hidden" />
       <div className="hidden relative flex-1 sm:block sm:max-w-[1054px] ml-5 mr-auto 4xl:ml-0">
         <input
-          className="hover:transition-all focus:border-inputBorder hover:border-inputBorder bg-transparent w-full field-input outline-none !pr-[60px] h-searchHeight px-[20px] rounded-lg border-min border-solid"
+          className="hover:transition-all focus:border-accent hover:border-accent bg-transparent w-full field-input outline-none !pr-[60px] h-searchHeight px-[20px] rounded-lg border-min border-solid"
           type="search"
           placeholder="Search..."
         />

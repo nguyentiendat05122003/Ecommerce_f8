@@ -7,27 +7,27 @@ import { Button } from "@/components/ui/button";
 
 export default function SideBar() {
   return (
-    <div className="sidebar w-[220px] rounded bg-widget p-5 drop-shadow-main">
+    <div className="hidden xl:block sidebar w-[220px] rounded bg-widget p-5 drop-shadow-main">
       <div className="filter-panel ">
         <div className="flex items-center">
-          <List />
-          <h5 className="pl-[12px]">All categories</h5>
+          <List size={18} />
+          <h5 className="text-base font-normal pl-[12px]">All categories</h5>
         </div>
         <div className="menu_divider h-[1px] bg-border mt-4"></div>
         <div className="category-list flex flex-col gap-2.5 mt-4">
           <ul className="">
-            <li className="border-min border-transparent rounded-sm flex items-center justify-start h-[40px] pr-[18px] pl-[12px] cursor-pointer transition-all text-base font-bold hover:bg-background hover:text-input hover:border-border hover:border-min">
+            <li className="border-min border-transparent rounded-sm flex items-center justify-start h-[40px] pr-[18px] pl-[12px] cursor-pointer transition-all text-xs font-normal hover:bg-background hover:text-input hover:border-border hover:border-min">
               <Link href="/">Máy văn phòng</Link>
             </li>
-            <li className="border-min border-transparent rounded-sm flex items-center justify-start h-[40px] pr-[18px] pl-[12px] cursor-pointer transition-all text-base font-bold hover:bg-background hover:text-input hover:border-border hover:border-min">
-              <Link href="/">Máy văn phòng</Link>
+            <li className="border-min border-transparent rounded-sm flex items-center justify-start h-[40px] pr-[18px] pl-[12px] cursor-pointer transition-all text-xs font-normal hover:bg-background hover:text-input hover:border-border hover:border-min">
+              <Link href="/">Máy gaming</Link>
             </li>
           </ul>
         </div>
         <div className="menu_divider h-[1px] bg-border my-4"></div>
         <div className="flex items-center">
-          <Filter />
-          <h5 className="pl-[12px]">All Filters</h5>
+          <Filter size={18} />
+          <h5 className="pl-[12px] text-base font-normal">All Filters</h5>
         </div>
         <div className="filter-list flex flex-col gap-2.5 mt-4">
           <ul className="">
@@ -57,7 +57,7 @@ export default function SideBar() {
         </div>
         <div className="menu_divider h-[1px] bg-border my-4"></div>
         <div className="flex items-center">
-          <h5 className="pl-[12px]">Price</h5>
+          <h5 className="pl-[12px] text-base font-normal">Price</h5>
         </div>
         <div className="price-list">
           <div className="flex gap-2 mt-4">
