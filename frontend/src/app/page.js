@@ -13,7 +13,7 @@ export default function Home() {
             Sell your Laptop for Instant Cash
           </h4>
         </div> */}
-        <Slider />
+        {/* <Slider /> */}
         <div className="main_container mt-5 flex items-start gap-5">
           <SideBar />
           <ListProduct />

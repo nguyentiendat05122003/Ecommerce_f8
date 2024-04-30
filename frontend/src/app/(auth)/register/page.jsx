@@ -7,7 +7,11 @@ import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-export default function Login() {
+export const metadata = {
+  title: "Đăng ký tài khoản22",
+  description: "The React Framework for the Web",
+};
+export default function Register() {
   return (
     <div>
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
@@ -58,14 +62,25 @@ export default function Login() {
                   placeholder="Password"
                 />
               </div>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label
+                  className="font-bold text-gray text-xs"
+                  htmlFor="passwordConfirm"
+                >
+                  Password Confirm
+                </Label>
+                <Input
+                  className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
+                  type="passwordConfirm"
+                  id="passwordConfirm"
+                  placeholder="Password Confirm"
+                />
+              </div>
             </div>
 
             <div className="flex flex-col items-center gap-6 mt-4 mb-10 ">
-              <button className="text-base font-semibold leading-4 text-accent transition-all hover:underline">
-                Forgot Password?
-              </button>
               <Button className="hover:bg-[#02A189] w-full bg-[#00BA9D] border-min border-solid border-[#01C8A9] rounded-[23px] max-w-sm text-base font-semibold">
-                Log In
+                Sign Up
               </Button>
             </div>
           </form>
@@ -97,7 +112,7 @@ export default function Login() {
             <div className="flex justify-center items-center gap-2.5 leading-none">
               <p>Don’t have an account?</p>
               <button className="text-accent font-semibold text-base">
-                Sign Up
+                Login
               </button>
             </div>
           </div>

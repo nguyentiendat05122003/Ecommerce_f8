@@ -1,6 +1,8 @@
 "use client";
 import { SLIDERS } from "@/constants";
 import Image from "next/image";
+import collage1 from "../app/img/banner/1.png";
+import collage2 from "../app/img/banner/3.png";
 import { useRef } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -14,8 +16,7 @@ import {
   Scrollbar,
 } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import prev from "../app/img/prev.png";
-import map from "../app/img/slider/9716714.jpg";
+import prev from "../app/img/icons/prev.png";
 export default function Slider() {
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
@@ -23,9 +24,9 @@ export default function Slider() {
     <>
       <div className="hidden xl:flex content  items-start justify-between gap-5">
         <div className="flex-1">
-          <div className="relative carousel max-w-[988px] max-h-[240px] group">
+          <div className="relative carousel max-w-[900px] max-h-[240px] group">
             <Swiper
-              className="max-w-[988px]"
+              className="max-w-[900px]"
               modules={[
                 Navigation,
                 Pagination,
@@ -62,7 +63,7 @@ export default function Slider() {
                     <Image
                       src={slider.src}
                       alt="slider"
-                      className="w-[988px] h-[260px] rounded-xl object-cover"
+                      className="w-[900px] h-[260px] rounded-xl object-cover"
                     />
                   </SwiperSlide>
                 );
@@ -71,27 +72,27 @@ export default function Slider() {
                 className="z-10 group-hover:block cursor-pointer absolute top-[45%] left-[10px] opacity-100 transition-all hidden"
                 ref={navigationPrevRef}
               >
-                <Image className="w-[32px] h-[32px]" src={prev} />
+                <Image alt="prev" className="w-[32px] h-[32px]" src={prev} />
               </div>
               <div
                 className="z-10 group-hover:block cursor-pointer absolute top-[45%] right-[10px] opacity-100 transition-all hidden"
                 ref={navigationNextRef}
               >
-                <Image className="w-[32px] rotate-180" src={prev} />
+                <Image alt="next" className="w-[32px] rotate-180" src={prev} />
               </div>
             </Swiper>
           </div>
         </div>
         <div className="flex flex-col gap-1">
           <Image
-            src={map}
-            alt="map"
-            className="w-[260px] h-[128px] rounded-xl object-cover"
+            src={collage1}
+            alt="collage"
+            className="w-[330px] h-[128px] rounded-xl object-cover"
           />
           <Image
-            src={map}
-            alt="map"
-            className="w-[260px] h-[128px] rounded-xl object-cover"
+            src={collage2}
+            alt="collage"
+            className="w-[330px] h-[128px] rounded-xl object-cover"
           />
         </div>
       </div>
