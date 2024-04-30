@@ -5,7 +5,7 @@ import SideBar from "@/components/SideBar";
 import Slider from "@/components/Slider";
 export default function Home() {
   return (
-    <main>
+    <main className="px-4">
       <Header />
       <div className="main mt-[26px] ">
         {/* <div className="title h-10 bg-widget rounded-md mb-4 drop-shadow-main">

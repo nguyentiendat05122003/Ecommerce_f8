@@ -36,6 +36,7 @@ module.exports = {
         accent: "hsl(var(--accent))",
         red: "hsl(var(--red))",
         green: "hsl(var(--green))",
+        gray: "hsl(var(--gray))",
         widget: "hsl(var(--widget))",
         backDrop: "var(--backDrop)",
         inputBorder: "hsl(var(--input-border))",
