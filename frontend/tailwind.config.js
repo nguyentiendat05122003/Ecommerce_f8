@@ -27,11 +27,15 @@ module.exports = {
       height: {
         searchHeight: ["var(--search-height)"],
       },
+      backgroundColor: {
+        primary: "hsl(var(--accent))",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--header))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        primary: "hsl(var(--accent))",
         foreground: "hsl(var(--foreground))",
         accent: "hsl(var(--accent))",
         red: "hsl(var(--red))",
@@ -40,6 +44,7 @@ module.exports = {
         widget: "hsl(var(--widget))",
         backDrop: "var(--backDrop)",
         inputBorder: "hsl(var(--input-border))",
+        ["primary-foreground"]: "hsl(var(--primary-foreground))",
       },
       borderRadius: {
         lg: "var(--radius)",

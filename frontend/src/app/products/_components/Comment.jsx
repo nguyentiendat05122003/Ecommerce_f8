@@ -12,7 +12,7 @@ export default function Comment() {
           placeholder="Type your message here."
         />
       </div>
-      <div className="text-md font-medium text-left">
+      <div className=" text-md font-medium text-left">
         1 hỏi đáp về “Laptop HP 245 G10 R5-7520U/8GB/256GB/14"FHD/Win11
         (9H8X8PT)”
       </div>
@@ -45,7 +45,7 @@ export default function Comment() {
             <div className="w-full ml-3 avatar-info px-2 py-3 border-min border-solid border-inputBorder rounded-md ">
               <div className="name text-md font-semibold flex items-center gap-1">
                 Vũ Ánh Linh
-                <span className="px-2 py-[3px] text-white dark:text-[#00193B] mr-1 text-xs flex items-center justify-center font-medium rounded bg-green border-[2px] border-background">
+                <span className="sm:flex hidden px-2 py-[3px] text-white dark:text-[#00193B] mr-1 text-xs  items-center justify-center font-medium rounded bg-green border-[2px] border-background">
                   Quản trị viên
                 </span>
               </div>

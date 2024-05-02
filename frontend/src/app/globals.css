@@ -11,6 +11,7 @@
       --foreground: 215, 14%, 37%;
       --widget: 0, 0%, 100%;   
       --header: 215, 100%, 12%;
+      --primary-foreground:0, 0%, 98%;
       --accent: 213, 97%, 41%;
       --input-border: 0, 2%, 88%;  
       --border: 0, 0%, 95%;
@@ -34,6 +35,7 @@
 
     .dark {
       --background: 215, 100%, 12%;
+      --primary-foreground:215, 100%, 12%;
       --foreground: 0, 2%, 88%;
       --widget: 214, 84%, 7%;
       --header: 214, 100%, 92%;

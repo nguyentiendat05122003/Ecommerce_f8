@@ -14,11 +14,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustify, Bell, MessageSquare, Search } from "lucide-react";
+import {
+  AlignJustify,
+  Bell,
+  MessageSquare,
+  Search,
+  ShoppingCart,
+} from "lucide-react";
 export default function Header() {
   const user = true;
   return (
-    <header className="h-[60px] pt-[15px] flex items-center justify-between">
+    <header className="h-[60px] pt-[15px] flex items-center justify-between xl:mb-[60px]">
       <Logo />
       <AlignJustify className="sm:hidden" />
       <div className="hidden relative flex-1 sm:block sm:max-w-[1054px] ml-5 mr-auto 4xl:ml-0">
@@ -34,6 +40,15 @@ export default function Header() {
         >
           <Search size={18} />
         </Button>
+        <div className="xl:flex hidden mt-2 absolute top-full left-0 items-center">
+          <ul className="flex  font-normal gap-3">
+            <li className="text-sm">Acer</li>
+            <li className="text-sm">Lenovo</li>
+            <li className="text-sm">Hp</li>
+            <li className="text-sm">Macbook</li>
+            <li className="text-sm">Msi</li>
+          </ul>
+        </div>
       </div>
       <div className="flex items-center max-[600px]:gap-2 gap-5 md:ml-5 xl:gap-[26px]">
         <Button
@@ -95,13 +110,30 @@ export default function Header() {
             </Sheet>
             <div className="relative h-fit xl:mr-1.5">
               <Button
-                className="hover:bg-transparent  leading-none text-gray dark:text-gray-red xl:text-[20px]"
+                className="hover:bg-transparent leading-none text-gray dark:text-gray-red xl:text-[20px]"
                 variant="ghost"
                 size="icon"
               >
                 <MessageSquare />
                 <span
                   className="absolute w-3 h-3 rounded-full bg-green top-0 -right-0 border-[2px] border-background
+                                  xl:w-6 xl:h-6 xl:-top-2 xl:-right-3 xl:flex xl:items-center xl:justify-center"
+                >
+                  <span className="hidden text-xs font-bold text-white dark:text-[#00193B] xl:block">
+                    2
+                  </span>
+                </span>
+              </Button>
+            </div>
+            <div className="relative h-fit xl:mr-1.5">
+              <Button
+                className="hover:bg-transparent  leading-none text-gray dark:text-gray-red xl:text-[20px]"
+                variant="ghost"
+                size="icon"
+              >
+                <ShoppingCart />
+                <span
+                  className="absolute w-3 h-3 rounded-full bg-red top-0 -right-0 border-[2px] border-background
                                   xl:w-6 xl:h-6 xl:-top-2 xl:-right-3 xl:flex xl:items-center xl:justify-center"
                 >
                   <span className="hidden text-xs font-bold text-white dark:text-[#00193B] xl:block">

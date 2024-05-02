@@ -15,28 +15,28 @@ export default function ProductDetail() {
           Laptop HP 245 G10 R5-7520U/8GB/256GB/14"FHD/Win11 (9H8X8PT)
         </h1>
         <div className="flex items-center justify-between gap-3">
-          <div className="flex">
+          <div className="sm:flex hidden">
             <Star size={18} fill="#F8D518" strokeWidth={0} />
             <Star size={18} fill="#F8D518" strokeWidth={0} />
             <Star size={18} fill="#F8D518" strokeWidth={0} />
             <Star size={18} fill="#F8D518" strokeWidth={0} />
             <Star size={18} fill="rgb(225, 224, 224)" strokeWidth={0} />
           </div>
-          <p className="font-bold text-sm leading-[1.4] text-accent">
+          <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
             32 rating
           </p>
-          |
-          <p className="font-bold text-sm leading-[1.4] text-accent">
+          <span className="md:block hidden">|</span>
+          <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
             1 Hỏi & đáp
           </p>
-          <p className="flex items-center font-bold text-sm leading-[1.4] text-accent gap-1">
+          <p className="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1">
             <CirclePlus />
             <span>So sánh</span>
           </p>
         </div>
       </div>
       <div className="flex">
-        <div className="w-[50%]">
+        <div className="hidden xl:w-[50%] xl:block">
           {/* Slider */}
           <Slider />
           {/* info */}

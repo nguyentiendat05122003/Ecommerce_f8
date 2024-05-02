@@ -1,7 +1,7 @@
 import { Cpu, FileImage, HardDrive, MemoryStick, Monitor } from "lucide-react";
 export default function InfoProduct() {
   return (
-    <div className="max-w-[585px] card flex gap-3 flex-col px-[20px] py-[15px] bg-widget drop-shadow-main rounded-[6px] transition-all">
+    <div className="hidden max-w-[585px] card xl:flex gap-3 flex-col px-[20px] py-[15px] bg-widget drop-shadow-main rounded-[6px] transition-all">
       <h6 className="flex gap-1 items-center text-sm font-bold text-input cursor-pointer">
         <FileImage size={20} />
         AMD Radeon Graphics

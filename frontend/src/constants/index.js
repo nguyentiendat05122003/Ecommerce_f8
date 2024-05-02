@@ -20,3 +20,11 @@ export const SLIDERS_v2 = [
   { id: 3, src: sliderDeProduct4 },
   { id: 4, src: sliderDeProduct5 },
 ];
+export const DATA = [
+  {
+    id: "m5gr84i9",
+    amount: 316,
+    status: "success",
+    email: "ken99@yahoo.com",
+  },
+];

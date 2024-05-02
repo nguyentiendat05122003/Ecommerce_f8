@@ -1,7 +1,7 @@
 import { RefreshCcw, ShieldCheck } from "lucide-react";
 export default function Insurance() {
   return (
-    <div className="mt-[26px] mr-[16px] pt-[12px] max-w-[585px]">
+    <div className="hidden xl:flex mt-[26px] mr-[16px] pt-[12px] max-w-[585px]">
       <ul className="flex flex-wrap">
         <li className="pr-[20px] pb-2 flex items-center gap-2 w-[50%] border-b-[1px] border-solid border-accent">
           <RefreshCcw className="w-[32px] h-[32px]" />
