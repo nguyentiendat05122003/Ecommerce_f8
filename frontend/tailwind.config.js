@@ -24,11 +24,19 @@ module.exports = {
       borderWidth: {
         min: ["var(--min)"],
       },
+      width: {
+        widthLogoNotFound: "calc(100% - 30px)",
+        // widthLogoNotFound: "1192px",
+      },
       height: {
         searchHeight: ["var(--search-height)"],
+        heightLogoNotFound: "calc(100% - 30px)",
+        // heightLogoNotFound: "1021px",
       },
       backgroundColor: {
         primary: "hsl(var(--accent))",
+        subBgNotFound:
+          "linear-gradient(163.23deg, rgba(255, 255, 255, 0.0001) 38.07%, rgba(240, 240, 240, 0.186708) 87.83%);",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -68,6 +76,8 @@ module.exports = {
       dropShadow: {
         main: "var(--shadow)",
         hoverShadow: "var(--hover-shadow)",
+        shadowNotFound:
+          "12px 6px 15px rgba(89, 104, 122, 0.190023), inset 2px 2px 2px #FFFFFF",
       },
     },
   },
