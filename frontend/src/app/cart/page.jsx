@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 export default function Cart() {
   return (
-    <div className="px-4">
+    <div className="sm:px-4 px-1">
       <Header />
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
         <h1 className="text-2xl">Shopping Cart</h1>

@@ -52,7 +52,7 @@ export function DataTable({ columns, data = DATA }) {
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead className="" key={header.id}>
+                      <TableHead key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
