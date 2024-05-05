@@ -61,10 +61,10 @@ export default function ProductDetail() {
             </p>
           </div>
           <div className="btn mt-4 flex gap-3">
-            <Button className="text-white dark:text-[#00193B] flex-1 hover:bg-[#02A189] = bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
+            <Button className="text-white dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
               Mua ngay
             </Button>
-            <Button className="text-white dark:text-[#00193B] bg-red flex-1 border-min border-solid border-red text-sm font-semibold">
+            <Button className="text-white dark:text-[#00193B] bg-red hover:bg-red flex-1 border-min border-solid border-red text-sm font-semibold">
               Thêm vào giỏ hàng
             </Button>
           </div>

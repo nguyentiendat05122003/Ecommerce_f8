@@ -1,6 +1,8 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 import localFont from "next/font/local";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const archivo = localFont({
   src: [

@@ -118,7 +118,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   width: 0;
 }
 *::-webkit-scrollbar {
-  width: 0.625rem;
+  width: 0;
 }
 *::-webkit-scrollbar-thumb {
   border-radius: 0.375rem;
