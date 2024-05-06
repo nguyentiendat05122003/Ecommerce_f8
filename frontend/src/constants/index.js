@@ -1,5 +1,5 @@
 import slider1 from "../app/img/slider/1.jpg";
-import slider2 from "../app/img/slider/2.jpg";
+import slider2 from "../app/img/slider/2.webp";
 import slider3 from "../app/img/slider/3.jpg";
 import sliderDeProduct1 from "../app/img/products/1.webp";
 import sliderDeProduct2 from "../app/img/products/2.webp";

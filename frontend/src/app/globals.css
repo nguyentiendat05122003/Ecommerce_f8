@@ -120,6 +120,10 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 *::-webkit-scrollbar {
   width: 0;
 }
+::-webkit-scrollbar:horizontal{
+ width:0;
+ height: 0;
+}
 *::-webkit-scrollbar-thumb {
   border-radius: 0.375rem;
   background-color: var(--input-border);
