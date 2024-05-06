@@ -15,12 +15,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-  AlignJustify,
-  Bell,
-  MessageSquare,
-  Search,
-  ShoppingCart,
-} from "lucide-react";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { AlignJustify, Bell, Search, ShoppingCart } from "lucide-react";
+import Link from "next/link";
 export default function Header() {
   const user = true;
   return (
@@ -108,44 +109,51 @@ export default function Header() {
                 </SheetFooter>
               </SheetContent>
             </Sheet>
-            <div className="relative h-fit xl:mr-1.5">
-              <Button
-                className="hover:bg-transparent leading-none text-gray dark:text-gray-red xl:text-[20px]"
-                variant="ghost"
-                size="icon"
-              >
-                <MessageSquare />
-                <span
-                  className="absolute w-3 h-3 rounded-full bg-green top-0 -right-0 border-[2px] border-background
-                                  xl:w-6 xl:h-6 xl:-top-2 xl:-right-3 xl:flex xl:items-center xl:justify-center"
+            <Link href="/cart">
+              <div className="relative h-fit xl:mr-1.5">
+                <Button
+                  className="hover:bg-transparent leading-none text-gray dark:text-gray-red xl:text-[20px]"
+                  variant="ghost"
+                  size="icon"
                 >
-                  <span className="hidden text-xs font-bold text-white dark:text-[#00193B] xl:block">
-                    2
+                  <ShoppingCart />
+                  <span
+                    className="absolute w-3 h-3 rounded-full bg-green top-0 -right-0 border-[2px] border-background
+                                    xl:w-6 xl:h-6 xl:-top-2 xl:-right-3 xl:flex xl:items-center xl:justify-center"
+                  >
+                    <span className="hidden text-xs font-bold text-white dark:text-[#00193B] xl:block">
+                      2
+                    </span>
                   </span>
-                </span>
-              </Button>
-            </div>
-            <div className="relative h-fit xl:mr-1.5">
-              <Button
-                className="hover:bg-transparent  leading-none text-gray dark:text-gray-red xl:text-[20px]"
-                variant="ghost"
-                size="icon"
-              >
-                <ShoppingCart />
-                <span
-                  className="absolute w-3 h-3 rounded-full bg-red top-0 -right-0 border-[2px] border-background
-                                  xl:w-6 xl:h-6 xl:-top-2 xl:-right-3 xl:flex xl:items-center xl:justify-center"
-                >
-                  <span className="hidden text-xs font-bold text-white dark:text-[#00193B] xl:block">
-                    2
-                  </span>
-                </span>
-              </Button>
-            </div>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+                </Button>
+              </div>
+            </Link>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent className="bg-widget rounded drop-shadow-main">
+                  <div className="flex flex-col gap-3">
+                    <Link
+                      href="/setting"
+                      className="px-2 py-1 font-normal text-sm"
+                    >
+                      Tài khoản của tôi
+                    </Link>
+                    <Link className="px-2 py-1 font-normal text-sm" href="/">
+                      Đơn mua
+                    </Link>
+                    <Link className="px-2 py-1 font-normal text-sm" href="/">
+                      Đăng xuất
+                    </Link>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </>
         ) : (
           <>

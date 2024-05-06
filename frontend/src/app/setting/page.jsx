@@ -16,10 +16,10 @@ export default function Setting() {
     <div className="px-4">
       <Header />
       <div>
-        <div className="grid gap-5 md:!grid-cols-2 xl:!grid-cols-[340px,_minmax(0,1fr)]">
+        <div className="mt-3 grid gap-5 md:!grid-cols-2 xl:!grid-cols-[340px,_minmax(0,1fr)]">
           <div className="grid gap-5 md:!grid-cols-2 md:col-span-2 xl:!grid-cols-1 xl:col-span-1">
             <div className="bg-widget grid gap-5 rounded-sm drop-shadow-main">
-              <div className="md:p-[26px]  flex flex-col items-center justify-center">
+              <div className="md:p-[26px] p-[20px]  flex flex-col items-center justify-center">
                 <div className="relative">
                   <Avatar className="relative w-[110px] h-[110px] ">
                     <AvatarImage src="https://github.com/shadcn.png" />
@@ -45,7 +45,7 @@ export default function Setting() {
               </div>
             </div>
             <div className="grid gap-5">
-              <div className="md:p-[26px] bg-widget grid gap-5 rounded-sm drop-shadow-main  items-center">
+              <div className="md:p-[26px] p-[20px] bg-widget grid gap-5 rounded-sm drop-shadow-main  items-center">
                 <div className="flex flex-col gap-5">
                   <div className="flex items-center gap-4">
                     <span className="icon-wrapper mt-1">
@@ -78,7 +78,7 @@ export default function Setting() {
             <div className="flex flex-col gap-5 bg-widget px-[26px] pt-[26px] pb-[50px] rounded-sm drop-shadow-main">
               <h5>My Profile Details</h5>
               <form action="">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid  sm:grid-cols-2 gap-4">
                   <div className="grid gap-4">
                     <>
                       <Label
@@ -88,7 +88,7 @@ export default function Setting() {
                         Name
                       </Label>
                       <Input
-                        className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
+                        className="w-full focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
                         type="text"
                         id="name"
                         placeholder="Name"

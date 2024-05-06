@@ -1,16 +1,10 @@
 import Logo from "@/components/Logo";
-import React from "react";
+import Image from "next/image";
 import media from "../../img/banner/media.webp";
 import Facebook from "../../img/icons/facebook.png";
 import Google from "../../img/icons/google.png";
-import Image from "next/image";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-export const metadata = {
-  title: "Đăng ký tài khoản22",
-  description: "The React Framework for the Web",
-};
+import RegisterForm from "./RegisterForm";
+
 export default function Register() {
   return (
     <div>
@@ -27,7 +21,6 @@ export default function Register() {
             alt="media"
           />
         </div>
-
         <div className="bg-widget  flex flex-col items-center justify-start w-full py-10 px-4 lg:p-[60px]">
           <div className="flex flex-col gap-2.5 text-center">
             <h1 className="text-[38px]">Welcome back!</h1>
@@ -35,55 +28,7 @@ export default function Register() {
               Etiam quis quam urna. Aliquam odio erat, accumsan eu nulla in
             </p>
           </div>
-          <form className="mt-5 w-full ">
-            <div className="flex flex-col gap-5 items-center">
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label className="font-bold text-gray text-xs" htmlFor="email">
-                  Email
-                </Label>
-                <Input
-                  className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
-                  type="email"
-                  id="email"
-                  placeholder="Email"
-                />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label
-                  className="font-bold text-gray text-xs"
-                  htmlFor="password"
-                >
-                  Password
-                </Label>
-                <Input
-                  className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label
-                  className="font-bold text-gray text-xs"
-                  htmlFor="passwordConfirm"
-                >
-                  Password Confirm
-                </Label>
-                <Input
-                  className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
-                  type="passwordConfirm"
-                  id="passwordConfirm"
-                  placeholder="Password Confirm"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-6 mt-4 mb-10 ">
-              <Button className="hover:bg-[#02A189] w-full bg-[#00BA9D] border-min border-solid border-[#01C8A9] rounded-[23px] max-w-sm text-base font-semibold">
-                Sign Up
-              </Button>
-            </div>
-          </form>
+          <RegisterForm />
           <div className="w-full max-w-sm">
             <div className=" relative">
               <span className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-border" />
@@ -92,22 +37,22 @@ export default function Register() {
               </span>
             </div>
             <div className="w-full grid grid-cols-2 gap-4 2xs:grid-cols-2 xs:gap-[30px] mt-[30px] mb-9">
-              <Button className="hover:bg-background max-w-[215px] flex items-center justify-center rounded-[23px] h-searchHeight text-sm gap-[15px] border-[1px] border-solid border-accent text-accent">
+              <button className="hover:bg-background max-w-[215px] flex items-center justify-center rounded-[23px] h-searchHeight text-sm gap-[15px] border-[1px] border-solid border-accent text-accent">
                 <Image
                   src={Facebook}
                   alt="Facebook"
                   className="w-[16px] h-auto object-cover"
                 />
                 Facebook
-              </Button>
-              <Button className="hover:bg-background max-w-[215px] flex items-center justify-center rounded-[23px] h-searchHeight text-sm gap-[15px] border-[1px] border-solid border-accent text-accent">
+              </button>
+              <button className="hover:bg-background max-w-[215px] flex items-center justify-center rounded-[23px] h-searchHeight text-sm gap-[15px] border-[1px] border-solid border-accent text-accent">
                 <Image
                   src={Google}
                   alt="Google"
                   className="w-[16px] h-auto object-cover"
                 />
                 Google
-              </Button>
+              </button>
             </div>
             <div className="flex justify-center items-center gap-2.5 leading-none">
               <p>Don’t have an account?</p>
