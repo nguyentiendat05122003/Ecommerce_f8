@@ -1,17 +1,18 @@
 "use client";
 import ItemFilter from "@/components/ItemFilter";
+import ListFilterFollow from "@/components/ListFilterFollow";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LIST_FILTER } from "@/constants";
-import {
-  ArrowDownNarrowWide,
-  ArrowUpNarrowWide,
-  CircleX,
-  X,
-} from "lucide-react";
+import { ArrowDownNarrowWide, ArrowUpNarrowWide } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import test from "../app/img/categories/1.png";
+import { useState } from "react";
 export default function ListFilters() {
+  const [data, setData] = useState(LIST_FILTER);
+  const handleShowResult = (data) => {
+    console.log(data);
+  };
   return (
     <>
       <div className="mt-10 hidden xl:block">
@@ -31,24 +32,18 @@ export default function ListFilters() {
       <div className="mt-10">
         <h6 className="text-base font-bold mb-2">Chọn theo tiêu chí</h6>
         <div className="flex items-center">
-          {LIST_FILTER.map((filter) => {
-            return <ItemFilter key={filter.id} filter={filter} />;
+          {data.map((filter) => {
+            return (
+              <ItemFilter
+                onClick={handleShowResult}
+                key={filter.id}
+                filter={filter}
+              />
+            );
           })}
         </div>
       </div>
-      <div className="">
-        <h6 className="text-base font-bold">Đang lọc theo</h6>
-        <div className="mt-3 flex  items-center justify-start">
-          <button className="drop-shadow-main flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget">
-            <CircleX size={16} />
-            Hãng sản xuất: Lenovo
-          </button>
-          <button className="drop-shadow-main flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget">
-            <X size={16} />
-            Bỏ chọn tất cả
-          </button>
-        </div>
-      </div>
+      {/* <ListFilterFollow data={data} /> */}
       <div className="mt-3">
         <h6 className="text-base font-bold">Sắp xếp theo</h6>
         <div>
