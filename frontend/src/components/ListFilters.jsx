@@ -10,8 +10,11 @@ import test from "../app/img/categories/1.png";
 import { useState } from "react";
 export default function ListFilters() {
   const [data, setData] = useState(LIST_FILTER);
-  const handleShowResult = (data) => {
-    console.log(data);
+  const handleShowResult = (newData) => {
+    setData(() => {
+      const data = [newData].map((item) => item);
+      return [...data];
+    });
   };
   return (
     <>
@@ -43,7 +46,7 @@ export default function ListFilters() {
           })}
         </div>
       </div>
-      {/* <ListFilterFollow data={data} /> */}
+      <ListFilterFollow onClick={handleShowResult} data={data} />
       <div className="mt-3">
         <h6 className="text-base font-bold">Sắp xếp theo</h6>
         <div>

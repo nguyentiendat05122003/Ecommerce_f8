@@ -17,7 +17,7 @@ export default function ItemFilter({ filter, onClick }) {
   const [open, setOpen] = useState(false);
   const [openChild, setOpenChild] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
-  const { id, title, Icon, desc, data } = filter;
+  const { id, title, desc, Icon, data } = filter;
   const [listItem, setListItem] = useState(data);
   const handleClickItem = (itemChoose, id) => {
     let isExist = false;
@@ -39,14 +39,14 @@ export default function ItemFilter({ filter, onClick }) {
         }
       });
       const tmp = [...newListItem].find((item) => item.id === id);
-      console.log(tmp);
       isExist = tmp.data.filter((item) => item.active === true).length > 0;
       return newListItem;
     });
     setShowBtn(isExist);
   };
   const handleShowResult = () => {
-    onClick(listItem);
+    setOpen(false);
+    onClick({ id, title, Icon, data: listItem });
   };
   return title !== "Giá" ? (
     <>
@@ -104,7 +104,7 @@ export default function ItemFilter({ filter, onClick }) {
                             }}
                             key={item.id}
                             className={`cursor-pointer text-xs font-normal border-min px-[10px] py-[5px] rounded-[10px] ${
-                              item.active
+                              item.active === true
                                 ? "text-red border-min border-red border-solid"
                                 : ""
                             }`}
@@ -174,7 +174,7 @@ export default function ItemFilter({ filter, onClick }) {
                       }}
                       key={item.id}
                       className={`cursor-pointer text-xs font-normal border-min px-[10px] py-[5px] rounded-[10px] ${
-                        item.active
+                        item.active === true
                           ? "text-red border-min border-red border-solid"
                           : ""
                       }`}
