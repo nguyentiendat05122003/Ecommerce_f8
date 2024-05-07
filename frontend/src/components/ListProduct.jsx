@@ -24,7 +24,7 @@ export default function ListProduct() {
          lg:grid-cols-5 2xl:grid-cols-6 "
       >
         <Link
-          href="/"
+          href="/products/1"
           className="card flex flex-col h-full p-[26px] bg-widget drop-shadow-main rounded-[6px] transition-all hover:-translate-y-1"
         >
           <div className="mb-2.5 ">
