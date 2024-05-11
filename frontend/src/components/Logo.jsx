@@ -2,8 +2,8 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
-import LogoDark from "../app/img/icons/logo_dark.svg";
-import LogoLight from "../app/img/icons/logo_light.svg";
+import LogoDark from "../app/assets/img/icons/logo_dark.svg";
+import LogoLight from "../app/assets/img/icons/logo_light.svg";
 export default function Logo({ className = "" }) {
   const { theme } = useTheme();
   let Logo = theme === "light" ? LogoLight : LogoDark;

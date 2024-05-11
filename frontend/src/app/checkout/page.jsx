@@ -1,9 +1,6 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { columns } from "@/app/checkout/column";
+import { DataTable } from "@/app/checkout/data-table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CircleDot, MapPin, Plus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,13 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DataTable } from "@/app/checkout/data-table";
-import { columns } from "@/app/checkout/column";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { CircleDot, MapPin, Plus } from "lucide-react";
 export default function Cart() {
   return (
-    <div className="px-4">
-      <Header />
+    <>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
         <h1 className="text-2xl">Shopping Checkout</h1>
       </div>
@@ -131,7 +127,6 @@ export default function Cart() {
           </Button>
         </div>
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }

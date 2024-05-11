@@ -1,5 +1,5 @@
 import React from "react";
-import LogoDark from "../app/img/icons/logo_dark.svg";
+import LogoDark from "../app/assets/img/icons/logo_dark.svg";
 import Image from "next/image";
 
 export default function Footer() {

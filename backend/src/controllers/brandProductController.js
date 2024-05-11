@@ -1,8 +1,13 @@
 import { StatusCodes } from "http-status-codes";
 import { brandProductService } from "~/services/brandProductService";
 import AppResponse from "~/utils/AppResponse";
+import { uploadImageBrand } from "~/utils/Upload";
 
 const createBrandProduct = async (req, res, next) => {
+  if (req.file) {
+    const path = await uploadImageBrand({ path: req.file.path });
+    req.body.thumb = path;
+  }
   return new AppResponse({
     message: "create brand of product success",
     statusCode: StatusCodes.OK,

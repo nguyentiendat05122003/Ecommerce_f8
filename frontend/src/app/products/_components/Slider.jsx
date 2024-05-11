@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import prev from "../../img/icons/prev.png";
+import prev from "../../assets/img/icons/prev.png";
 export default function Slider() {
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);

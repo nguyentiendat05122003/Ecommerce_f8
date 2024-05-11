@@ -1,8 +1,8 @@
 import Logo from "@/components/Logo";
 import Image from "next/image";
-import media from "../../img/banner/media.webp";
-import Facebook from "../../img/icons/facebook.png";
-import Google from "../../img/icons/google.png";
+import media from "../../assets/img/banner/media.webp";
+import Facebook from "../../assets/img/icons/facebook.png";
+import Google from "../../assets/img/icons/google.png";
 import RegisterForm from "./RegisterForm";
 
 export default function Register() {

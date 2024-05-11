@@ -1,8 +1,8 @@
 "use client";
 import { SLIDERS } from "@/constants";
 import Image from "next/image";
-import collage1 from "../app/img/banner/1.png";
-import collage2 from "../app/img/banner/3.png";
+import collage1 from "../app/assets/img/banner/1.png";
+import collage2 from "../app/assets/img/banner/3.png";
 import { useRef } from "react";
 import "swiper/css";
 import "swiper/css/navigation";

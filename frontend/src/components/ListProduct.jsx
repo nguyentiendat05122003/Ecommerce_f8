@@ -15,7 +15,7 @@ import {
 import { Star, StarHalf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import test from "../app/img/10.webp";
+import test from "../app/assets/img/10.webp";
 export default function ListProduct() {
   return (
     <div className="flex-1">

@@ -6,7 +6,7 @@ import { LIST_FILTER } from "@/constants";
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import test from "../app/img/categories/1.png";
+import test from "../app/assets/img/categories/1.png";
 import { useState } from "react";
 export default function ListFilters() {
   const [data, setData] = useState(LIST_FILTER);

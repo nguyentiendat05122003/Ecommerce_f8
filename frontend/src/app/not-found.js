@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import collage from "../app/img/collage_404.webp";
+import collage from "../app/assets/img/collage_404.webp";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";

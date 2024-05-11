@@ -8,7 +8,6 @@ const getProduct = factory.getOne(Product);
 const createProduct = async (req) => {
   const thumbs = [];
   const detailImages = [];
-  console.log(req.files.thumbs);
   if (req.files.thumbs)
     for (const file of req.files.thumbs) {
       const { path } = file;

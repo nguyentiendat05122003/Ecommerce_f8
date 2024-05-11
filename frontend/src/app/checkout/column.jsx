@@ -1,11 +1,7 @@
 "use client";
 
-import { ArrowUpDown, Minus, Plus } from "lucide-react";
-import sliderDeProduct1 from "../../app/img/products/1.webp";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
+import sliderDeProduct1 from "../../app/assets/img/products/1.webp";
 export const columns = [
   {
     accessorKey: "product",

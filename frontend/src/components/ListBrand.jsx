@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import logo from "../app/img/brands/Lenovo_logo_2015.svg.png";
+import logo from "../app/assets/img/brands/Lenovo_logo_2015.svg.png";
 import { Badge } from "@/components/ui/badge";
 export default function ListBrand() {
   return (

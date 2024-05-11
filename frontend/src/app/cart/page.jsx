@@ -1,13 +1,9 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
 import { columns } from "./column";
 import { DataTable } from "./data-table";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 export default function Cart() {
   return (
-    <div className="sm:px-4 px-1">
-      <Header />
+    <>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
         <h1 className="text-2xl">Shopping Cart</h1>
       </div>
@@ -22,7 +18,6 @@ export default function Cart() {
           </Button>
         </div>
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }

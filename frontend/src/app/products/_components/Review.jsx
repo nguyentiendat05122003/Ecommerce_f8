@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
 import Image from "next/image";
-import review from "../../img/icons/review.png";
-import test from "../../img/other/review.jpg";
+import review from "../../assets/img/icons/review.png";
+import test from "../../assets/img/other/review.jpg";
 import { useState } from "react";
 import { RATING } from "@/constants";
 export default function Review() {

@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import test from "../../../app/img/other/test.jpg";
+import test from "../../../app/assets/img/other/test.jpg";
 export default function InfoDetail() {
   return (
     <div className="xl:max-w-[465px] w-full mt-4 px-[20px] py-[15px] bg-widget drop-shadow-main rounded-[6px] ">

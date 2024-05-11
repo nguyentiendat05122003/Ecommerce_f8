@@ -22,7 +22,6 @@ export const uploadThumbProduct = async ({
       public_id: "image" + Date.now(),
       folder: folderName,
     });
-    console.log(await result.secure_url);
     return {
       thumb_url: (await result).secure_url,
     };
@@ -37,7 +36,7 @@ export const uploadImageBrand = async ({ path, folderName = "Brands" }) => {
       public_id: "image" + Date.now(),
       folder: folderName,
     });
-    return result.secure_url;
+    return await result.secure_url;
   } catch (error) {
     console.log("error image", error);
   }

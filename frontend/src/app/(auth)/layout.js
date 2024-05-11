@@ -1,6 +1,5 @@
 export const metadata = {
-  title: "Create Next App",
-  description: "|test",
+  title: "Auth App",
 };
 
 export default function AuthLayout({ children }) {
