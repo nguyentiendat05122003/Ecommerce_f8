@@ -1,3 +1,4 @@
+import ButtonLogout from "@/components/ButtonLogout";
 import Logo from "@/components/Logo";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -147,9 +148,7 @@ export default function Header() {
                     <Link className="px-2 py-1 font-normal text-sm" href="/">
                       Đơn mua
                     </Link>
-                    <Link className="px-2 py-1 font-normal text-sm" href="/">
-                      Đăng xuất
-                    </Link>
+                    <ButtonLogout />
                   </div>
                 </TooltipContent>
               </Tooltip>

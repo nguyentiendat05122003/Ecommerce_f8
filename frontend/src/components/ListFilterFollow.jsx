@@ -1,5 +1,5 @@
 "use client";
-import { formatFilterFollow } from "@/utils/formatFilterFollow";
+import { formatFilterFollow } from "@/lib/utils";
 import { CircleX, X } from "lucide-react";
 import { useEffect, useState } from "react";
 export default function ListFilterFollow({ data, onClick }) {

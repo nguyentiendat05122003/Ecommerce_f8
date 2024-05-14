@@ -1,8 +1,9 @@
-import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 import localFont from "next/font/local";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import AppProvider from "@/app/AppProvider";
+import { cookies } from "next/headers";
+import { Toaster } from "@/components/ui/toaster";
 
 const archivo = localFont({
   src: [
@@ -46,6 +47,9 @@ const archivoSemiExpanded = localFont({
 });
 
 export default function RootLayout({ children }) {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  const refreshToken = cookieStore.get("refreshToken")?.value;
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${archivo.variable} ${archivoSemiExpanded.variable}`}>
@@ -55,7 +59,10 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <div>{children}</div>
+          <AppProvider initialSessionToken={{ accessToken, refreshToken }}>
+            <div>{children}</div>
+            <Toaster />
+          </AppProvider>
         </ThemeProvider>
       </body>
     </html>
