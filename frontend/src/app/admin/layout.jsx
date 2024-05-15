@@ -1,6 +1,6 @@
 import DefaultLayout from "@/components/layout/DefaultLayout";
 
-export default function DashboardLayout({ children }) {
+export default function AdminLayout({ children }) {
   return (
     <DefaultLayout>
       <main>{children}</main>

@@ -1,5 +1,5 @@
 import { columns } from "@/app/checkout/column";
-import { DataTable } from "@/app/checkout/data-table";
+import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { columns } from "./column";
-import { DataTable } from "./data-table";
+import { DataTable } from "@/components/DataTable";
 export default function Cart() {
   return (
     <>
