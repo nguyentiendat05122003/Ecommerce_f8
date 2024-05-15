@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import LogoDark from "../app/assets/img/icons/logo_dark.svg";
 import LogoLight from "../app/assets/img/icons/logo_light.svg";
-export default function Logo({ className = "" }) {
+export default function Logo({ className = "", textOnly = true }) {
   const { theme } = useTheme();
   let Logo = theme === "light" ? LogoLight : LogoDark;
   return (
@@ -17,7 +17,7 @@ export default function Logo({ className = "" }) {
         alt="logo"
         priority={true}
       />
-      <h4>ShopPoint</h4>
+      <h4>{textOnly && "ShopPoint"}</h4>
     </Link>
   );
 }

@@ -52,6 +52,7 @@ module.exports = {
         widget: "hsl(var(--widget))",
         backDrop: "var(--backDrop)",
         inputBorder: "hsl(var(--input-border))",
+        header: "hsl(var(--header))",
         ["primary-foreground"]: "hsl(var(--primary-foreground))",
       },
       borderRadius: {
@@ -75,10 +76,15 @@ module.exports = {
       },
       dropShadow: {
         main: "var(--shadow)",
-        hoverShadow: "var(--hover-shadow)",
+        hoverShadow: " 0 0 14px 0 rgba(0,66,154,1);",
         shadowNotFound:
           "12px 6px 15px rgba(89, 104, 122, 0.190023), inset 2px 2px 2px #FFFFFF",
       },
+    },
+  },
+  variants: {
+    extend: {
+      boxShadow: ["hover"],
     },
   },
   plugins: [require("tailwindcss-animate")],
