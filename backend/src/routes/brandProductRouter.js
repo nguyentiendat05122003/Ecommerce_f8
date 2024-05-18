@@ -6,17 +6,19 @@ import catchAsync from "~/utils/catchAsync";
 
 const router = Express.Router();
 
+router
+  .route("/")
+  .get(catchAsync(brandProductController.getAllBrandProducts))
+  .post(
+    uploadBrandThumb,
+    catchAsync(brandProductController.createBrandProduct)
+  );
+
 router.use(authController.protect);
-
 router
-    .route('/')
-    .get(catchAsync(brandProductController.getAllBrandProducts))
-    .post(uploadBrandThumb, catchAsync(brandProductController.createBrandProduct))
+  .route("/:id")
+  .get(catchAsync(brandProductController.getBrandProduct))
+  .patch(catchAsync(brandProductController.updateBrandProduct))
+  .delete(catchAsync(brandProductController.deleteBrandProduct));
 
-router
-    .route('/:id')
-    .get(catchAsync(brandProductController.getBrandProduct))
-    .patch(catchAsync(brandProductController.updateBrandProduct))
-    .delete(catchAsync(brandProductController.deleteBrandProduct))
-
-export default router
+export default router;

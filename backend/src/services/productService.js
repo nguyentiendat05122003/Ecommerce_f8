@@ -28,14 +28,13 @@ const createProduct = async (req) => {
   try {
     await session.startTransaction();
     const opts = { session };
-    console.log(req.body);
-    const newProduct = await Product.create([req.body], opts);
-    if (newProduct) {
-      console.log(newProduct);
-      req.body.product = newProduct._id;
-      const newDetailProduct = await DetailProduct.create([req.body], opts);
-      console.log("detail product", newDetailProduct);
-      if (newDetailProduct) {
+    const newDetailProduct = await DetailProduct.create([req.body], opts);
+    console.log(newDetailProduct[0]._id);
+    if (newDetailProduct) {
+      req.body.detailProduct = newDetailProduct[0]._id;
+      const newProduct = await Product.create([req.body], opts);
+      console.log("detail product", newProduct);
+      if (newProduct) {
         await session.commitTransaction();
       } else {
         throw new Error("Failed to create newDetailProduct");

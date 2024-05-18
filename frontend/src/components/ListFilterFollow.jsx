@@ -1,23 +1,12 @@
 "use client";
-import { formatFilterFollow } from "@/lib/utils";
+import { filterPropertyActive, formatFilterFollow } from "@/lib/utils";
 import { CircleX, X } from "lucide-react";
 import { useEffect, useState } from "react";
 export default function ListFilterFollow({ data, onClick }) {
   const [filter, setFilter] = useState([]);
   useEffect(() => {
-    const newData = data[0].data;
-    let activeObjects = [];
-    newData.forEach((item) => {
-      const activeData = item.data.filter((dataItem) => dataItem.active);
-      if (activeData.length > 0) {
-        activeObjects.push({
-          title: item.title,
-          id: item.id,
-          activeData: activeData.map((dataItem) => dataItem.value),
-        });
-      }
-    });
-    setFilter(activeObjects);
+    const newData = filterPropertyActive(data);
+    setFilter(newData);
   }, [data]);
   const handleRemoveFilter = (itemClick) => {
     const updatedData = [...data[0].data];

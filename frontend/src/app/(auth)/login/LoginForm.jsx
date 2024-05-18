@@ -33,15 +33,21 @@ export default function LoginForm() {
     setLoading(true);
     try {
       const results = await authApiRequest.login(values);
+      console.log(results);
+      await authApiRequest.auth({
+        accessToken: results?.tokens?.accessToken,
+        refreshToken: results?.tokens?.refreshToken,
+        clientId: results?.user._id,
+        expiresAt: results?.expiresAt,
+      });
       toast({
         title: "Thông báo",
-        description: results.payload.message,
+        description: "Đăng nhập thành công",
         variant: "success",
         duration: 2000,
       });
       router.push("/");
     } catch (error) {
-      console.log(error);
       handleErrorApi({
         error,
         setError: form.setError,

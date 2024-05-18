@@ -40,6 +40,7 @@ const logOut = async (req, res, next) => {
   await authService.logOut(req);
   res.clearCookie("refreshToken");
   res.clearCookie("accessToken");
+  res.clearCookie("clientId");
   return new AppResponse({
     message: "logout success",
     statusCode: StatusCodes.OK,
@@ -58,7 +59,7 @@ const updatePassword = async (req, res, next) => {
 
 const protect = catchAsync(async (req, res, next) => {
   let token;
-  const userId = req.headers.client_id;
+  const userId = req.cookies.clientId || req.headers.client_id;
   if (!userId) return next(new AppError("Miss userId"));
   const keyToken = await KeyToken.findOne({ user: userId }).lean();
   if (!keyToken) return next(new AppError("User not found"));

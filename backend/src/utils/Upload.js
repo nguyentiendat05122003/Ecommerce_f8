@@ -64,7 +64,7 @@ export const uploadBrandThumb = uploadDisk.single("thumb");
 
 export const uploadProductImages = uploadDisk.fields([
   { name: "thumbs", maxCount: 3 },
-  { name: "detailImages", maxCount: 3 },
+  { name: "detailImages", maxCount: 5 },
 ]);
 
 export const uploadDetailImageProduct = async ({

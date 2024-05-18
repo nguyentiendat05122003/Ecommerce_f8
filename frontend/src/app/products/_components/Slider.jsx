@@ -10,7 +10,8 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import prev from "../../assets/img/icons/prev.png";
-export default function Slider() {
+export default function Slider({ detailImages }) {
+  console.log(detailImages);
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -43,13 +44,15 @@ export default function Slider() {
           scrollbar={{ draggable: true, hide: true }}
           className="relative w-[585px] h-[300px]"
         >
-          {SLIDERS_v2.map((item) => {
+          {detailImages.map((item, index) => {
             return (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={index}>
                 <Image
                   alt="slide"
                   className="w-[585px] h-[300px] rounded-sm"
-                  src={item.src}
+                  width={350}
+                  height={120}
+                  src={item.detailImage_url}
                 />
               </SwiperSlide>
             );
@@ -76,13 +79,15 @@ export default function Slider() {
           modules={[FreeMode, Navigation, Thumbs]}
           className="h-auto mt-2"
         >
-          {SLIDERS_v2.map((item) => {
+          {detailImages.map((item, index) => {
             return (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={index}>
                 <Image
                   className="max-w-[108px] h-auto rounded"
                   alt="slide"
-                  src={item.src}
+                  width={100}
+                  height={100}
+                  src={item.detailImage_url}
                 />
               </SwiperSlide>
             );

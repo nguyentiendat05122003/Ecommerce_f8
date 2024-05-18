@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import AppProvider from "@/app/AppProvider";
 import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/toaster";
+import SlideSession from "@/components/SlideSession";
+import StoreProvider from "@/app/StoreProvider";
 
 const archivo = localFont({
   src: [
@@ -60,8 +62,11 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <AppProvider initialSessionToken={{ accessToken, refreshToken }}>
-            <div>{children}</div>
+            <StoreProvider>
+              <div>{children}</div>
+            </StoreProvider>
             <Toaster />
+            <SlideSession />
           </AppProvider>
         </ThemeProvider>
       </body>

@@ -1,13 +1,8 @@
-const { default: http } = require("@/lib/http");
-const { headers } = require("next/headers");
+import http from "@/lib/http";
 
-// cookie chỉ lấy được ở router handler hoặc page component
-const ProductApiRequest = {
-  getAllProducts: (sessionToken) =>
-    http.get(
-      "/products",
-      (headers = {
-        Authorization: `Bearer ${sessionToken}`,
-      })
-    ),
+const productApiRequest = {
+  getAllProducts: () => http.get("/products"),
+  getProduct: (id) => http.get(`products/${id}`),
 };
+
+export default productApiRequest;

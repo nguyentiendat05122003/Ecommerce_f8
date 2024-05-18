@@ -91,12 +91,58 @@ const productSchema = new mongoose.Schema(
       required: true,
       ref: "SpecialFeatures",
     },
+    detailProduct: {
+      type: mongoose.Schema.ObjectId,
+      required: true,
+      ref: "DetailProduct",
+    },
   },
   {
     timestamps: true,
   }
 );
 
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "brand",
+    select: "name",
+  })
+    .populate({
+      path: "ram",
+      select: "value",
+    })
+    .populate({
+      path: "disk",
+      select: "value",
+    })
+    .populate({
+      path: "cpu",
+      select: "value",
+    })
+    .populate({
+      path: "typeBrand",
+      select: "name",
+    })
+    .populate({
+      path: "screenRefreshRate",
+      select: "value",
+    })
+    .populate({
+      path: "screenResolution",
+      select: "value",
+    })
+    .populate({
+      path: "screenSize",
+      select: "size",
+    })
+    .populate({
+      path: "specialFeatures",
+      select: "value",
+    })
+    .populate("detailProduct");
+
+  next();
+});
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;

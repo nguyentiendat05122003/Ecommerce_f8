@@ -8,8 +8,8 @@ export default function ButtonLogout() {
   const router = useRouter();
 
   const handleClick = async () => {
-    await authApiRequest.logoutFromNextServerToServer();
-    clientSessionToken.set = {};
+    await authApiRequest.logout(clientSessionToken?.token?.accessToken);
+    clientSessionToken.setToken = {};
     router.push("/login");
   };
   return (

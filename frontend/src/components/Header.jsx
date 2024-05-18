@@ -132,10 +132,12 @@ export default function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  <Link href="/setting">
+                    <Avatar className="cursor-pointer">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent className="bg-widget rounded drop-shadow-main">
                   <div className="flex flex-col gap-3">

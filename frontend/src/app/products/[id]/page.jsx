@@ -1,3 +1,4 @@
+import productApiRequest from "@/apiRequests/product";
 import Comment from "@/app/products/_components/Comment";
 import InfoDetail from "@/app/products/_components/InfoDetail";
 import InfoProduct from "@/app/products/_components/InfoProduct";
@@ -5,23 +6,31 @@ import Insurance from "@/app/products/_components/Insurance";
 import Promotion from "@/app/products/_components/Promotion";
 import Review from "@/app/products/_components/Review";
 import Slider from "@/app/products/_components/Slider";
+import ListCompare from "@/components/ListCompare";
 import { Button } from "@/components/ui/button";
-import { CirclePlus, LocateFixed, Star } from "lucide-react";
-export default function ProductDetail() {
+import { formatPrice } from "@/lib/utils";
+import { LocateFixed, Star } from "lucide-react";
+export default async function ProductDetail({ params }) {
+  const { data } = await productApiRequest.getProduct(params.id);
+  const { _id, name, thumbs, detailImages, price, ratingsAverage } = data;
+  const starts = [];
+  for (let index = 0; index < 5; index++) {
+    if (index < ratingsAverage) {
+      starts.push(
+        <Star key={index} size={18} fill="#F8D518" strokeWidth={0} />
+      );
+    } else {
+      starts.push(
+        <Star key={index} size={18} fill="rgb(225, 224, 224)" strokeWidth={0} />
+      );
+    }
+  }
   return (
     <div>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
-        <h1 className="text-lg">
-          Laptop HP 245 G10 R5-7520U/8GB/256GB/14"FHD/Win11 (9H8X8PT)
-        </h1>
+        <h1 className="text-lg">{name}</h1>
         <div className="flex items-center justify-between gap-3">
-          <div className="sm:flex hidden">
-            <Star size={18} fill="#F8D518" strokeWidth={0} />
-            <Star size={18} fill="#F8D518" strokeWidth={0} />
-            <Star size={18} fill="#F8D518" strokeWidth={0} />
-            <Star size={18} fill="#F8D518" strokeWidth={0} />
-            <Star size={18} fill="rgb(225, 224, 224)" strokeWidth={0} />
-          </div>
+          <div className="sm:flex hidden">{starts}</div>
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
             32 rating
           </p>
@@ -29,16 +38,20 @@ export default function ProductDetail() {
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
             1 Hỏi & đáp
           </p>
-          <p className="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1">
+          {/* <p className="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1">
             <CirclePlus />
             <span>So sánh</span>
-          </p>
+          </p> */}
+          <ListCompare
+            customClassName="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1"
+            item={data}
+          />
         </div>
       </div>
       <div className="flex">
         <div className="hidden xl:w-[50%] xl:block">
           {/* Slider */}
-          <Slider />
+          <Slider detailImages={detailImages} />
           {/* info */}
           <InfoProduct />
           {/* Assurance */}
@@ -46,7 +59,9 @@ export default function ProductDetail() {
         </div>
         <div className="flex-1">
           <div className="price flex items-center gap-2">
-            <h2 className="text-accent font-bold text-2xl">10.490.000 ₫</h2>
+            <h2 className="text-accent font-bold text-2xl">
+              {formatPrice(price)}đ
+            </h2>
             <h3 className="font-normal line-through text-sm">13.290.000 ₫</h3>
             <h3 className="font-normal text-sm text-red">-20%</h3>
           </div>

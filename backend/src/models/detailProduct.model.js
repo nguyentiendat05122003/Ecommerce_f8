@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 const detailProductSchema = new mongoose.Schema(
   {
-    product: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Product",
-    },
     //số nhân
     number_of_cores: {
       type: String,

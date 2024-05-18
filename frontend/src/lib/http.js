@@ -14,7 +14,6 @@ class SessionToken {
     refreshToken: "",
   };
   set(token) {
-    // Nếu gọi method này ở server
     if (typeof window === undefined) {
       throw new Error("Can not set token on server side");
     }
@@ -24,13 +23,16 @@ class SessionToken {
 }
 
 export const clientSessionToken = new SessionToken();
+
 const request = async (method = "GET", url, options = {}) => {
-  const body = options?.body ? JSON.stringify(options.body) : undefined;
+  const isFormData = options?.body instanceof FormData;
+  const body = isFormData
+    ? options.body
+    : options?.body
+    ? JSON.stringify(options.body)
+    : undefined;
   const baseHeaders = {
-    "Content-Type": "application/json",
-    access_token: clientSessionToken.token.accessToken
-      ? `Bearer ${clientSessionToken.token.accessToken}`
-      : "",
+    ...(isFormData ? {} : { "Content-Type": "application/json" }), // Only set Content-Type if not FormData
   };
   const baseUrl =
     options?.baseUrl === undefined
@@ -39,6 +41,7 @@ const request = async (method = "GET", url, options = {}) => {
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
     : `${baseUrl}/${url}`;
+
   const res = await fetch(fullUrl, {
     ...options,
     headers: {
@@ -54,12 +57,9 @@ const request = async (method = "GET", url, options = {}) => {
     status: res.status,
     payload,
   };
-
   if (!res.ok) {
     throw new HttpError(data);
   }
-  // equal interceptor
-  //Đảm bảo logic dưới chỉ chạy ở browser
   if (typeof window !== undefined) {
     if (
       ["users/login", "users/register"].some(
@@ -67,22 +67,29 @@ const request = async (method = "GET", url, options = {}) => {
       )
     ) {
       clientSessionToken.set(payload.metadata.tokens);
+      localStorage.setItem("sessionTokenExpiresAt", payload.metadata.expiresAt);
+      localStorage.setItem("user", JSON.stringify(payload.metadata?.user));
     } else if ("users/logout" === normalizePath(url)) {
-      clientSessionToken.set("");
+      clientSessionToken.set({});
+      localStorage.removeItem("sessionTokenExpiresAt");
+      localStorage.removeItem("user");
     }
   }
-  return data;
+  return data.payload.metadata;
 };
 
 const http = {
   get(url, options) {
-    return request("GET", url, options);
+    return request("GET", url, { ...options });
   },
   post(url, body, options) {
     return request("POST", url, { ...options, body });
   },
   put(url, body, options) {
     return request("PUT", url, { ...options, body });
+  },
+  patch(url, body, options) {
+    return request("PATCH", url, { ...options, body });
   },
   delete(url, body, options) {
     return request("DELETE", url, { ...options, body });

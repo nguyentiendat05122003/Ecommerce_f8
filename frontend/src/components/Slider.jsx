@@ -16,7 +16,7 @@ import {
   Scrollbar,
 } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import prev from "../app/img/icons/prev.png";
+import prev from "../app/assets/img/icons/prev.png";
 export default function Slider() {
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);

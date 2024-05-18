@@ -10,7 +10,12 @@ export const formatFilterFollow = ({ title, activeData }) => {
   const valueActive = activeData.join(" | ");
   return title + " : " + valueActive;
 };
-
+export const formatPrice = (price) => {
+  const result = new Intl.NumberFormat("vi-VN", {
+    maximumSignificantDigits: 3,
+  }).format(price);
+  return result;
+};
 export const normalizePath = (path) => {
   return path.startsWith("/") ? path.slice(1) : path;
 };
@@ -43,4 +48,20 @@ export const numFormatter = (num, fractionDigits = 0, prefix = "") => {
 
 export const commaFormatter = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const filterPropertyActive = (data) => {
+  const newData = data[0].data;
+  let activeObjects = [];
+  newData.forEach((item) => {
+    const activeData = item.data.filter((dataItem) => dataItem.active);
+    if (activeData.length > 0) {
+      activeObjects.push({
+        title: item.title,
+        id: item.id,
+        activeData: activeData.map((dataItem) => dataItem.value),
+      });
+    }
+  });
+  return activeObjects;
 };

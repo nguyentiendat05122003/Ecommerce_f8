@@ -39,6 +39,7 @@ module.exports = {
           "linear-gradient(163.23deg, rgba(255, 255, 255, 0.0001) 38.07%, rgba(240, 240, 240, 0.186708) 87.83%);",
       },
       colors: {
+        muted: "hsl(var(--muted))",
         border: "hsl(var(--border))",
         input: "hsl(var(--header))",
         ring: "hsl(var(--ring))",

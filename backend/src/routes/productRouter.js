@@ -6,7 +6,7 @@ import catchAsync from "~/utils/catchAsync";
 
 const router = Express.Router();
 
-router.use(authController.protect);
+// router.use(authController.protect);
 
 router
   .route("/")
