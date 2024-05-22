@@ -67,7 +67,10 @@ const request = async (method = "GET", url, options = {}) => {
       )
     ) {
       clientSessionToken.set(payload.metadata.tokens);
-      localStorage.setItem("sessionTokenExpiresAt", payload.metadata.expiresAt);
+      localStorage.setItem(
+        "sessionTokenExpiresAt",
+        JSON.stringify(payload.metadata.expiresAt)
+      );
       localStorage.setItem("user", JSON.stringify(payload.metadata?.user));
     } else if ("users/logout" === normalizePath(url)) {
       clientSessionToken.set({});

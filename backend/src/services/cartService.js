@@ -1,7 +1,16 @@
 import Cart from "~/models/cart.model";
 import { factory } from "./handlerFactory";
 
-const getCart = factory.getOne(Cart);
+const getCart = async (req) => {
+  let query = Cart.find({ cart_userId: req.params.id });
+  const doc = await query;
+  if (!doc) {
+    throw new AppError("No document found with that ID", 404);
+  }
+  return {
+    data: doc,
+  };
+};
 const createCart = async (req) => {
   const { cart_userId, productId, quantity } = req.body;
   let cart;

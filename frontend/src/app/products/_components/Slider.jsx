@@ -11,7 +11,6 @@ import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import prev from "../../assets/img/icons/prev.png";
 export default function Slider({ detailImages }) {
-  console.log(detailImages);
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);

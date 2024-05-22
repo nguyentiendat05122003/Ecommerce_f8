@@ -34,6 +34,13 @@ const commentSchema = new mongoose.Schema(
   }
 );
 
+commentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "userId",
+    select: "name photo",
+  });
+  next();
+});
 const Comment = mongoose.model("Comment", commentSchema);
 
 export default Comment;

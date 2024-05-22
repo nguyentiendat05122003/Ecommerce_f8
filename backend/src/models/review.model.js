@@ -11,12 +11,12 @@ const reviewSchema = new mongoose.Schema(
       min: 1,
       max: 5,
     },
-    userId: {
+    user: {
       type: mongoose.Schema.ObjectId,
       required: true,
       ref: "User",
     },
-    productId: {
+    product: {
       type: mongoose.Schema.ObjectId,
       required: true,
       ref: "Product",
@@ -24,8 +24,18 @@ const reviewSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "user",
+    select: "name photo",
+  });
+  next();
+});
 
 const Review = mongoose.model("Review", reviewSchema);
 

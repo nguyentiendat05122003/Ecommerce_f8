@@ -32,7 +32,6 @@ const createOne = (Model) => async (req) => {
 };
 
 const getOne = (Model, popOptions) => async (req) => {
-  console.log("param", req.params.id);
   let query = Model.findById(new Types.ObjectId(req.params.id));
   if (popOptions) query = query.populate(popOptions);
   const doc = await query;

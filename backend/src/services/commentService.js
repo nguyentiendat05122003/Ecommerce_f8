@@ -3,13 +3,14 @@ import { factory } from "./handlerFactory";
 import AppError from "~/utils/AppError";
 
 const getComment = async (req) => {
-  const { productId } = req.body;
+  const productId = req.headers.product_id;
   const commentParentId = req.params.id;
   if (commentParentId) {
     const parent = await Comment.findById({ _id: commentParentId });
     if (!parent) throw new AppError("Comment not found");
     const comments = await Comment.find({
       productId: productId,
+      comment_parentId: commentParentId,
       comment_left: { $gt: parent.comment_left },
       comment_right: { $lte: parent.comment_right },
     })
@@ -22,6 +23,7 @@ const getComment = async (req) => {
       .sort({
         comment_left: 1,
       });
+    console.log(comments);
     return comments;
   }
 };
@@ -77,7 +79,10 @@ const createComment = async (req) => {
   comment.comment_left = rightValue;
   comment.comment_right = rightValue + 1;
   await comment.save();
-  return comment;
+  const populatedComment = await Comment.findById(comment._id).populate(
+    "userId"
+  );
+  return populatedComment;
 };
 const getAllComment = factory.getAll(Comment, { comment_parentId: null });
 const updateComment = factory.updateOne(Comment);

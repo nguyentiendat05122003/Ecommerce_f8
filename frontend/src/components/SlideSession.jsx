@@ -9,8 +9,8 @@ export default function SlideSession() {
   useEffect(() => {
     const interval = setInterval(async () => {
       const now = new Date();
-      const sessionTokenExpiresAt = localStorage.getItem(
-        "sessionTokenExpiresAt"
+      const sessionTokenExpiresAt = JSON.parse(
+        localStorage.getItem("sessionTokenExpiresAt")
       );
       const expiresAt = sessionTokenExpiresAt
         ? new Date(sessionTokenExpiresAt)

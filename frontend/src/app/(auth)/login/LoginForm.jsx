@@ -33,7 +33,6 @@ export default function LoginForm() {
     setLoading(true);
     try {
       const results = await authApiRequest.login(values);
-      console.log(results);
       await authApiRequest.auth({
         accessToken: results?.tokens?.accessToken,
         refreshToken: results?.tokens?.refreshToken,

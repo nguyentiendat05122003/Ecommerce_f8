@@ -50,7 +50,7 @@ const login = async (reqBody) => {
   }
   const tokens = await createSendToken(user);
   return {
-    user: getInfoData(user, ["_id", "name", "email"]),
+    user: getInfoData(user, ["_id", "name", "email", "photo"]),
     tokens,
   };
 };

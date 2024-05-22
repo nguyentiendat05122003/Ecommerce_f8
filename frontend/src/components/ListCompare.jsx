@@ -13,6 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { CirclePlus, Plus, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 export default function ListCompare({ item, customClassName }) {
   const { _id, name, thumbs } = item;
   const dispatch = useAppDispatch();
@@ -26,7 +27,7 @@ export default function ListCompare({ item, customClassName }) {
     dispatch(deleteAllProduct());
   };
   const handleClickCompare = () => {
-    dispatch(addProduct({ _id, name, image: thumbs[0].thumb_url }));
+    dispatch(addProduct(item));
   };
   return (
     <Sheet>
@@ -76,7 +77,7 @@ export default function ListCompare({ item, customClassName }) {
                         width={60}
                         height={100}
                         alt="test"
-                        src={item.image}
+                        src={item.thumbs[0].thumb_url}
                       />
                       <h3 className="m-[5px] text-center text-header text-[13px] font-normal">
                         {item.name}
@@ -112,9 +113,20 @@ export default function ListCompare({ item, customClassName }) {
             })}
           </ul>
           <div className="flex-1 flex flex-col items-center justify-center gap-2">
-            <button className="p-3 text-sm bg-accent rounded">
-              So sánh ngay
-            </button>
+            {listProductCompare.filter((item) => item._id).length > 1 ? (
+              <>
+                <button className="p-3 text-sm bg-accent rounded">
+                  <Link href="/compareProduct">So sánh ngay</Link>
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="p-3 text-sm bg-gray rounded">
+                  So sánh ngay
+                </button>
+              </>
+            )}
+
             <p
               onClick={handleRemoveAll}
               className="text-sm font-bold text-accent cursor-pointer"

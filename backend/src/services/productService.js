@@ -4,7 +4,14 @@ import { uploadDetailImageProduct, uploadThumbProduct } from "~/utils/Upload";
 import mongoose from "mongoose";
 import DetailProduct from "~/models/detailProduct.model";
 
-const getProduct = factory.getOne(Product);
+const getProduct = factory.getOne(Product, [
+  {
+    path: "comments",
+  },
+  {
+    path: "reviews",
+  },
+]);
 const createProduct = async (req) => {
   const thumbs = [];
   const detailImages = [];

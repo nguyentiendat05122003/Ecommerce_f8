@@ -1,66 +1,92 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+"use client";
+import commentApiRequest from "@/apiRequests/comment";
+import CommentItem from "@/components/CommentItem";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-export default function Comment() {
+import { clientSessionToken } from "@/lib/http";
+import { useEffect, useState } from "react";
+export default function Comment({ listComments, productId }) {
+  const [commentsTree, setCommentsTree] = useState([]);
+  const [valueComment, setValueComment] = useState("");
+  const [commentList, setCommentList] = useState(listComments);
+  useEffect(() => {
+    const buildCommentsTree = (comments) => {
+      const map = {};
+      const roots = [];
+      comments.forEach((comment) => {
+        map[comment._id] = { ...comment, subComments: [] };
+      });
+      comments.forEach((comment) => {
+        if (comment.comment_parentId) {
+          if (map[comment.comment_parentId]) {
+            map[comment.comment_parentId].subComments.push(map[comment._id]);
+          }
+        } else {
+          roots.push(map[comment._id]);
+        }
+      });
+      return roots;
+    };
+
+    const commentsTree = buildCommentsTree(commentList);
+    setCommentsTree(commentsTree);
+  }, [commentList]);
+  const handleClickSend = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (clientSessionToken.token.accessToken) {
+      const values = {
+        content: valueComment,
+        userId: user._id,
+        productId: productId,
+        commentParentId: null,
+      };
+      const newComment = await commentApiRequest.createComment(values);
+      setValueComment("");
+      setCommentList((prev) => [...prev, newComment]);
+    }
+  };
+  const handleReplyComment = async (values) => {
+    const newValue = { ...values, productId: productId };
+    const newComment = await commentApiRequest.createComment(newValue);
+    setCommentList((prev) => [...prev, newComment]);
+  };
+  const handleDeleteComment = async (id) => {
+    const deleteMessage = await commentApiRequest.deleteComment(id, productId);
+    setCommentList((prev) => prev.filter((item) => item._id !== id));
+  };
   return (
     <div className="w-full card mt-10 flex gap-3 flex-col px-[20px] py-[15px] bg-widget drop-shadow-main rounded-[6px] transition-all">
       <div className=" py-[10px] border-solid border-b-min border-accent">
         <h4 className="text-base">Hỏi & Đáp</h4>
       </div>
-      <div className="flex flex-col items-center justify-center  ">
+      <div className="flex flex-col items-end justify-center  ">
         <Textarea
+          value={valueComment}
+          onChange={(e) => setValueComment(e.target.value)}
           className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
           placeholder="Type your message here."
         />
+        <Button
+          onClick={handleClickSend}
+          className="hover:bg-red max-w-[138px] mt-[8px] bg-red text-white dark:text-[#00193B] h-[36px] px-[16px] "
+        >
+          Send
+        </Button>
       </div>
       <div className=" text-md font-medium text-left">
-        1 hỏi đáp về “Laptop HP 245 G10 R5-7520U/8GB/256GB/14"FHD/Win11
-        (9H8X8PT)”
+        {listComments.length} hỏi đáp về “Laptop HP 245 G10
+        R5-7520U/8GB/256GB/14"FHD/Win11 (9H8X8PT)”
       </div>
-      <div className=" ">
-        <div className="flex item-start">
-          <Avatar className="w-[48px] h-[48px] ">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="avatar-info ml-3 flex-1">
-            <div className="name text-md font-semibold">Huỳnh thu diễm</div>
-            <div className="name text-sm font-normal">
-              còn hàng ở huyện tri tôn tỉnh an giang không shop
-            </div>
-            <div className=" text-xs font-weight text-[#939ca3]">
-              19 ngày trước
-            </div>
-          </div>
-        </div>
-        <div className="reply mt-[12px]">
-          <div className="pl-[60px] flex items-start">
-            <Avatar className="w-[48px] h-[48px] object-cover">
-              <AvatarImage
-                className="object-contain"
-                src="https://fptshop.com.vn/api-data/comment/Content/desktop/images/logo.png"
-                alt="@shadcn"
-              />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="w-full ml-3 avatar-info px-2 py-3 border-min border-solid border-inputBorder rounded-md ">
-              <div className="name text-md font-semibold flex items-center gap-1">
-                Vũ Ánh Linh
-                <span className="sm:flex hidden px-2 py-[3px] text-white dark:text-[#00193B] mr-1 text-xs  items-center justify-center font-medium rounded bg-green border-[2px] border-background">
-                  Quản trị viên
-                </span>
-              </div>
-              <div className="name text-sm font-normal">
-                còn hàng ở huyện tri tôn tỉnh an giang không shop
-              </div>
-              <div className=" text-xs font-weight text-[#939ca3] flex items-center gap-1">
-                19 ngày trước
-                <span className="font-bold text-xs  cursor-pointer text-accent transition-all hover:underline">
-                  Trả lời
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="">
+        {commentsTree.length > 0 &&
+          commentsTree.map((comment) => (
+            <CommentItem
+              key={comment._id}
+              onClick={handleReplyComment}
+              onDelete={handleDeleteComment}
+              comment={comment}
+            />
+          ))}
       </div>
     </div>
   );

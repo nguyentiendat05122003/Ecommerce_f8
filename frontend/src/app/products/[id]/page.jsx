@@ -1,3 +1,4 @@
+import commentApiRequest from "@/apiRequests/comment";
 import productApiRequest from "@/apiRequests/product";
 import Comment from "@/app/products/_components/Comment";
 import InfoDetail from "@/app/products/_components/InfoDetail";
@@ -7,30 +8,31 @@ import Promotion from "@/app/products/_components/Promotion";
 import Review from "@/app/products/_components/Review";
 import Slider from "@/app/products/_components/Slider";
 import ListCompare from "@/components/ListCompare";
+import RatingStart from "@/components/RatingStart";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { LocateFixed, Star } from "lucide-react";
 export default async function ProductDetail({ params }) {
   const { data } = await productApiRequest.getProduct(params.id);
-  const { _id, name, thumbs, detailImages, price, ratingsAverage } = data;
-  const starts = [];
-  for (let index = 0; index < 5; index++) {
-    if (index < ratingsAverage) {
-      starts.push(
-        <Star key={index} size={18} fill="#F8D518" strokeWidth={0} />
-      );
-    } else {
-      starts.push(
-        <Star key={index} size={18} fill="rgb(225, 224, 224)" strokeWidth={0} />
-      );
-    }
-  }
+  const {
+    _id,
+    name,
+    thumbs,
+    detailImages,
+    price,
+    ratingsAverage,
+    reviews,
+    comments,
+  } = data;
+
   return (
     <div>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
         <h1 className="text-lg">{name}</h1>
         <div className="flex items-center justify-between gap-3">
-          <div className="sm:flex hidden">{starts}</div>
+          <div className="sm:flex hidden">
+            <RatingStart number={ratingsAverage} />
+          </div>
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
             32 rating
           </p>
@@ -38,10 +40,6 @@ export default async function ProductDetail({ params }) {
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
             1 Hỏi & đáp
           </p>
-          {/* <p className="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1">
-            <CirclePlus />
-            <span>So sánh</span>
-          </p> */}
           <ListCompare
             customClassName="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1"
             item={data}
@@ -86,8 +84,8 @@ export default async function ProductDetail({ params }) {
           <InfoDetail />
         </div>
       </div>
-      <Review />
-      <Comment />
+      <Review review={reviews} idProduct={_id} />
+      <Comment listComments={comments} productId={_id} />
     </div>
   );
 }

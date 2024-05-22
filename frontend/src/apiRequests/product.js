@@ -1,8 +1,8 @@
 import http from "@/lib/http";
 
 const productApiRequest = {
+  getProduct: (id) => http.get(`/products/${id}`, { cache: "no-store" }),
   getAllProducts: () => http.get("/products"),
-  getProduct: (id) => http.get(`products/${id}`),
 };
 
 export default productApiRequest;

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  listProduct: JSON.parse(localStorage.getItem("listProductCompare"))
-    ? JSON.parse(localStorage.getItem("listProductCompare"))
+  listProduct: JSON.parse(localStorage?.getItem("listProductCompare"))
+    ? JSON.parse(localStorage?.getItem("listProductCompare"))
     : [{}, {}, {}],
 };
 
