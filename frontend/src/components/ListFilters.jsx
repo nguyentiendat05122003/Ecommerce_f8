@@ -24,7 +24,7 @@ export default function ListFilters() {
         const { data } = await ProductApiRequest.getAllProducts();
         setData(data);
         setLoading(false);
-      }, 1000);
+      }, 200);
     }
     fetchData();
   }, [filters]);

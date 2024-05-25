@@ -10,6 +10,7 @@ export default function ProductItem({ item }) {
   return (
     <div className="d-flex flex-col relative">
       <Link
+        prefetch={true}
         href={`products/${_id}`}
         className="card flex flex-col h-full p-[26px] bg-widget drop-shadow-main rounded-[6px] transition-all"
       >

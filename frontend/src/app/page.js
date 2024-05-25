@@ -1,9 +1,17 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import ListBrand from "@/components/ListBrand";
-import ListFilters from "@/components/ListFilters";
-import ListTypeProduct from "@/components/ListTypeProduct";
-import Slider from "@/components/Slider";
+import dynamic from "next/dynamic";
+
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
+const Header = dynamic(() => import("@/components/Header"), { ssr: false });
+const ListBrand = dynamic(() => import("@/components/ListBrand"), {
+  ssr: false,
+});
+const ListFilters = dynamic(() => import("@/components/ListFilters"), {
+  ssr: false,
+});
+const ListTypeProduct = dynamic(() => import("@/components/ListTypeProduct"), {
+  ssr: false,
+});
+const Slider = dynamic(() => import("@/components/Slider"), { ssr: false });
 
 export default function Home() {
   return (
@@ -13,7 +21,6 @@ export default function Home() {
       <div className="main mt-[26px] ">
         <ListBrand />
         <div className="mt-10 hidden xl:block">
-          <h6 className="text-base font-bold">Chọn theo nhu cầu</h6>
           <ListTypeProduct />
         </div>
         <ListFilters />

@@ -1,5 +1,5 @@
-import commentApiRequest from "@/apiRequests/comment";
 import productApiRequest from "@/apiRequests/product";
+import ButtonAddToCart from "@/app/products/_components/ButtonAddToCart";
 import Comment from "@/app/products/_components/Comment";
 import InfoDetail from "@/app/products/_components/InfoDetail";
 import InfoProduct from "@/app/products/_components/InfoProduct";
@@ -11,7 +11,7 @@ import ListCompare from "@/components/ListCompare";
 import RatingStart from "@/components/RatingStart";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
-import { LocateFixed, Star } from "lucide-react";
+import { LocateFixed } from "lucide-react";
 export default async function ProductDetail({ params }) {
   const { data } = await productApiRequest.getProduct(params.id);
   const {
@@ -28,7 +28,7 @@ export default async function ProductDetail({ params }) {
   return (
     <div>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
-        <h1 className="text-lg">{name}</h1>
+        <h1 className="text-lg max-w-[65%]">{name}</h1>
         <div className="flex items-center justify-between gap-3">
           <div className="sm:flex hidden">
             <RatingStart number={ratingsAverage} />
@@ -77,9 +77,7 @@ export default async function ProductDetail({ params }) {
             <Button className="text-white dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
               Mua ngay
             </Button>
-            <Button className="text-white dark:text-[#00193B] bg-red hover:bg-red flex-1 border-min border-solid border-red text-sm font-semibold">
-              Thêm vào giỏ hàng
-            </Button>
+            <ButtonAddToCart productId={_id} />
           </div>
           <InfoDetail />
         </div>

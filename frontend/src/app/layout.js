@@ -62,9 +62,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <AppProvider initialSessionToken={{ accessToken, refreshToken }}>
-            <StoreProvider>
-              <div>{children}</div>
-            </StoreProvider>
+            <StoreProvider>{children}</StoreProvider>
             <Toaster />
             <SlideSession />
           </AppProvider>

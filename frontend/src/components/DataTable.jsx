@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DATA } from "@/constants";
 import {
   flexRender,
   getCoreRowModel,
@@ -18,7 +17,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-export function DataTable({ columns, data = DATA }) {
+export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -88,7 +87,7 @@ export function DataTable({ columns, data = DATA }) {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    Không còn sản phẩm nào trong giỏ hàng.
                   </TableCell>
                 </TableRow>
               )}

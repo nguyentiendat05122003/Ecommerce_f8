@@ -1,6 +1,7 @@
 import ButtonLogout from "@/components/ButtonLogout";
 import Logo from "@/components/Logo";
 import { ModeToggle } from "@/components/ModeToggle";
+import QuantityCart from "@/components/QuantityCart";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -110,7 +111,7 @@ export default function Header() {
                 </SheetFooter>
               </SheetContent>
             </Sheet>
-            <Link href="/cart">
+            <Link prefetch={true} href="/cart">
               <div className="relative h-fit xl:mr-1.5">
                 <Button
                   className="hover:bg-transparent leading-none text-gray dark:text-gray-red xl:text-[20px]"
@@ -123,7 +124,7 @@ export default function Header() {
                                     xl:w-6 xl:h-6 xl:-top-2 xl:-right-3 xl:flex xl:items-center xl:justify-center"
                   >
                     <span className="hidden text-xs font-bold text-white dark:text-[#00193B] xl:block">
-                      2
+                      <QuantityCart />
                     </span>
                   </span>
                 </Button>
@@ -132,7 +133,7 @@ export default function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href="/setting">
+                  <Link prefetch={true} href="/setting">
                     <Avatar className="cursor-pointer">
                       <AvatarImage src="https://github.com/shadcn.png" />
                       <AvatarFallback>CN</AvatarFallback>
@@ -143,6 +144,7 @@ export default function Header() {
                   <div className="flex flex-col gap-3">
                     <Link
                       href="/setting"
+                      prefetch={true}
                       className="px-2 py-1 font-normal text-sm"
                     >
                       Tài khoản của tôi
@@ -159,9 +161,13 @@ export default function Header() {
         ) : (
           <>
             <div className="flex h-5 items-center space-x-4 text-sm">
-              <Link href="/login">Login</Link>
+              <Link prefetch={true} href="/login">
+                Login
+              </Link>
               <Separator orientation="vertical" />
-              <Link href="/register">Register</Link>
+              <Link prefetch={true} href="/register">
+                Register
+              </Link>
             </div>
           </>
         )}

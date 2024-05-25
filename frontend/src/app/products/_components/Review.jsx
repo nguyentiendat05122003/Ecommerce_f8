@@ -28,7 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import reviewImage from "../../assets/img/icons/review.png";
 import test from "../../assets/img/other/review.jpg";
@@ -42,12 +42,14 @@ export default function Review({ review, idProduct }) {
     },
   });
   const [rating, setRating] = useState(RATING);
-  const [active, setActive] = useState(false);
+  const [user, setUser] = useState();
   const [baseReview, setBaseReview] = useState(review);
   const [listRating, setListRating] = useState(review);
   const [tab, setTab] = useState("all");
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
   const router = useRouter();
-  const user = JSON.parse(localStorage.getItem("user"));
   const onTabChange = (value) => {
     setTab(value);
     if (value === "all") {
@@ -295,12 +297,12 @@ export default function Review({ review, idProduct }) {
                     <Message
                       reviewId={item._id}
                       key={idx}
-                      name={user.name || user.email}
+                      name={user?.name || user?.email}
                       message={item.review}
                       time={formatTimeMessage(item.createdAt)}
                       ratingNumber={item.rating}
                       avatar={item?.user?.photo || user.photo}
-                      isDelete={(item.user?._id || item.user) === user._id}
+                      isDelete={(item.user?._id || item.user) === user?._id}
                       onDelete={handleDeleteReview}
                     />
                   );

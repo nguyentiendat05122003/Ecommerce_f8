@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  listProduct: JSON.parse(localStorage?.getItem("listProductCompare"))
-    ? JSON.parse(localStorage?.getItem("listProductCompare"))
-    : [{}, {}, {}],
+  // listProduct: JSON.parse(localStorage?.getItem("listProductCompare"))
+  //   ? JSON.parse(localStorage?.getItem("listProductCompare"))
+  //   : [{}, {}, {}],
+  listProduct: [{}, {}, {}],
 };
 
 export const listProductCompareSlice = createSlice({
@@ -21,7 +22,7 @@ export const listProductCompareSlice = createSlice({
       while (newList.length < 3) {
         newList.push({});
       }
-      localStorage.setItem("listProductCompare", JSON.stringify(newList));
+      // localStorage.setItem("listProductCompare", JSON.stringify(newList));
       state.listProduct = newList;
     },
     deleteProduct: (state, action) => {
@@ -31,11 +32,11 @@ export const listProductCompareSlice = createSlice({
       while (newList.length < 3) {
         newList.push({});
       }
-      localStorage.setItem("listProductCompare", JSON.stringify(newList));
+      // localStorage.setItem("listProductCompare", JSON.stringify(newList));
       state.listProduct = newList;
     },
     deleteAllProduct: (state) => {
-      localStorage.removeItem("listProductCompare");
+      // localStorage.removeItem("listProductCompare");
       state.listProduct = [{}, {}, {}];
     },
   },

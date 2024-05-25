@@ -11,7 +11,10 @@ const cartSchema = new mongoose.Schema(
     cart_products: {
       type: [
         {
-          productId: mongoose.Schema.ObjectId,
+          productId: {
+            type: mongoose.Schema.ObjectId,
+            ref: "Product",
+          },
           quantity: Number,
         },
       ],
@@ -29,6 +32,13 @@ const cartSchema = new mongoose.Schema(
   }
 );
 
+cartSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "cart_products.productId",
+    select: "name price thumbs",
+  });
+  next();
+});
 const Cart = mongoose.model("Cart", cartSchema);
 
 export default Cart;

@@ -92,6 +92,7 @@ const http = {
     return request("PUT", url, { ...options, body });
   },
   patch(url, body, options) {
+    console.log("body", body);
     return request("PATCH", url, { ...options, body });
   },
   delete(url, body, options) {
