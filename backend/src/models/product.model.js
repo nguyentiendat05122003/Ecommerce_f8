@@ -71,20 +71,10 @@ const productSchema = new mongoose.Schema(
       required: true,
       ref: "TypeBrand",
     },
-    screenRefreshRate: {
+    screen: {
       type: mongoose.Schema.ObjectId,
       required: true,
-      ref: "ScreenRefreshRate",
-    },
-    screenResolution: {
-      type: mongoose.Schema.ObjectId,
-      required: true,
-      ref: "ScreenResolution",
-    },
-    screenSize: {
-      type: mongoose.Schema.ObjectId,
-      required: true,
-      ref: "ScreenSize",
+      ref: "Screen",
     },
     specialFeatures: {
       type: mongoose.Schema.ObjectId,
@@ -95,6 +85,11 @@ const productSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       required: true,
       ref: "DetailProduct",
+    },
+    card: {
+      type: mongoose.Schema.ObjectId,
+      required: true,
+      ref: "Card",
     },
   },
   {
@@ -124,11 +119,13 @@ productSchema.pre(/^find/, function (next) {
   })
     .populate({
       path: "ram",
-      select: "value",
     })
     .populate({
       path: "disk",
       select: "value",
+    })
+    .populate({
+      path: "cpu",
     })
     .populate({
       path: "cpu",
@@ -139,16 +136,7 @@ productSchema.pre(/^find/, function (next) {
       select: "name",
     })
     .populate({
-      path: "screenRefreshRate",
-      select: "value",
-    })
-    .populate({
-      path: "screenResolution",
-      select: "value",
-    })
-    .populate({
-      path: "screenSize",
-      select: "size",
+      path: "screen",
     })
     .populate({
       path: "specialFeatures",

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const screenResolutionSchema = new mongoose.Schema(
+const cardSchema = new mongoose.Schema(
   {
     value: {
       type: String,
@@ -14,9 +14,6 @@ const screenResolutionSchema = new mongoose.Schema(
   }
 );
 
-const ScreenResolution = mongoose.model(
-  "ScreenResolution",
-  screenResolutionSchema
-);
+const Card = mongoose.model("Card", cardSchema);
 
-export default ScreenResolution;
+export default Card;

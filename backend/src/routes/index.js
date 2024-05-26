@@ -18,9 +18,15 @@ import cartRouter from "./cartRouter";
 import paymentRouter from "./paymentRouter";
 import providerRouter from "./providerRouter";
 import supplierInvoiceRouter from "./supplierInvoiceRouter";
+import screenRouter from "./screenRouter";
+import typeRamRouter from "./typeRamRouter";
+import cardRouter from "./cardRouter";
 
 function router(app) {
   app.use("/api/v1/users", userRouter);
+  app.use("/api/v1/screens", screenRouter);
+  app.use("/api/v1/typeRam", typeRamRouter);
+  app.use("/api/v1/card", cardRouter);
   app.use("/api/v1/products", productRouter);
   app.use("/api/v1/typeProducts", typeProductRouter);
   app.use("/api/v1/brandProducts", brandProductRouter);
