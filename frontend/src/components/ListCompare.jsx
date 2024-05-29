@@ -32,7 +32,7 @@ export default function ListCompare({ item, customClassName }) {
   return (
     <Sheet>
       <SheetTrigger>
-        {listProductCompare.filter((element) => element._id === _id).length >
+        {listProductCompare?.filter((element) => element._id === _id).length >
         0 ? (
           <p
             className={`${
@@ -64,7 +64,7 @@ export default function ListCompare({ item, customClassName }) {
       >
         <div className="h-[120px] flex">
           <ul className="inline-flex  h-full">
-            {listProductCompare.map((item, idx) => {
+            {listProductCompare?.map((item, idx) => {
               return (
                 <li
                   key={idx}
@@ -113,7 +113,7 @@ export default function ListCompare({ item, customClassName }) {
             })}
           </ul>
           <div className="flex-1 flex flex-col items-center justify-center gap-2">
-            {listProductCompare.filter((item) => item._id).length > 1 ? (
+            {listProductCompare?.filter((item) => item._id).length > 1 ? (
               <>
                 <button className="p-3 text-sm bg-accent rounded">
                   <Link href="/compareProduct">So sánh ngay</Link>

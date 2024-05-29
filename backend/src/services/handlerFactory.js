@@ -51,7 +51,7 @@ const getAll =
       .sort()
       .limitFields()
       .paginate();
-    const doc = await features.query;
+    const doc = await features.query.lean();
     return {
       data: doc,
     };

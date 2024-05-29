@@ -128,7 +128,7 @@ productSchema.pre(/^find/, function (next) {
       path: "cpu",
     })
     .populate({
-      path: "cpu",
+      path: "card",
       select: "value",
     })
     .populate({

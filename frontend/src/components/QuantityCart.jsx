@@ -8,7 +8,7 @@ export default function QuantityCart() {
   const dispatch = useDispatch();
   const { listProduct } = useAppSelector((state) => state.cartStore);
   useEffect(() => {
-    const userId = JSON.parse(localStorage.getItem("user"))._id;
+    const userId = JSON.parse(localStorage.getItem("user"))?._id;
     dispatch(fetchCartProducts(userId));
   }, [dispatch]);
   return <>{listProduct.length}</>;

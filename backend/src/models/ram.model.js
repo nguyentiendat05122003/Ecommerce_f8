@@ -28,7 +28,6 @@ const ramSchema = new mongoose.Schema(
 ramSchema.pre(/^find/, function (next) {
   this.populate({
     path: "typeRam",
-    select: "value",
   });
   next();
 });

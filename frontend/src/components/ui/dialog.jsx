@@ -27,9 +27,9 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef(
-  ({ className, children, ...props }, ref) => (
+  ({ className, children, turnOff, ...props }, ref) => (
     <DialogPortal>
-      <DialogOverlay />
+      {!turnOff && <DialogOverlay />}
       <DialogPrimitive.Content
         ref={ref}
         className={cn(

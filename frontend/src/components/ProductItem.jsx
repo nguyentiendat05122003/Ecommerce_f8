@@ -5,8 +5,8 @@ import { Star, StarHalf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 export default function ProductItem({ item }) {
-  const { _id, name, price, screenSize, screenResolution, cpu, thumbs } = item;
-
+  const { _id, name, price, detailProduct, card, cpu, thumbs, screen } = item;
+  console.log(item);
   return (
     <div className="d-flex flex-col relative">
       <Link
@@ -39,7 +39,7 @@ export default function ProductItem({ item }) {
           <p className="font-normal text-[15px]">-23%</p>
         </div>
         <p className="font-bold text-base leading-[1.4] text-accent">
-          {formatPrice(price)}đ
+          {formatPrice(price)}
         </p>
         <div className="flex">
           <Star size={18} fill="#F8D518" strokeWidth={0} />
@@ -50,12 +50,16 @@ export default function ProductItem({ item }) {
         </div>
         <div className="desc flex flex-col mt-[7px] gap-1">
           <p className="font-light text-xs ">
-            Màn hình: {screenSize?.size}", {screenResolution?.value}
+            Màn hình: "{screen.screenSize.size}"
           </p>
           <p className="font-light text-xs ">CPU: {cpu.value}</p>
-          <p className="font-light text-xs ">Card: Intel UHD</p>
-          <p className="font-light text-xs ">Pin: 42 Wh</p>
-          <p className="font-light text-xs ">Khối lượng: 1.58 kg</p>
+          <p className="font-light text-xs ">Card: {card.value}</p>
+          <p className="font-light text-xs ">
+            Pin: {detailProduct.chargeCapacity}
+          </p>
+          <p className="font-light text-xs ">
+            Khối lượng: {detailProduct.size}
+          </p>
         </div>
       </Link>
       <ListCompare item={item} />

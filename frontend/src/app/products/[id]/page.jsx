@@ -23,8 +23,14 @@ export default async function ProductDetail({ params }) {
     ratingsAverage,
     reviews,
     comments,
+    disk,
+    cpu,
+    ram,
+    screen,
+    specialFeatures,
+    detailProduct,
+    card,
   } = data;
-
   return (
     <div>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
@@ -38,7 +44,7 @@ export default async function ProductDetail({ params }) {
           </p>
           <span className="md:block hidden">|</span>
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
-            1 Hỏi & đáp
+            {comments.length} Hỏi & đáp
           </p>
           <ListCompare
             customClassName="hidden xl:flex  items-center font-bold text-sm leading-[1.4] text-accent gap-1"
@@ -79,7 +85,15 @@ export default async function ProductDetail({ params }) {
             </Button>
             <ButtonAddToCart productId={_id} />
           </div>
-          <InfoDetail />
+          <InfoDetail
+            disk={disk}
+            cpu={cpu}
+            ram={ram}
+            screen={screen}
+            specialFeatures={specialFeatures}
+            detailProduct={detailProduct}
+            card={card}
+          />
         </div>
       </div>
       <Review review={reviews} idProduct={_id} />

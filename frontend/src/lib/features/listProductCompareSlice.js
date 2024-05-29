@@ -4,7 +4,7 @@ const initialState = {
   // listProduct: JSON.parse(localStorage?.getItem("listProductCompare"))
   //   ? JSON.parse(localStorage?.getItem("listProductCompare"))
   //   : [{}, {}, {}],
-  listProduct: [{}, {}, {}],
+  // listProduct: [{}, {}, {}],
 };
 
 export const listProductCompareSlice = createSlice({

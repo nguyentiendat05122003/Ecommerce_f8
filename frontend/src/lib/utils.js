@@ -12,7 +12,10 @@ export const formatFilterFollow = ({ title, activeData }) => {
 };
 export const formatPrice = (price) => {
   const result = new Intl.NumberFormat("vi-VN", {
-    maximumSignificantDigits: 3,
+    style: "currency",
+    currency: "VND",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(price);
   return result;
 };
@@ -93,4 +96,8 @@ export const removeWhiteSpaces = (str) => {
 export const removeUsername = (str, username) => {
   const regex = new RegExp(`^${username}\\s*`);
   return str.replace(regex, "");
+};
+
+export const formatAddress = (address) => {
+  return `${address.province.provinceName}, ${address.district.districtName}, ${address.ward.wardName}`;
 };
