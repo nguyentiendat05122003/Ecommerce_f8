@@ -26,45 +26,103 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleDot } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatAddress } from "@/lib/utils";
+import deliveryAddressApiRequest from "@/apiRequests/deliveryAddress";
 
-export default function Address({
-  item,
-  onClick,
-  province,
-  district,
-  ward,
-  handleChooseDistrict,
-  handleChooseProvince,
-}) {
+export default function Address({ item, onClick, onUpdate }) {
   const { isDefault, name, phone, address, location, _id } = item;
-
+  const [addressState, setAddressState] = useState(address);
+  const [province, setProvince] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [ward, setWard] = useState([]);
   const form = useForm({
     resolver: zodResolver(AddressBody),
     defaultValues: {
       name: name,
       phone: phone,
-      // address: "",
+      address: address,
       location: location,
       isDefault: isDefault,
     },
   });
+
   useEffect(() => {
-    handleChooseProvince(
-      address.province.provinceId,
-      address.province.provinceName,
-      true
-    );
-    handleChooseDistrict(
-      address.district.districtId,
-      address.district.districtName,
-      true
-    );
+    const fetchApi = async () => {
+      fetch("https://vapi.vnappmob.com/api/province")
+        .then((response) => response.json())
+        .then((json) => setProvince(json.results));
+
+      if (address.province.provinceId) {
+        fetch(
+          `https://vapi.vnappmob.com/api/province/district/${address.province.provinceId}`
+        )
+          .then((response) => response.json())
+          .then((json) => setDistrict(json.results));
+      }
+
+      if (address.district.districtId) {
+        fetch(
+          `https://vapi.vnappmob.com/api/province/ward/${address.district.districtId}`
+        )
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json.results);
+            return setWard(json.results);
+          });
+      }
+    };
+    fetchApi();
   }, []);
-  const onSubmit = (values) => {
-    console.log(values);
+
+  const onSubmit = async (values) => {
+    values.address = addressState;
+    const result = await deliveryAddressApiRequest.updateDeliveryAddress(
+      _id,
+      values
+    );
+    console.log(result);
+    onUpdate(_id, result.data);
   };
+
+  const handleSetNewProvince = async (provinceId, provinceName) => {
+    setAddressState((prev) => ({
+      ...prev,
+      province: { provinceId, provinceName },
+      district: {},
+      ward: {},
+    }));
+    setDistrict([]);
+    setWard([]);
+    const response = await fetch(
+      `https://vapi.vnappmob.com/api/province/district/${provinceId}`
+    );
+    const data = await response.json();
+    setDistrict(data.results);
+  };
+
+  const handleSetNewDistrict = async (districtId, districtName) => {
+    setAddressState((prev) => ({
+      ...prev,
+      district: { districtId, districtName },
+      ward: {},
+    }));
+    setWard([]);
+    const response = await fetch(
+      `https://vapi.vnappmob.com/api/province/ward/${districtId}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setWard(data.results);
+  };
+
+  const handleSetNewWard = (wardId, wardName) => {
+    setAddressState((prev) => ({
+      ...prev,
+      ward: { wardId, wardName },
+    }));
+  };
+
   return (
     <span className="mt-3 flex">
       <span className="flex items-start gap-2" onClick={() => onClick(_id)}>
@@ -86,7 +144,7 @@ export default function Address({
             {formatAddress(address)}
           </span>
 
-          <button className="h-[24px]  hover:bg-transparent  max-w-[66px] bg-transparent rounded-none border-red px-[4px] py-[2px] text-xs text-red">
+          <button className="h-[24px] hover:bg-transparent max-w-[66px] bg-transparent rounded-none border-red px-[4px] py-[2px] text-xs text-red">
             {isDefault ? "Mặc Định" : ""}
           </button>
         </span>
@@ -98,7 +156,7 @@ export default function Address({
             Cập nhật
           </span>
         </DialogTrigger>
-        <DialogContent turnOff={true} className=" h-[544px]">
+        <DialogContent turnOff={true} className="h-[544px]">
           <DialogHeader>
             <DialogTitle>Địa chỉ mới</DialogTitle>
           </DialogHeader>
@@ -153,7 +211,7 @@ export default function Address({
                           <SelectTrigger className="w-full text-xs text-header font-normal">
                             <input
                               {...field}
-                              value={formatAddress(address)}
+                              value={formatAddress(addressState)}
                               onChange={(e) => e.preventDefault()}
                               className="w-full h-full outline-none border-none bg-transparent text-sm font-normal"
                             />
@@ -184,9 +242,15 @@ export default function Address({
                                   <ul className="flex flex-col">
                                     {province.map((item, idx) => (
                                       <li
+                                        onClick={() =>
+                                          handleSetNewProvince(
+                                            item.province_id,
+                                            item.province_name
+                                          )
+                                        }
                                         key={idx}
                                         className={`px-2 py-2 cursor-pointer ${
-                                          address.province.provinceId ===
+                                          addressState.province.provinceId ===
                                           item.province_id
                                             ? "text-red"
                                             : ""
@@ -202,8 +266,14 @@ export default function Address({
                                     {district.map((item, idx) => (
                                       <li
                                         key={idx}
+                                        onClick={() =>
+                                          handleSetNewDistrict(
+                                            item.district_id,
+                                            item.district_name
+                                          )
+                                        }
                                         className={`px-2 py-2 cursor-pointer ${
-                                          address.district.districtId ===
+                                          addressState.district.districtId ===
                                           item.district_id
                                             ? "text-red"
                                             : ""
@@ -218,9 +288,16 @@ export default function Address({
                                   <ul className="flex flex-col">
                                     {ward.map((item, idx) => (
                                       <li
+                                        onClick={() => {
+                                          handleSetNewWard(
+                                            item.ward_id,
+                                            item.ward_name
+                                          );
+                                        }}
                                         key={idx}
                                         className={`px-2 py-2 cursor-pointer  ${
-                                          address.ward.wardId === item.ward_id
+                                          addressState.ward.wardId ===
+                                          item.ward_id
                                             ? "text-red"
                                             : ""
                                         }`}
@@ -240,7 +317,6 @@ export default function Address({
                   );
                 }}
               />
-
               <FormField
                 control={form.control}
                 name="location"
@@ -249,7 +325,6 @@ export default function Address({
                     <FormControl>
                       <Textarea
                         {...field}
-                        name="location"
                         placeholder="Địa chỉ cụ thể"
                         className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
                       />
@@ -261,14 +336,13 @@ export default function Address({
               <div className="flex items-center space-x-2">
                 <FormField
                   control={form.control}
-                  name="location"
+                  name="isDefault"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <Checkbox
-                          checked={isDefault}
-                          {...field}
-                          name="isDefault"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
                           id="terms"
                         />
                       </FormControl>
@@ -279,7 +353,7 @@ export default function Address({
                   htmlFor="terms"
                   className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Đặt làm địa chỉ mặc đinh
+                  Đặt làm địa chỉ mặc định
                 </label>
               </div>
               <DialogFooter className="ml-auto mt-auto flex items-center gap-2">
@@ -288,9 +362,12 @@ export default function Address({
                     Trở lại
                   </p>
                 </DialogClose>
-                <Button className="mt-4 w-[100px] rounded-none hover:bg-accent bg-accent text-white">
+                <DialogClose
+                  type="submit"
+                  className="mt-4 w-[100px] h-[40px] rounded-none hover:bg-accent bg-accent text-white"
+                >
                   <p className="text-base font-normal">Hoàn thành</p>
-                </Button>
+                </DialogClose>
               </DialogFooter>
             </form>
           </Form>

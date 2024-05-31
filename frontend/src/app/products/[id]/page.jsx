@@ -1,5 +1,6 @@
 import productApiRequest from "@/apiRequests/product";
 import ButtonAddToCart from "@/app/products/_components/ButtonAddToCart";
+import ButtonBuyNow from "@/app/products/_components/ButtonBuyNow";
 import Comment from "@/app/products/_components/Comment";
 import InfoDetail from "@/app/products/_components/InfoDetail";
 import InfoProduct from "@/app/products/_components/InfoProduct";
@@ -80,9 +81,7 @@ export default async function ProductDetail({ params }) {
             </p>
           </div>
           <div className="btn mt-4 flex gap-3">
-            <Button className="text-white dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
-              Mua ngay
-            </Button>
+            <ButtonBuyNow product={data} />
             <ButtonAddToCart productId={_id} />
           </div>
           <InfoDetail

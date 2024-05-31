@@ -36,18 +36,42 @@ import { useForm } from "react-hook-form";
 import Address from "@/app/checkout/_components/Address";
 import { AddressBody } from "@/schemaValidations/address.schema";
 import deliveryAddressApiRequest from "@/apiRequests/deliveryAddress";
+import { formatAddress, formatPrice } from "@/lib/utils";
+import { useSelector } from "react-redux";
+import { DataTable } from "@/components/DataTable";
+import { columns } from "@/app/checkout/column";
 export default function Cart() {
   const [province, setProvince] = useState([]);
   const [district, setDistrict] = useState([]);
   const [ward, setWard] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [addressCurrent, setAddressCurrent] = useState();
   const [listAddress, setListAddress] = useState([]);
+  const [desc, setDesc] = useState("");
   const [valuesPosition, setValuesPosition] = useState({
     province: {},
     district: {},
     ward: {},
   });
+  const { listProductCheckout } = useSelector((state) => state.productCheckout);
+  useEffect(() => {
+    const userId = JSON.parse(localStorage.getItem("user"))._id;
+    const fetchApi = async () => {
+      fetch("https://vapi.vnappmob.com/api/province")
+        .then((response) => response.json())
+        .then((json) => setProvince(json.results));
+      const responseAddress =
+        await deliveryAddressApiRequest.getDeliveryAddress(userId);
+      setListAddress(responseAddress);
+    };
+    fetchApi();
+  }, []);
+  useEffect(() => {
+    setAddressCurrent(() => {
+      return listAddress.find((item) => item.isDefault === true);
+    });
+  }, [listAddress]);
   const handleChooseProvince = (provinceId, provinceName, isEdit) => {
     if (!isEdit) {
       setSelectedProvince(provinceId);
@@ -75,7 +99,9 @@ export default function Cart() {
     try {
       fetch(`https://vapi.vnappmob.com/api/province/ward/${districtId}`)
         .then((response) => response.json())
-        .then((json) => setWard(json.results));
+        .then((json) => {
+          return setWard(json.results);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +119,6 @@ export default function Cart() {
     defaultValues: {
       name: "",
       phone: "",
-      // address: "",
       location: "",
       isDefault: false,
     },
@@ -110,18 +135,18 @@ export default function Cart() {
       return newListAddress;
     });
   };
-  useEffect(() => {
-    const userId = JSON.parse(localStorage.getItem("user"))._id;
-    const fetchApi = async () => {
-      fetch("https://vapi.vnappmob.com/api/province")
-        .then((response) => response.json())
-        .then((json) => setProvince(json.results));
-      const responseAddress =
-        await deliveryAddressApiRequest.getDeliveryAddress(userId);
-      setListAddress(responseAddress);
-    };
-    fetchApi();
-  }, []);
+  const handleUpdateAddress = (id, values) => {
+    setListAddress((prev) => {
+      const newListAddress = prev.map((item) => {
+        if (item._id === id) {
+          return values;
+        } else {
+          return item;
+        }
+      });
+      return newListAddress;
+    });
+  };
   const onSubmit = async (values) => {
     values.address = valuesPosition;
     values.user = JSON.parse(localStorage.getItem("user"))._id;
@@ -129,8 +154,11 @@ export default function Cart() {
       values
     );
     setListAddress((prev) => {
-      return [...prev, result];
+      return [...prev, result.data];
     });
+  };
+  const handleCheckout = async () => {
+    console.log({ detail_payment: listProductCheckout });
   };
   return (
     <>
@@ -148,12 +176,12 @@ export default function Cart() {
             </div>
             <div className="flex xl:flex-row flex-col items-start gap-3 mt-3">
               <span className="font-normal text-md xl:font-bold">
-                nguyen tien dat (+84) 862172319
+                {addressCurrent?.name} ({addressCurrent?.phone})
               </span>
-              <span>sssdddd,</span>
+              <span>{addressCurrent?.location},</span>
               <div className="flex items-center gap-2">
                 <span className="font-normal text-md ">
-                  Xã Vũ Xá, Huyện Kim Động, Hưng Yên
+                  {formatAddress(addressCurrent?.address)}
                 </span>
                 <Button
                   className="hidden md:flex hover:bg-transparent  max-h-[16px] bg-transparent rounded-none border-red px-[5px] py-[2px] text-xs text-red"
@@ -181,13 +209,9 @@ export default function Cart() {
                           return (
                             <Address
                               onClick={handleChooseAddress}
+                              onUpdate={handleUpdateAddress}
                               item={item}
                               key={idx}
-                              district={district}
-                              ward={ward}
-                              province={province}
-                              handleChooseProvince={handleChooseProvince}
-                              handleChooseDistrict={handleChooseDistrict}
                             />
                           );
                         })}
@@ -460,7 +484,7 @@ export default function Cart() {
                                     Trở lại
                                   </p>
                                 </DialogClose>
-                                <DialogClose>
+                                <DialogClose type="submit">
                                   <div className="mt-4 w-[100px] h-[40px] rounded-none hover:bg-accent border-min border-solid bg-accent text-white flex items-center justify-center">
                                     Hoàn thành
                                   </div>
@@ -480,16 +504,22 @@ export default function Cart() {
                         </p>
                       </span>
                     </DialogClose>
-                    <Button className="rounded-none hover:bg-accent bg-accent text-white">
-                      <p className="text-base font-normal">Xác nhận</p>
-                    </Button>
+                    <DialogClose>
+                      <div className="h-[40px] w-[100px] rounded-none hover:bg-accent bg-accent text-white flex items-center justify-center">
+                        <p className="text-base font-normal">Xác nhận</p>
+                      </div>
+                    </DialogClose>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
             </div>
           </div>
         </div>
-        {/* <DataTable columns={columns} /> */}
+        <DataTable
+          onSelect={() => {}}
+          data={listProductCheckout}
+          columns={columns}
+        />
         <div className="mt-4 bg-widget w-full sm:w-[40%] rounded-md  drop-shadow-main">
           <div className="flex p-4 w-full max-w-sm items-center gap-1.5">
             <Label className="font-bold text-gray text-xs" htmlFor="message">
@@ -497,15 +527,25 @@ export default function Cart() {
             </Label>
             <Input
               className="focus:border-accent h-searchHeight px-[20px] bg-background rounded-lg border-min border-solid border-inputBorder"
-              type="message"
-              id="message"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
               placeholder="Lưu ý cho Người bán..."
             />
           </div>
         </div>
         <div className="flex justify-end items-center gap-3 my-5">
-          <h1 className="text-sm sm:text-base">Total : 10.490.000 ₫</h1>
-          <Button className="text-white dark:text-[#00193B] w-[210px] bg-red border-min border-solid border-red text-sm font-semibold hover:bg-red">
+          <h1 className="text-sm sm:text-base">
+            Total :{" "}
+            {formatPrice(
+              listProductCheckout?.reduce((total, item) => {
+                return total + item.productId.price * item.quantity;
+              }, 0)
+            )}
+          </h1>
+          <Button
+            onClick={handleCheckout}
+            className="text-white dark:text-[#00193B] w-[210px] bg-red border-min border-solid border-red text-sm font-semibold hover:bg-red"
+          >
             Đặt hàng
           </Button>
         </div>

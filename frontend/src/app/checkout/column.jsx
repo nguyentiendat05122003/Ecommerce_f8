@@ -1,37 +1,45 @@
 "use client";
 
 import Image from "next/image";
-import sliderDeProduct1 from "../../app/assets/img/products/1.webp";
 export const columns = [
   {
     accessorKey: "product",
     header: "Sản phẩm",
-    cell: ({ row }) => (
-      // <div className="capitalize">{row.getValue("product")}</div>
-      <div className="flex items-center max-w-[315px] gap-2">
-        <Image
-          alt="product"
-          src={sliderDeProduct1}
-          className="hidden md:block w-[80px] h-auto rounded"
-        />
-        <p className="line-clamp-2 text-sm font-normal">
-          Bộ Bàn Phím Chuột Bluetooth Không Dây Ziyou M87 LED Kết Nối Đa Năng
-          Chơi Game Dùng Văn Phòng
-        </p>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const product = row?.original?.productId;
+      console.log("product", product);
+      return (
+        <div className="flex items-center max-w-[315px] gap-2">
+          <Image
+            alt={product?.name}
+            src={product?.thumbs[0]?.thumb_url || "/path/to/default/image.jpg"}
+            className="hidden md:block w-[80px] h-auto rounded"
+            width={80}
+            height={80}
+          />
+          <p className="line-clamp-2 text-sm font-normal">{product?.name}</p>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "price",
     header: ({ column }) => {
       return <div className="hidden md:block">Đơn Giá</div>;
     },
-    cell: ({ row }) => (
-      //  <div className="lowercase">{row.getValue("price")}</div>
-      <div className="hidden md:flex items-center gap-2">
-        <span className="text-accent font-bold text-sm">10.490.000 ₫</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const price = row.original.productId?.price;
+      return (
+        <div className="hidden xl:flex items-center gap-2">
+          <span className="text-accent font-bold text-sm">
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(price)}
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "quantity",
@@ -44,12 +52,20 @@ export const columns = [
   {
     accessorKey: "amount",
     header: "Thành tiền",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <span className="text-[10px] text-accent font-bold lg:text-sm">
-          10.490.000 ₫
-        </span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const product = row.original?.productId;
+      const quantity = row.getValue("quantity");
+      const totalAmount = product?.price * quantity;
+      return (
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-accent font-bold lg:text-sm">
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(totalAmount)}
+          </span>
+        </div>
+      );
+    },
   },
 ];

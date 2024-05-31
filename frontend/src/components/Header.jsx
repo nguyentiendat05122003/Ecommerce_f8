@@ -149,7 +149,10 @@ export default function Header() {
                     >
                       Tài khoản của tôi
                     </Link>
-                    <Link className="px-2 py-1 font-normal text-sm" href="/">
+                    <Link
+                      className="px-2 py-1 font-normal text-sm"
+                      href="/purchase"
+                    >
                       Đơn mua
                     </Link>
                     <ButtonLogout />

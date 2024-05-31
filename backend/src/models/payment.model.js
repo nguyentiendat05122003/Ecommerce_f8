@@ -1,14 +1,11 @@
 import mongoose from "mongoose";
 const paymentSchema = new mongoose.Schema(
   {
-    name: {
+    address: {
       type: String,
       require: true,
     },
-    gender: {
-      type: Boolean,
-    },
-    address: {
+    location: {
       type: String,
       require: true,
     },

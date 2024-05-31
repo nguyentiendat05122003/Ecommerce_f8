@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCartProducts } from "@/lib/features/cartSlice";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
+import { addProduct } from "@/lib/features/listProductCheckout";
+import Link from "next/link";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const { listProduct } = useSelector((state) => state.cartStore);
   const [selectedItems, setSelectedItems] = useState([]);
-
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("user"))._id;
     dispatch(fetchCartProducts(userId));
@@ -20,7 +21,9 @@ export default function Cart() {
   const handleSelectItem = (items) => {
     setSelectedItems(items);
   };
-
+  const handleClickCheckOut = () => {
+    dispatch(addProduct(selectedItems));
+  };
   return (
     <>
       <div className="flex items-center justify-between pt-[10px] pb-[15px] mb-[16px] min-h-[57px] mt-5 border-b-[1px] border-solid border-inputBorder">
@@ -43,8 +46,11 @@ export default function Cart() {
               }, 0)
             )}
           </h1>
-          <Button className="text-white dark:text-[#00193B] w-[210px] bg-red border-min border-solid border-red text-sm font-semibold hover:bg-red">
-            Check out
+          <Button
+            onClick={handleClickCheckOut}
+            className="text-white dark:text-[#00193B] w-[210px] bg-red border-min border-solid border-red text-sm font-semibold hover:bg-red"
+          >
+            <Link href="/checkout">Check out</Link>
           </Button>
         </div>
       </div>

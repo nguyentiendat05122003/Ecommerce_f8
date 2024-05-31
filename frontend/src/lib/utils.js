@@ -99,5 +99,7 @@ export const removeUsername = (str, username) => {
 };
 
 export const formatAddress = (address) => {
-  return `${address.province.provinceName}, ${address.district.districtName}, ${address.ward.wardName}`;
+  return `${address?.province.provinceName || ""}, ${
+    address?.district.districtName || ""
+  }, ${address?.ward.wardName || ""}`;
 };
