@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Product from "~/models/product.model";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -37,6 +38,42 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
+reviewSchema.statics.calcAverageRatings = async function (productId) {
+  const stats = await this.aggregate([
+    {
+      $match: { product: productId },
+    },
+    {
+      $group: {
+        _id: "$product",
+        avgRating: { $avg: "$rating" },
+      },
+    },
+  ]);
+  console.log("stats", stats);
+
+  if (stats.length > 0) {
+    await Product.findByIdAndUpdate(productId, {
+      ratingsAverage: stats[0].avgRating,
+    });
+  } else {
+    await Product.findByIdAndUpdate(productId, {
+      ratingsAverage: 4.5,
+    });
+  }
+};
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.r = await this.findOne();
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  await this.r.constructor.calcAverageRatings(this.r.product);
+});
+reviewSchema.post("save", function () {
+  this.constructor.calcAverageRatings(this.product);
+});
 const Review = mongoose.model("Review", reviewSchema);
 
 export default Review;

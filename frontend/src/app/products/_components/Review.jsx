@@ -32,8 +32,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import reviewImage from "../../assets/img/icons/review.png";
 import test from "../../assets/img/other/review.jpg";
+import paymentApiRequest from "@/apiRequests/payment";
 
-export default function Review({ review, idProduct }) {
+export default function Review({ review, idProduct, ratingsAverage }) {
   const form = useForm({
     resolver: zodResolver(ReviewBody),
     defaultValues: {
@@ -45,9 +46,15 @@ export default function Review({ review, idProduct }) {
   const [user, setUser] = useState();
   const [baseReview, setBaseReview] = useState(review);
   const [listRating, setListRating] = useState(review);
+  const [listPayment, setListPayment] = useState([]);
   const [tab, setTab] = useState("all");
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
+    const fetchApi = async () => {
+      const { data } = await paymentApiRequest.getAllPayment();
+      setListPayment(data);
+    };
+    fetchApi();
   }, []);
   const router = useRouter();
   const onTabChange = (value) => {
@@ -79,10 +86,10 @@ export default function Review({ review, idProduct }) {
       return newRating;
     });
   };
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     //check reviewed
-    const isReviewed = true;
-    if (isReviewed) {
+    const reviews = listRating.filter((item) => item.user._id === user._id);
+    if (reviews.length > 0) {
       toast({
         title: "Cảnh báo",
         description: "Bạn đã đánh giá mặt hàng này",
@@ -92,8 +99,11 @@ export default function Review({ review, idProduct }) {
       return;
     }
     //check payment
-    const isBought = true;
     const userId = user._id;
+    const isBought = await paymentApiRequest.checkUserPurchase(
+      userId,
+      idProduct
+    );
     if (isBought) {
       const lengthRating = rating.filter((item) => item.active).length;
       const ratingValue = lengthRating === 0 ? 5 : lengthRating;
@@ -107,7 +117,6 @@ export default function Review({ review, idProduct }) {
         const { data } = await reviewApiRequest.createReview(values);
         setBaseReview((prev) => {
           setListRating([...prev, data]);
-          console.log([...prev, data]);
           return [...prev, data];
         });
         onTabChange("all");
@@ -136,6 +145,28 @@ export default function Review({ review, idProduct }) {
       duration: 2000,
     });
   };
+  const calculateProgressValue = (rating) => {
+    const totalReviews = listRating.length;
+    const ratingCount = listRating.filter(
+      (review) => review.rating === rating
+    ).length;
+    return (ratingCount / totalReviews) * 100;
+  };
+  const renderProgressComponents = () => {
+    const progressComponents = [];
+    for (let rating = 5; rating >= 1; rating--) {
+      const progressValue = calculateProgressValue(rating);
+      progressComponents.push(
+        <div className="flex items-center gap-1" key={rating}>
+          <span>{rating}</span>
+          <Star color="#F8D518" fill="#F8D518" size={12} />
+          <Progress className="max-w-[280px]" value={progressValue} />
+        </div>
+      );
+    }
+
+    return progressComponents;
+  };
   return (
     <div className="w-full card mt-10 flex gap-3 flex-col px-[20px] py-[15px] bg-widget drop-shadow-main rounded-[6px] transition-all">
       <div className=" py-[10px] border-solid border-b-min border-accent">
@@ -152,7 +183,9 @@ export default function Review({ review, idProduct }) {
               <p className="text-header text-base font-normal">
                 Đánh Giá Trung Bình
               </p>
-              <h1 className="text-red text-bold text-[40px]">5/5</h1>
+              <h1 className="text-red text-bold text-[40px]">
+                {ratingsAverage}/5
+              </h1>
               <div className="flex items-center">
                 <Star color="#F8D518" fill="#F8D518" size={14} />
                 <Star color="#F8D518" fill="#F8D518" size={14} />
@@ -160,34 +193,12 @@ export default function Review({ review, idProduct }) {
                 <Star color="#F8D518" fill="#F8D518" size={14} />
                 <Star color="#F8D518" fill="#F8D518" size={14} />
               </div>
-              <span className="text-gray text-sm ">2 đánh giá</span>
+              <span className="text-gray text-sm ">
+                {review.length} đánh giá
+              </span>
             </div>
             <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-1">
-                <span>5</span>
-                <Star color="#F8D518" fill="#F8D518" size={12} />
-                <Progress className="max-w-[280px]" value={50} />
-              </div>
-              <div className="flex items-center gap-1">
-                <span>4</span>
-                <Star color="#F8D518" fill="#F8D518" size={12} />
-                <Progress className="max-w-[280px]" value={70} />
-              </div>
-              <div className="flex items-center gap-1">
-                <span>3</span>
-                <Star color="#F8D518" fill="#F8D518" size={12} />
-                <Progress className="max-w-[280px]" value={0} />
-              </div>
-              <div className="flex items-center gap-1">
-                <span>2</span>
-                <Star color="#F8D518" fill="#F8D518" size={12} />
-                <Progress className="max-w-[280px]" value={0} />
-              </div>
-              <div className="flex items-center gap-1">
-                <span>1</span>
-                <Star color="#F8D518" fill="#F8D518" size={12} />
-                <Progress className="max-w-[280px]" value={0} />
-              </div>
+              {renderProgressComponents()}
             </div>
           </>
         ) : (

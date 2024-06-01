@@ -1,7 +1,17 @@
 import mongoose from "mongoose";
 const paymentSchema = new mongoose.Schema(
   {
+    state: {
+      type: String,
+      required: true,
+      enum: ["completed", "pending", "failed"],
+      default: "pending",
+    },
     address: {
+      type: String,
+      require: true,
+    },
+    name: {
       type: String,
       require: true,
     },
@@ -34,12 +44,11 @@ const paymentSchema = new mongoose.Schema(
             ref: "Product",
           },
           quantity: Number,
-          price: Number,
         },
       ],
       require: true,
     },
-    userId: {
+    user: {
       type: mongoose.Schema.ObjectId,
       required: true,
       ref: "User",
@@ -49,6 +58,14 @@ const paymentSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+paymentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "detail_payment.productId",
+    select: "name price thumbs",
+  });
+  next();
+});
 
 const Payment = mongoose.model("Payment", paymentSchema);
 

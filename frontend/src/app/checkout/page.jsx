@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CircleDot, MapPin, Plus } from "lucide-react";
-
+import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,7 +40,11 @@ import { formatAddress, formatPrice } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "@/app/checkout/column";
+import paymentApiRequest from "@/apiRequests/payment";
+import { useRouter } from "next/navigation";
+
 export default function Cart() {
+  const { toast } = useToast();
   const [province, setProvince] = useState([]);
   const [district, setDistrict] = useState([]);
   const [ward, setWard] = useState([]);
@@ -49,6 +53,8 @@ export default function Cart() {
   const [addressCurrent, setAddressCurrent] = useState();
   const [listAddress, setListAddress] = useState([]);
   const [desc, setDesc] = useState("");
+  const router = useRouter();
+
   const [valuesPosition, setValuesPosition] = useState({
     province: {},
     district: {},
@@ -158,7 +164,27 @@ export default function Cart() {
     });
   };
   const handleCheckout = async () => {
-    console.log({ detail_payment: listProductCheckout });
+    const userId = JSON.parse(localStorage.getItem("user"))._id;
+    const values = {
+      address: formatAddress(addressCurrent.address),
+      name: addressCurrent.name,
+      location: addressCurrent.location,
+      phone: addressCurrent.phone,
+      desc: desc,
+      total_amount: listProductCheckout?.reduce((total, item) => {
+        return total + item.productId.price * item.quantity;
+      }, 0),
+      user: userId,
+      detail_payment: listProductCheckout,
+    };
+    const result = await paymentApiRequest.createPayment(values);
+    toast({
+      title: "Thông báo",
+      description: "Đặt hàng thành công",
+      variant: "success",
+      duration: 1000,
+    });
+    router.push("/purchase");
   };
   return (
     <>

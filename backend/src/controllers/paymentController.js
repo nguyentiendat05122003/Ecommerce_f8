@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import Payment from "~/models/payment.model";
 import { paymentService } from "~/services/paymentService";
 import AppResponse from "~/utils/AppResponse";
 
@@ -42,10 +43,19 @@ const deletePayment = async (req, res, next) => {
   }).send(res);
 };
 
+const checkUserPurchase = async (req, res, next) => {
+  return new AppResponse({
+    message: "check Payment success",
+    statusCode: StatusCodes.OK,
+    metadata: await paymentService.checkUserPurchase(req),
+  }).send(res);
+};
+
 export const paymentController = {
   getPayment,
   getAllPayments,
   updatePayment,
   deletePayment,
   createPayment,
+  checkUserPurchase,
 };

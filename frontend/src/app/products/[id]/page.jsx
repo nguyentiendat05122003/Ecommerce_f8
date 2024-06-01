@@ -41,7 +41,7 @@ export default async function ProductDetail({ params }) {
             <RatingStart number={ratingsAverage} />
           </div>
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
-            32 rating
+            {reviews.length} đánh giá
           </p>
           <span className="md:block hidden">|</span>
           <p className="md:block hidden font-bold text-sm leading-[1.4] text-accent">
@@ -95,7 +95,11 @@ export default async function ProductDetail({ params }) {
           />
         </div>
       </div>
-      <Review review={reviews} idProduct={_id} />
+      <Review
+        ratingsAverage={ratingsAverage}
+        review={reviews}
+        idProduct={_id}
+      />
       <Comment listComments={comments} productId={_id} />
     </div>
   );
