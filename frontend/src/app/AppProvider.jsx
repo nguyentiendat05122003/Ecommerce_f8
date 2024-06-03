@@ -5,6 +5,5 @@ export default function AppProvider({ children, initialSessionToken = {} }) {
   useState(() => {
     clientSessionToken.token = initialSessionToken;
   });
-
   return <>{children}</>;
 }

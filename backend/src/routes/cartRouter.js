@@ -1,8 +1,11 @@
 import Express from "express";
+import { authController } from "~/controllers/authController";
 import { cartController } from "~/controllers/cartController";
 import catchAsync from "~/utils/catchAsync";
 
 const router = Express.Router();
+
+router.use(authController.protect);
 
 router
   .route("/")

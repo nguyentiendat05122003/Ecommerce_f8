@@ -21,10 +21,12 @@ import supplierInvoiceRouter from "./supplierInvoiceRouter";
 import screenRouter from "./screenRouter";
 import typeRamRouter from "./typeRamRouter";
 import cardRouter from "./cardRouter";
+import notificationRouter from "./notificationRouter";
 import deliveryAddressRouter from "./deliveryAddressRouter";
 
 function router(app) {
   app.use("/api/v1/users", userRouter);
+  app.use("/api/v1/notification", notificationRouter);
   app.use("/api/v1/deliveryAddress", deliveryAddressRouter);
   app.use("/api/v1/screens", screenRouter);
   app.use("/api/v1/typeRam", typeRamRouter);

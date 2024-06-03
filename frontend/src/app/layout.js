@@ -64,7 +64,7 @@ export default function RootLayout({ children }) {
           <AppProvider initialSessionToken={{ accessToken, refreshToken }}>
             <StoreProvider>{children}</StoreProvider>
             <Toaster />
-            <SlideSession />
+            {/* <SlideSession /> */}
           </AppProvider>
         </ThemeProvider>
       </body>

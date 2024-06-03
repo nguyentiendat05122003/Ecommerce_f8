@@ -6,7 +6,7 @@ import catchAsync from "~/utils/catchAsync";
 import { userValidation } from "~/validations/userValidation";
 const router = Express.Router();
 
-router.post("/signup", userValidation.signUp, authController.signUp);
+router.post("/signup", authController.signUp);
 router.post("/login", userValidation.login, catchAsync(authController.login));
 router.post("/forgotPassword", catchAsync(authController.forgotPassword));
 router.post("/resetPassword/:token", catchAsync(authController.resetPassword));

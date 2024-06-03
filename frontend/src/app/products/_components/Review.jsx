@@ -47,11 +47,13 @@ export default function Review({ review, idProduct, ratingsAverage }) {
   const [baseReview, setBaseReview] = useState(review);
   const [listRating, setListRating] = useState(review);
   const [listPayment, setListPayment] = useState([]);
+  const [ratingsAvg, setRatingsAvg] = useState(ratingsAverage);
   const [tab, setTab] = useState("all");
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
     const fetchApi = async () => {
-      const { data } = await paymentApiRequest.getAllPayment();
+      const { data } = await paymentApiRequest.getPayment(user._id);
       setListPayment(data);
     };
     fetchApi();
@@ -119,6 +121,13 @@ export default function Review({ review, idProduct, ratingsAverage }) {
           setListRating([...prev, data]);
           return [...prev, data];
         });
+        setRatingsAvg(() => {
+          const listReview = [...baseReview, data];
+          const totalRating = listReview.reduce((total, item) => {
+            return item.rating + total;
+          }, 0);
+          return totalRating / listReview.length;
+        });
         onTabChange("all");
         router.refresh();
       }
@@ -144,10 +153,17 @@ export default function Review({ review, idProduct, ratingsAverage }) {
       variant: "success",
       duration: 2000,
     });
+    setRatingsAvg(() => {
+      const listReview = baseReview.filter((item) => item._id !== id);
+      const totalRating = listReview.reduce((total, item) => {
+        return item.rating + total;
+      }, 0);
+      return totalRating / listReview.length;
+    });
   };
   const calculateProgressValue = (rating) => {
-    const totalReviews = listRating.length;
-    const ratingCount = listRating.filter(
+    const totalReviews = baseReview.length;
+    const ratingCount = baseReview.filter(
       (review) => review.rating === rating
     ).length;
     return (ratingCount / totalReviews) * 100;
@@ -183,9 +199,7 @@ export default function Review({ review, idProduct, ratingsAverage }) {
               <p className="text-header text-base font-normal">
                 Đánh Giá Trung Bình
               </p>
-              <h1 className="text-red text-bold text-[40px]">
-                {ratingsAverage}/5
-              </h1>
+              <h1 className="text-red text-bold text-[40px]">{ratingsAvg}/5</h1>
               <div className="flex items-center">
                 <Star color="#F8D518" fill="#F8D518" size={14} />
                 <Star color="#F8D518" fill="#F8D518" size={14} />
@@ -194,7 +208,7 @@ export default function Review({ review, idProduct, ratingsAverage }) {
                 <Star color="#F8D518" fill="#F8D518" size={14} />
               </div>
               <span className="text-gray text-sm ">
-                {review.length} đánh giá
+                {baseReview.length} đánh giá
               </span>
             </div>
             <div className="flex flex-col gap-1">

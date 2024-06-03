@@ -9,33 +9,29 @@ import { formatPrice } from "@/lib/utils";
 import empty from "@/app/assets/img/other/empty.png";
 import CustomDeleteDialog from "@/components/CustomDeleteDialog";
 export default function Purchase() {
-  const [listPayment, setListPayment] = useState([]);
   const [filterListPayment, setFilterListPayment] = useState([]);
+  const [listPayment, setListPayment] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [statePayment, setStatePayment] = useState("all");
   useEffect(() => {
     const fetchApi = async () => {
-      const { data } = await paymentApiRequest.getAllPayment();
+      const userId = JSON.parse(localStorage.getItem("user"))._id;
+      const { data } = await paymentApiRequest.getPayment(userId);
       setListPayment(data);
       setFilterListPayment(data);
+      setDataLoaded(true);
     };
     fetchApi();
   }, []);
   const handleStatePaymentChange = (value) => {
     setStatePayment(value);
+    let filteredPayments = [];
     if (value === "all") {
-      setFilterListPayment(listPayment);
-    } else if (value === "pending")
-      setFilterListPayment(() =>
-        listPayment.filter((item) => item.state === "pending")
-      );
-    else if (value === "completed")
-      setFilterListPayment(() =>
-        listPayment.filter((item) => item.state === "completed")
-      );
-    else if (value === "failed")
-      setFilterListPayment(() =>
-        listPayment.filter((item) => item.state === "failed")
-      );
+      filteredPayments = listPayment;
+    } else {
+      filteredPayments = listPayment.filter((item) => item.state === value);
+    }
+    setFilterListPayment(filteredPayments);
   };
   const handleDestroyPayment = async (id) => {
     const newList = listPayment.map((item) => {
@@ -68,7 +64,7 @@ export default function Purchase() {
           <TabsTrigger value="failed">Đã hủy</TabsTrigger>
         </TabsList>
         <TabsContent className="bg-widget" value={statePayment}>
-          {filterListPayment.length > 0 ? (
+          {dataLoaded && filterListPayment.length > 0 ? (
             <div className="flex flex-col gap-2">
               {listPayment &&
                 filterListPayment.map((itemParent, idx) => {

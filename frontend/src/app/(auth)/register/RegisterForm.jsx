@@ -14,9 +14,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { handleErrorApi } from "@/lib/utils";
 import { RegisterBody } from "@/schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 export default function RegisterForm() {
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(RegisterBody),
     defaultValues: {

@@ -8,21 +8,24 @@ import { useEffect, useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import { addProduct } from "@/lib/features/listProductCheckout";
 import Link from "next/link";
+import { clientSessionToken } from "@/lib/http";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const { listProduct } = useSelector((state) => state.cartStore);
   const [selectedItems, setSelectedItems] = useState([]);
+  const accessToken = clientSessionToken.token?.accessToken;
+  const isAuth = !!accessToken;
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("user"))._id;
-    dispatch(fetchCartProducts(userId));
+    isAuth && dispatch(fetchCartProducts(userId));
   }, [dispatch]);
 
   const handleSelectItem = (items) => {
     setSelectedItems(items);
   };
   const handleClickCheckOut = () => {
-    dispatch(addProduct(selectedItems));
+    isAuth && dispatch(addProduct(selectedItems));
   };
   return (
     <>

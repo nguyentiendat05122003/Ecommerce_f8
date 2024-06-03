@@ -29,6 +29,7 @@ const reviewSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+reviewSchema.index({ product: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
@@ -64,13 +65,17 @@ reviewSchema.statics.calcAverageRatings = async function (productId) {
 };
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  this.r = await this.findOne();
+  this.r = await this.model.findOne(this.getQuery());
+  console.log(this.r);
   next();
 });
 
 reviewSchema.post(/^findOneAnd/, async function () {
-  await this.r.constructor.calcAverageRatings(this.r.product);
+  if (this.r) {
+    await this.r.constructor.calcAverageRatings(this.r.product);
+  }
 });
+
 reviewSchema.post("save", function () {
   this.constructor.calcAverageRatings(this.product);
 });

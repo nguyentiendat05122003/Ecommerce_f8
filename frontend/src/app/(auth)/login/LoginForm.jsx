@@ -45,7 +45,14 @@ export default function LoginForm() {
         variant: "success",
         duration: 2000,
       });
-      router.push("/");
+      const isAdmin = results.user.role === "admin";
+      if (isAdmin) {
+        router.push("/admin/dashboard");
+        return;
+      } else {
+        router.push("/");
+      }
+      router.refresh();
     } catch (error) {
       handleErrorApi({
         error,

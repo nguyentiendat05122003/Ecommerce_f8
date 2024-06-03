@@ -63,12 +63,10 @@ const protect = catchAsync(async (req, res, next) => {
   if (!userId) return next(new AppError("Miss userId"));
   const keyToken = await KeyToken.findOne({ user: userId }).lean();
   if (!keyToken) return next(new AppError("User not found"));
-  console.log(req.headers);
-  const accessToken = req.headers.access_token;
-  if (accessToken && accessToken.startsWith("Bearer")) {
-    token = accessToken.split(" ")[1];
+  const accessToken = req.cookies.accessToken || req.headers.access_token;
+  if (accessToken) {
+    token = accessToken;
   }
-  console.log(token);
   if (!token) {
     return next(
       new AppError("You are not logged in! Please log in to get access.", 401)

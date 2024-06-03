@@ -1,3 +1,4 @@
+import WebSocketClient from "@/components/WebSocketClient";
 import dynamic from "next/dynamic";
 
 const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
@@ -17,7 +18,7 @@ export default function Home() {
   return (
     <main className="px-4">
       <Header />
-      <Slider />
+      {/* <Slider /> */}
       <div className="main mt-[26px] ">
         <ListBrand />
         <div className="mt-10 hidden xl:block">
@@ -25,6 +26,7 @@ export default function Home() {
         </div>
         <ListFilters />
         <Footer />
+        <WebSocketClient />
       </div>
     </main>
   );

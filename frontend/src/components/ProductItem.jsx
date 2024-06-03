@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 export default function ProductItem({ item }) {
   const { _id, name, price, detailProduct, card, cpu, thumbs, screen } = item;
-  console.log(item);
   return (
     <div className="d-flex flex-col relative">
       <Link

@@ -28,6 +28,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@reduxjs/toolkit": "^2.2.5",
     "@tanstack/react-table": "^8.16.0",
+    "bufferutil": "^4.0.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -47,9 +48,12 @@
     "react-visibility-sensor": "^5.1.1",
     "recharts": "^2.12.7",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.7.5",
     "swiper": "^11.1.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "utf-8-validate": "^5.0.10",
+    "ws": "^8.17.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

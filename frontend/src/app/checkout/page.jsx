@@ -42,8 +42,9 @@ import { DataTable } from "@/components/DataTable";
 import { columns } from "@/app/checkout/column";
 import paymentApiRequest from "@/apiRequests/payment";
 import { useRouter } from "next/navigation";
+import { socket } from "@/socket";
 
-export default function Cart() {
+export default function Checkout() {
   const { toast } = useToast();
   const [province, setProvince] = useState([]);
   const [district, setDistrict] = useState([]);
@@ -164,7 +165,9 @@ export default function Cart() {
     });
   };
   const handleCheckout = async () => {
-    const userId = JSON.parse(localStorage.getItem("user"))._id;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?._id;
+    const email = user.email;
     const values = {
       address: formatAddress(addressCurrent.address),
       name: addressCurrent.name,
@@ -177,12 +180,17 @@ export default function Cart() {
       user: userId,
       detail_payment: listProductCheckout,
     };
-    const result = await paymentApiRequest.createPayment(values);
+    const { data } = await paymentApiRequest.createPayment(values);
     toast({
       title: "Thông báo",
       description: "Đặt hàng thành công",
       variant: "success",
       duration: 1000,
+    });
+    socket.emit("sendNotification", {
+      sender: userId,
+      payment: data._id,
+      email: email,
     });
     router.push("/purchase");
   };

@@ -6,14 +6,14 @@ export default function BrandItem({ image }) {
     <>
       <Badge
         variant="outline"
-        className=" cursor-pointer min-h-[36px] w-[120px] max-w-[120px] flex justify-center rounded-sm border-min border-solid border-accent"
+        className=" cursor-pointer min-h-[36px] w-[120px] max-w-[120px] flex justify-center border-min border-solid border-accent"
       >
         <Link href="/" className="">
           <Image
             style={{ width: "100%", height: "auto" }}
             className=""
-            width={40}
-            height={35}
+            width={30}
+            height={30}
             src={image}
             alt="logo"
           />

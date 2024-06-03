@@ -5,7 +5,9 @@ import LazyLoadingProduct from "@/components/LazyLoadingProduct";
 import ListProduct from "@/components/ListProduct";
 import { updateFloor } from "@/lib/features/bookSlice";
 import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hook";
+import { clientSessionToken } from "@/lib/http";
 import { filterPropertyActive } from "@/lib/utils";
+import { socket } from "@/socket";
 import { useEffect, useState } from "react";
 
 export default function ListFilters() {

@@ -33,7 +33,7 @@ const signUp = async (reqBody) => {
     role: reqBody.role,
   });
   newUser.password = undefined;
-  await new Email(newUser, "url").sendWelcome();
+  // await new Email(newUser, "url").sendWelcome();
   return newUser;
 };
 
@@ -50,7 +50,7 @@ const login = async (reqBody) => {
   }
   const tokens = await createSendToken(user);
   return {
-    user: getInfoData(user, ["_id", "name", "email", "photo"]),
+    user: getInfoData(user, ["_id", "name", "email", "photo", "role"]),
     tokens,
   };
 };

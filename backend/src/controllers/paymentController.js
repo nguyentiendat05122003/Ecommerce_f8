@@ -51,6 +51,14 @@ const checkUserPurchase = async (req, res, next) => {
   }).send(res);
 };
 
+const getPaymentFollowUser = async (req, res, next) => {
+  return new AppResponse({
+    message: "get Payment success",
+    statusCode: StatusCodes.OK,
+    metadata: await paymentService.getPaymentFollowUser(req),
+  }).send(res);
+};
+
 export const paymentController = {
   getPayment,
   getAllPayments,
@@ -58,4 +66,5 @@ export const paymentController = {
   deletePayment,
   createPayment,
   checkUserPurchase,
+  getPaymentFollowUser,
 };

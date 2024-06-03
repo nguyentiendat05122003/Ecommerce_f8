@@ -4,14 +4,14 @@ const accountRequestApi = {
   me: (accessToken, clientId) =>
     http.get("users/me", {
       headers: {
-        access_token: `Bearer ${accessToken}`,
+        access_token: `${accessToken}`,
         client_id: `${clientId}`,
       },
     }),
   updateMe: (body, accessToken, clientId) =>
     http.patch("users/updateMe", body, {
       headers: {
-        access_token: `Bearer ${accessToken}`,
+        access_token: `${accessToken}`,
         client_id: `${clientId}`,
       },
     }),
