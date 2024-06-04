@@ -1,5 +1,6 @@
 import Counter from "@/components/Counter";
-import Logo from "@/components/Logo";
+import LogoDark from "../../../../app/assets/img/icons/logo_dark.svg";
+
 import {
   CircleChevronUp,
   CircleDollarSign,
@@ -7,6 +8,8 @@ import {
   Info,
   ScanBarcode,
 } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 export default function MainProfileInfo() {
   return (
     <div className="bg-widget rounded-sm drop-shadow-main flex flex-col gap-4 md:flex-row md:p-[26px] lg:col-span-3 xl:col-span-2 2xl:col-span-1 transition-all">
@@ -14,7 +17,16 @@ export default function MainProfileInfo() {
         className="h-[230px] rounded-md bg-background border border-inputBorder p-5 flex flex-col items-center
                  justify-center gap-6 shrink-0 md:w-[190px]"
       >
-        <Logo className="h-20 w-auto ml-2.5" textOnly="" />
+        <Link className="w-auto ml-2.5 flex items-center" href="/">
+          <Image
+            className=""
+            src={LogoDark}
+            width="45"
+            height="40"
+            alt="logo"
+            priority={true}
+          />
+        </Link>
         <span className="font-heading font-bold text-xl leading-[1.1] text-header">
           ShopPoint
         </span>

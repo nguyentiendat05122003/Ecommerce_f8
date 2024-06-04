@@ -38,7 +38,7 @@ export default function ProductManager() {
         </div>
       </div>
       <div className="bg-widget rounded-md  drop-shadow-main">
-        <DataTable columns={columns} />
+        {/* <DataTable columns={columns} /> */}
       </div>
       <PaginationComp />
     </div>

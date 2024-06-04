@@ -21,8 +21,7 @@ export const fetchAddNotifications = createAsyncThunk(
   async (data) => {
     try {
       const response = await notificationApiRequest.createNotification(data);
-      console.log("response", response);
-      return response.data;
+      return response;
     } catch (error) {
       console.log(error.response.data);
     }

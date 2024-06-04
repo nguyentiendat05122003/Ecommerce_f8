@@ -40,11 +40,6 @@ export default function Notification() {
   }, [dispatch]);
   const handlePlayAudio = (data) => {
     const audio = new Audio("/notification.mp3");
-    // if (data) {
-    //   audio.volume = 1;
-    // } else {
-    //   audio.volume = 0;
-    // }
     audio.play();
   };
   return (
@@ -71,49 +66,57 @@ export default function Notification() {
             <SheetHeader className="pb-4">
               <SheetTitle>
                 <span className="text-header">Notifications</span>
-                <button ref={buttonRef} onClick={handlePlayAudio} className="">
-                  click
-                </button>
+                <button
+                  ref={buttonRef}
+                  onClick={handlePlayAudio}
+                  className=""
+                ></button>
               </SheetTitle>
               <SheetDescription></SheetDescription>
             </SheetHeader>
-            {listNotification.map((item, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="flex gap-2.5 items-start border-b-min border-solid border- mt-2 mx-[10px] pb-[30px]"
-                >
-                  <div className="mt-2">
-                    <Image
-                      className="w-full h-[36px] rounded"
-                      src={item.sender.photo}
-                      alt="avatar"
-                      width={36}
-                      height={36}
-                    />
-                  </div>
-                  <div>
-                    <span className="text-sm text-header font-bold  max-w-[210px]">
-                      {item.sender.email}
-                    </span>
-                    <p className="text-base font-normal">{item.content}</p>
-                    <p className="flex items-center gap-1.5 mt-1 mb-2">
-                      <span className="text-xs font-medium text-gray">
-                        {formatTimeMessage(item.createdAt)}
+            {listNotification.length > 0 ? (
+              listNotification.map((item, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="flex gap-2.5 items-start border-b-min border-solid border- mt-2 mx-[10px] pb-[30px]"
+                  >
+                    <div className="mt-2">
+                      <Image
+                        className="w-full h-[36px] rounded"
+                        src={item.sender.photo}
+                        alt="avatar"
+                        width={36}
+                        height={36}
+                      />
+                    </div>
+                    <div>
+                      <span className="text-sm text-header font-bold  max-w-[210px]">
+                        {item.sender.email}
                       </span>
-                    </p>
-                    <div className="flex gap-2.5">
-                      <button className="border-min border-solid border-accent h-[26px] px-[10px] text-accent text-xs font-normal rounded-[23px]">
-                        Xem chi tiết
-                      </button>
-                      <button className="border-min border-solid border-red h-[26px] min-w-[83px] px-[10px] text-red text-xs font-normal rounded-[23px]">
-                        Bỏ qua
-                      </button>
+                      <p className="text-base font-normal">{item.content}</p>
+                      <p className="flex items-center gap-1.5 mt-1 mb-2">
+                        <span className="text-xs font-medium text-gray">
+                          {formatTimeMessage(item.createdAt)}
+                        </span>
+                      </p>
+                      <div className="flex gap-2.5">
+                        <button className="border-min border-solid border-accent h-[26px] px-[10px] text-accent text-xs font-normal rounded-[23px]">
+                          Xem chi tiết
+                        </button>
+                        <button className="border-min border-solid border-red h-[26px] min-w-[83px] px-[10px] text-red text-xs font-normal rounded-[23px]">
+                          Bỏ qua
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <>
+                <span>Không có thông báo mới</span>
+              </>
+            )}
           </SheetContent>
         </Sheet>
       )}

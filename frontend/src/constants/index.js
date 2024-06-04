@@ -6,7 +6,16 @@ import sliderDeProduct2 from "../app/assets/img/products/2.webp";
 import sliderDeProduct3 from "../app/assets/img/products/3.webp";
 import sliderDeProduct4 from "../app/assets/img/products/4.webp";
 import sliderDeProduct5 from "../app/assets/img/products/5.webp";
-import { CircleDollarSign, Filter, Star } from "lucide-react";
+import {
+  Boxes,
+  CircleDollarSign,
+  Filter,
+  FolderInput,
+  LayoutDashboard,
+  Shapes,
+  ShoppingCart,
+  Star,
+} from "lucide-react";
 
 export const SLIDERS = [
   { id: 0, src: slider1 },
@@ -223,4 +232,37 @@ export const RATING = [
     id: 4,
     value: "Rất tốt",
   },
+];
+
+export const SIDEBAR_ADMIN = [
+  {
+    id: 0,
+    name: "Trang chủ",
+    Icon: LayoutDashboard,
+    link: "/admin/dashboard",
+    active: true,
+  },
+  {
+    id: 1,
+    name: "Sản phẩm",
+    Icon: Boxes,
+    link: "/admin/product",
+    active: false,
+  },
+  {
+    id: 2,
+    name: "Hóa đơn bán",
+    Icon: ShoppingCart,
+    link: "/admin/payment",
+    active: false,
+  },
+  {
+    id: 3,
+    name: "Hóa đơn nhập",
+    Icon: FolderInput,
+    link: "/admin/import",
+    active: false,
+  },
+  { id: 4, name: "Đánh giá", Icon: Star, link: "/admin/review", active: false },
+  { id: 5, name: "Khác", Icon: Shapes, link: "/admin/other", active: false },
 ];

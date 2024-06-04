@@ -2,6 +2,7 @@ import Logo from "@/components/Logo";
 import Image from "next/image";
 import media from "../../assets/img/banner/media.webp";
 import Facebook from "../../assets/img/icons/facebook.png";
+import LogoDark from "../../assets/img/icons/logo_dark.svg";
 import Google from "../../assets/img/icons/google.png";
 import LoginForm from "./LoginForm";
 export default function Login() {
@@ -9,7 +10,17 @@ export default function Login() {
     <div>
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
         <div className="hidden lg:flex flex-col justify-center items-center lg:p-[60px]">
-          <Logo />
+          {/* <Logo /> */}
+          <div className="flex flex-col items-center gap-2">
+            <Image
+              src={LogoDark}
+              width="45"
+              height="40"
+              alt="logo"
+              priority={true}
+            />
+            <h4 className="text-header">ShopPoint</h4>
+          </div>
           <p className="text-center tracking-[0.2px] font-semibold text-lg leading-6 max-w-[540px] my-7 mx-auto">
             Gain data-based insights, view progress at a glance, and manage your
             organization smarter
