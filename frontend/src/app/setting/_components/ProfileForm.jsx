@@ -39,7 +39,6 @@ export default function ProfileForm({ profile }) {
       phone: profile.phone || "",
       email: profile.email,
       image: profile.photo,
-      // password: profile.password,
     },
   });
   const image = form.watch("image");

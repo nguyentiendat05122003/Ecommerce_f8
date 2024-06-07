@@ -49,7 +49,7 @@ export function DataTable({ columns, data, onSelect, selectedRows }) {
     const selectedData = table
       .getSelectedRowModel()
       .flatRows.map((row) => row.original);
-    onSelect(selectedData);
+    onSelect && onSelect(selectedData);
   }, [rowSelection, data]);
 
   return (

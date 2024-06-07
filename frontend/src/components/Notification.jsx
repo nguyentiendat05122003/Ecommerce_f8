@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -18,6 +19,7 @@ import {
   fetchNotifications,
 } from "@/lib/features/listNotificationSlice";
 import { formatTimeMessage } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Notification() {
   const { listNotification } = useSelector((state) => state.notification);
@@ -33,9 +35,15 @@ export default function Notification() {
       handlePlayAudio(data);
       dispatch(fetchAddNotifications(data));
     };
+    const handleNotificationDestroy = (data) => {
+      handlePlayAudio();
+      dispatch(fetchAddNotifications(data));
+    };
     socket.on("getNotification", handleNotification);
+    socket.on("getPaymentDestroy", handleNotificationDestroy);
     return () => {
       socket.off("getNotification", handleNotification);
+      socket.off("getPaymentDestroy", handleNotificationDestroy);
     };
   }, [dispatch]);
   const handlePlayAudio = (data) => {
@@ -65,7 +73,7 @@ export default function Notification() {
           <SheetContent className="bg-widget w-[342px]">
             <SheetHeader className="pb-4">
               <SheetTitle>
-                <span className="text-header">Notifications</span>
+                <span className="text-header">Thông báo</span>
                 <button
                   ref={buttonRef}
                   onClick={handlePlayAudio}
@@ -92,7 +100,7 @@ export default function Notification() {
                     </div>
                     <div>
                       <span className="text-sm text-header font-bold  max-w-[210px]">
-                        {item.sender.email}
+                        {item.sender.name || item.sender.email}
                       </span>
                       <p className="text-base font-normal">{item.content}</p>
                       <p className="flex items-center gap-1.5 mt-1 mb-2">
@@ -100,10 +108,14 @@ export default function Notification() {
                           {formatTimeMessage(item.createdAt)}
                         </span>
                       </p>
-                      <div className="flex gap-2.5">
-                        <button className="border-min border-solid border-accent h-[26px] px-[10px] text-accent text-xs font-normal rounded-[23px]">
-                          Xem chi tiết
-                        </button>
+                      <div className="flex items-center gap-2.5">
+                        <Link href={`/admin/payment/edit/${item.payment}`}>
+                          <SheetClose>
+                            <div className="border-min border-solid border-accent h-[26px] min-w-[83px] flex items-center px-[10px] text-accent text-xs font-normal rounded-[23px]">
+                              Xem chi tiết
+                            </div>
+                          </SheetClose>
+                        </Link>
                         <button className="border-min border-solid border-red h-[26px] min-w-[83px] px-[10px] text-red text-xs font-normal rounded-[23px]">
                           Bỏ qua
                         </button>

@@ -1,5 +1,4 @@
 "use client";
-import commentApiRequest from "@/apiRequests/comment";
 import {
   Dialog,
   DialogClose,
@@ -31,7 +30,7 @@ export default function CommentItem({ comment, onClick, onDelete }) {
   };
   const form = useForm({
     defaultValues: {
-      comment: `@${removeWhiteSpaces(comment.userId.name)} `,
+      comment: `@${removeWhiteSpaces(comment.userId.name || "")} `,
     },
   });
   const onSubmit = (values) => {

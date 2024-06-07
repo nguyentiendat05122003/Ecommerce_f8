@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema(
     },
     quantity: {
       type: Number,
-      required: true,
+      default: 0,
     },
     active: {
       type: Boolean,
@@ -141,6 +141,10 @@ productSchema.pre(/^find/, function (next) {
     .populate({
       path: "specialFeatures",
       select: "value",
+    })
+    .populate({
+      path: "typeProduct",
+      select: "name",
     })
     .populate("detailProduct");
 

@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilePenLine, Images } from "lucide-react";
 import Image from "next/image";
-import sliderDeProduct1 from "../../../assets/img/products/1.webp";
+import { formatPrice } from "@/lib/utils";
+import Link from "next/link";
 export const columns = [
   {
     id: "select",
@@ -39,38 +40,62 @@ export const columns = [
         </div>
       );
     },
-    cell: ({ row }) => (
-      <div className="flex items-center w-[45px] h-[45px] gap-2">
-        <Image
-          alt="product"
-          src={sliderDeProduct1}
-          className="hidden md:block w-[80px] h-auto rounded"
-        />
-      </div>
-    ),
+    cell: ({ row }) => {
+      const product = row?.original;
+      return (
+        <div className="flex items-center w-[45px] h-[45px] gap-2">
+          <Image
+            alt={product?.name}
+            width={45}
+            height={45}
+            src={product?.thumbs[0]?.thumb_url || "/path/to/default/image.jpg"}
+            className="hidden md:block w-[80px] h-auto rounded"
+          />
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "brand",
-    header: ({ column }) => {
-      return <div className="hidden xl:block">Brand</div>;
+    accessorKey: "productName",
+    header: "Tên sản phẩm",
+    cell: ({ row }) => {
+      const product = row?.original;
+      return (
+        <p className="line-clamp-2 text-sm font-normal max-w-[155px]">
+          {product?.name}
+        </p>
+      );
     },
-    cell: ({ row }) => (
-      <div className="text-sm font-medium">Xiaomi WiFI Repeater Pro</div>
-    ),
   },
   {
-    accessorKey: "Type",
+    accessorKey: "Brand",
     header: ({ column }) => {
-      return <div className="hidden xl:block">Type</div>;
+      return <div className="hidden xl:block">Hãng</div>;
     },
-    cell: ({ row }) => <div className="text-sm font-medium">Dell Express</div>,
+    cell: ({ row }) => {
+      const product = row?.original;
+      return (
+        <div className="text-sm font-medium">{product.typeBrand.name}</div>
+      );
+    },
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return <div className="hidden xl:block">Loại sản phẩm</div>;
+    },
+    cell: ({ row }) => {
+      const product = row?.original;
+      return (
+        <div className="text-sm font-medium">{product.typeProduct.name}</div>
+      );
+    },
   },
   {
     accessorKey: "quantity",
-    header: () => <div className="">Stock</div>,
+    header: () => <div className="">Số lượng</div>,
     cell: ({ row }) => {
-      const quantity = parseFloat(row.getValue("quantity"));
-
+      // const product = row?.original;
       return (
         <>
           <span className="text-green">In stock </span>(120)
@@ -79,20 +104,30 @@ export const columns = [
     },
   },
   {
-    header: "Price",
-    cell: ({ row }) => (
-      <span className="text-[10px] text-accent font-bold lg:text-sm">
-        10.490.000 ₫
-      </span>
-    ),
+    accessorKey: "price",
+    header: () => <div className="">Giá</div>,
+    cell: ({ row }) => {
+      const product = row?.original;
+      return (
+        <span className="text-[10px] text-accent font-bold lg:text-sm">
+          {formatPrice(product.price)}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "action",
     header: () => <div className="hidden sm:block">Thao tác</div>,
-    cell: ({ row }) => (
-      <Button className="hidden sm:block" variant="ghost">
-        <FilePenLine size={18} />
-      </Button>
-    ),
+    cell: ({ row }) => {
+      const productId = row?.original._id;
+
+      return (
+        <Link href={`/admin/product/edit/${productId}`}>
+          <Button className="hidden sm:block" variant="ghost">
+            <FilePenLine size={18} />
+          </Button>
+        </Link>
+      );
+    },
   },
 ];

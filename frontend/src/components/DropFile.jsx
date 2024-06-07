@@ -25,12 +25,29 @@ const DropFiles = ({
   multiple = false,
   children,
   onChange,
+  defaultImages = [],
 }) => {
   const { toast } = useToast();
   const [acceptedFiles, setAcceptedFiles] = useState([]);
 
+  useEffect(() => {
+    if (defaultImages.length > 0) {
+      const filesWithPreview = defaultImages.map((image) => {
+        if (typeof image === "string") {
+          return { preview: image, name: image.split("/").pop() };
+        } else {
+          return image;
+        }
+      });
+      setAcceptedFiles(filesWithPreview);
+    }
+  }, [defaultImages]);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: type === "image" ? { ...imgTypes } : { ...docTypes },
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png"],
+    },
+
     multiple: multiple,
     onDrop: (files) => {
       if (files.length > 0) {
@@ -53,21 +70,26 @@ const DropFiles = ({
   });
 
   useEffect(() => {
-    // Clean up the preview URLs when the component is unmounted
     return () => {
       acceptedFiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, [acceptedFiles]);
 
-  const previews = acceptedFiles.map((file) => (
-    <div key={file.name} className="preview">
+  const previews = acceptedFiles.map((file, idx) => (
+    <div
+      key={idx}
+      className="preview"
+      style={{
+        margin: "0 5px", // Add some margin to space out the images
+      }}
+    >
       <img
-        src={file.preview}
+        src={file.preview || file.detailImage_url || file.thumb_url}
         alt={file.name}
         className="preview-img"
         style={{
-          width: "100%",
-          height: "100%",
+          width: "145px",
+          height: "150px",
           objectFit: "cover",
         }}
       />
@@ -80,25 +102,24 @@ const DropFiles = ({
       className={wrapperClass}
       style={{
         position: "relative",
-        width: "150px",
-        height: "145px",
+        width: "100%", // Adjust to allow horizontal scrolling if needed
         borderRadius: "1px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <input {...getInputProps()} />
-      {children}
+      {acceptedFiles.length === 0 && children}
       {acceptedFiles.length > 0 && (
         <div
           className="previews"
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap", // Prevent wrapping to new lines
+            overflow: "hidden", // Enable horizontal scrolling if needed
             width: "100%",
-            height: "100%",
-            borderRadius: "1px",
           }}
         >
           {previews}

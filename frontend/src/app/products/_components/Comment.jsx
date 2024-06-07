@@ -40,6 +40,7 @@ export default function Comment({ listComments, productId }) {
         productId: productId,
         commentParentId: null,
       };
+      console.log(values);
       const newComment = await commentApiRequest.createComment(values);
       setValueComment("");
       setCommentList((prev) => [...prev, newComment]);

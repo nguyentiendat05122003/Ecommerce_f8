@@ -19,7 +19,6 @@ const createProduct = async (req) => {
     for (const file of req.files.thumbs) {
       const { path } = file;
       const newPath = await uploadThumbProduct({ path });
-      console.log(newPath);
       thumbs.push(newPath);
     }
   if (req.files.detailImages) {
@@ -36,11 +35,9 @@ const createProduct = async (req) => {
     await session.startTransaction();
     const opts = { session };
     const newDetailProduct = await DetailProduct.create([req.body], opts);
-    console.log(newDetailProduct[0]._id);
     if (newDetailProduct) {
       req.body.detailProduct = newDetailProduct[0]._id;
       const newProduct = await Product.create([req.body], opts);
-      console.log("detail product", newProduct);
       if (newProduct) {
         await session.commitTransaction();
       } else {
@@ -57,7 +54,19 @@ const createProduct = async (req) => {
   }
 };
 const getAllProduct = factory.getAll(Product);
-const updateProduct = factory.updateOne(Product);
+const updateProduct = async (req) => {
+  // const doc = await Product.findByIdAndUpdate(req.params.id, req.body, {
+  //   new: true,
+  //   runValidators: true,
+  // }).lean();
+  // if (!doc) {
+  //   throw new AppError("No document found with that ID", 404);
+  // }
+  // return {
+  //   data: doc,
+  // };
+  return;
+};
 const deleteOneProduct = factory.deleteOne(Product);
 
 export const productService = {

@@ -101,7 +101,6 @@ export default function Logo({ className = "", textOnly = true }) {
                     );
                   })}
                 </div>
-                <SheetClose>close</SheetClose>
               </SheetHeader>
             </SheetContent>
           </Sheet>

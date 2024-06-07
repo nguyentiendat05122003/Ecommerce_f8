@@ -6,6 +6,7 @@ import CustomDeleteDialog from "@/components/CustomDeleteDialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatPrice } from "@/lib/utils";
+import { socket } from "@/socket";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -13,7 +14,7 @@ export default function Payment() {
   const [filterListPayment, setFilterListPayment] = useState([]);
   const [listPayment, setListPayment] = useState([]);
   const [statePayment, setStatePayment] = useState("all");
-  const [loading, setLoading] = useState(true); // Thêm trạng thái loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -21,7 +22,7 @@ export default function Payment() {
       const { data } = await paymentApiRequest.getPayment(userId);
       setListPayment(data);
       setFilterListPayment(data);
-      setLoading(false); // Dừng loading sau khi dữ liệu đã tải xong
+      setLoading(false);
     };
     fetchApi();
   }, []);
@@ -50,6 +51,11 @@ export default function Payment() {
     await paymentApiRequest.updatePayment(id, {
       state: "failed",
     });
+    const user = JSON.parse(localStorage.getItem("user"));
+    socket.emit("sendDestroyPayment", {
+      sender: user,
+      payment: id,
+    });
   };
 
   return (
@@ -60,8 +66,8 @@ export default function Payment() {
     >
       <TabsList className="w-full flex items-center justify-start gap-5 bg-widget">
         <TabsTrigger value="all">Tất cả</TabsTrigger>
-        <TabsTrigger value="pending">Chờ thanh toán</TabsTrigger>
-        <TabsTrigger value="completed">Hoàn thành</TabsTrigger>
+        <TabsTrigger value="pending">Chờ xác nhận</TabsTrigger>
+        <TabsTrigger value="completed">Thành công</TabsTrigger>
         <TabsTrigger value="failed">Đã hủy</TabsTrigger>
       </TabsList>
       <TabsContent className="bg-widget" value={statePayment}>
@@ -103,7 +109,7 @@ export default function Payment() {
                           {formatPrice(product.price * item.quantity)}
                         </span>
                       </div>
-                      <div>
+                      <div className="flex items-center gap-3">
                         {itemParent.state === "pending" ? (
                           <CustomDeleteDialog
                             onClick={() => handleDestroyPayment(itemParent._id)}
@@ -115,9 +121,16 @@ export default function Payment() {
                             title="Bạn chắc có chắc hủy đơn hàng này không ?"
                           />
                         ) : itemParent.state !== "failed" ? (
-                          <Button className="text-white w-[124px] dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
-                            Mua lại
-                          </Button>
+                          <>
+                            {itemParent.paid ? (
+                              <span className="text-green">Đã thanh toán</span>
+                            ) : (
+                              <span className="text-red">Chưa thanh toán</span>
+                            )}
+                            <Button className="text-white w-[124px] dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
+                              Mua lại
+                            </Button>
+                          </>
                         ) : (
                           <Button className="text-white w-[124px]  dark:text-[#00193B] bg-red hover:bg-red flex-1 border-min border-solid border-red text-sm font-semibold">
                             Đã hủy

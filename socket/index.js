@@ -34,7 +34,6 @@ io.on("connection", (socket) => {
     addUser(userId, socket.id, role);
     io.emit("getUsers", users);
   });
-  console.log("user", users);
   //send, get notification
   socket.on("sendNotification", ({ sender, payment, email }) => {
     const listUserAdmin = users.filter((item) => item.role === "admin");
@@ -46,6 +45,20 @@ io.on("connection", (socket) => {
           payment,
           email,
           content: "Mới đặt một đơn hàng",
+        });
+      });
+    }
+  });
+
+  socket.on("sendDestroyPayment", ({ sender, payment }) => {
+    const listUserAdmin = users.filter((item) => item.role === "admin");
+    if (listUserAdmin.length > 0) {
+      listUserAdmin.forEach((item) => {
+        const user = getUser(item.userId);
+        io.to(user?.socketId).emit("getPaymentDestroy", {
+          sender,
+          payment,
+          content: "Mới hủy một đơn hàng",
         });
       });
     }
