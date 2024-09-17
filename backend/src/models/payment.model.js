@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Product from "~/models/product.model";
 const paymentSchema = new mongoose.Schema(
   {
     state: {
@@ -67,6 +68,15 @@ paymentSchema.pre(/^find/, function (next) {
   next();
 });
 
+paymentSchema.post("save", async function (doc) {
+  for (const item of doc.detail_payment) {
+    const product = await Product.findById(item.productId);
+    if (product) {
+      product.quantity -= item.quantity;
+      await product.save();
+    }
+  }
+});
 const Payment = mongoose.model("Payment", paymentSchema);
 
 export default Payment;

@@ -4,6 +4,7 @@ import media from "../../assets/img/banner/media.webp";
 import Facebook from "../../assets/img/icons/facebook.png";
 import Google from "../../assets/img/icons/google.png";
 import RegisterForm from "./RegisterForm";
+import Link from "next/link";
 
 export default function Register() {
   return (
@@ -12,8 +13,7 @@ export default function Register() {
         <div className="hidden lg:flex flex-col justify-center items-center lg:p-[60px]">
           <Logo />
           <p className="text-center tracking-[0.2px] font-semibold text-lg leading-6 max-w-[540px] my-7 mx-auto">
-            Gain data-based insights, view progress at a glance, and manage your
-            organization smarter
+            Chào mừng trở lại với chúng tôi
           </p>
           <Image
             className="max-w-[520px] h-[438px] object-cover"
@@ -25,7 +25,7 @@ export default function Register() {
           <div className="flex flex-col gap-2.5 text-center">
             <h1 className="text-[38px]">Welcome back!</h1>
             <p className="lg:max-w-[300px] m-auto 4xl:max-w-[unset]">
-              Etiam quis quam urna. Aliquam odio erat, accumsan eu nulla in
+              Shop bán máy tính số một Việt Nam
             </p>
           </div>
           <RegisterForm />
@@ -56,9 +56,11 @@ export default function Register() {
             </div>
             <div className="flex justify-center items-center gap-2.5 leading-none">
               <p>Don’t have an account?</p>
-              <button className="text-accent font-semibold text-base">
-                Login
-              </button>
+              <Link href="/login">
+                <button className="text-accent font-semibold text-base">
+                  Login
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -50,6 +50,7 @@ export default function Notification() {
     const audio = new Audio("/notification.mp3");
     audio.play();
   };
+
   return (
     <>
       {isAdmin && (
@@ -116,9 +117,6 @@ export default function Notification() {
                             </div>
                           </SheetClose>
                         </Link>
-                        <button className="border-min border-solid border-red h-[26px] min-w-[83px] px-[10px] text-red text-xs font-normal rounded-[23px]">
-                          Bỏ qua
-                        </button>
                       </div>
                     </div>
                   </div>

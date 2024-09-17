@@ -80,7 +80,7 @@ const DropFiles = ({
       key={idx}
       className="preview"
       style={{
-        margin: "0 5px", // Add some margin to space out the images
+        margin: "0 5px",
       }}
     >
       <img
@@ -102,7 +102,7 @@ const DropFiles = ({
       className={wrapperClass}
       style={{
         position: "relative",
-        width: "100%", // Adjust to allow horizontal scrolling if needed
+        width: "100%",
         borderRadius: "1px",
         display: "flex",
         flexDirection: "column",
@@ -117,9 +117,10 @@ const DropFiles = ({
           style={{
             display: "flex",
             flexDirection: "row",
-            flexWrap: "nowrap", // Prevent wrapping to new lines
-            overflow: "hidden", // Enable horizontal scrolling if needed
+            flexWrap: "nowrap",
+            overflow: "hidden",
             width: "100%",
+            justifyContent: "center",
           }}
         >
           {previews}

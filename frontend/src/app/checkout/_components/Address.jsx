@@ -49,7 +49,7 @@ export default function Address({ item, onClick, onUpdate }) {
 
   useEffect(() => {
     const fetchApi = async () => {
-      fetch("https://vapi.vnappmob.com/api/province")
+      fetch("https://vapi.vnappmob.com/api/province/")
         .then((response) => response.json())
         .then((json) => setProvince(json.results));
 

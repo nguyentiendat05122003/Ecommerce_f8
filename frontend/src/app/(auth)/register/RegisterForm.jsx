@@ -14,11 +14,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { handleErrorApi } from "@/lib/utils";
 import { RegisterBody } from "@/schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 export default function RegisterForm() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(RegisterBody),
     defaultValues: {
@@ -34,15 +36,16 @@ export default function RegisterForm() {
       const result = await authApiRequest.register(values);
       toast({
         title: "Thông báo",
-        description: result.payload.message,
+        description: "Đăng kí thành công",
         variant: "success",
-        duration: 2000,
+        duration: 1000,
       });
+      router.push("/login");
     } catch (error) {
-      handleErrorApi({
-        error,
-        setError: form.setError,
-      });
+      // handleErrorApi({
+      //   error,
+      //   setError: form.setError,
+      // });
     } finally {
       setLoading(false);
     }

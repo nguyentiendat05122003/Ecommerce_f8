@@ -23,9 +23,13 @@ import typeRamRouter from "./typeRamRouter";
 import cardRouter from "./cardRouter";
 import notificationRouter from "./notificationRouter";
 import deliveryAddressRouter from "./deliveryAddressRouter";
+import messageRouter from "./messageRouter";
+import statisticalRouter from "./statisticalRouter";
 
 function router(app) {
   app.use("/api/v1/users", userRouter);
+  app.use("/api/v1/message", messageRouter);
+  app.use("/api/v1/statistical", statisticalRouter);
   app.use("/api/v1/notification", notificationRouter);
   app.use("/api/v1/deliveryAddress", deliveryAddressRouter);
   app.use("/api/v1/screens", screenRouter);

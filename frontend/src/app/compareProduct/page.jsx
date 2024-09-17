@@ -7,22 +7,23 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { addProduct } from "@/lib/features/listProductCheckout";
 import { useAppSelector } from "@/lib/hook";
 import { formatPrice } from "@/lib/utils";
-import { CircleChevronDown, Plus, Star } from "lucide-react";
+import { CircleChevronDown, Plus } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
 export default function CompareProductPage() {
   const listProductCompare = useAppSelector(
     (state) => state.listProductCompare.listProduct
   );
+  const dispatch = useDispatch();
+
+  const handleClickBuyNow = (item) => {
+    dispatch(addProduct([{ productId: item, quantity: 1 }]));
+  };
   return (
     <>
       <ul className="grid grid-cols-4 mt-[30px] drop-shadow-main bg-widget rounded">
@@ -62,12 +63,7 @@ export default function CompareProductPage() {
                 <h3 className="text-sm text-center line-clamp-2 text-header p-l-[15px] p-b-[3px] ">
                   {item.name}
                 </h3>
-                <div className="flex gap-2">
-                  <p className="line-through font-normal text-xs text-[#999] m-r-[5px]">
-                    10.990.000₫
-                  </p>
-                  <span className="text-xs m-r-[5px] ">-19%</span>
-                </div>
+
                 <span className="font-bold text-sm text-accent ">
                   {formatPrice(item.price)}
                 </span>
@@ -880,15 +876,20 @@ export default function CompareProductPage() {
             return (
               <>
                 <li key={idx} className=" p-4  flex flex-col gap-2 ">
-                  <Button className="text-white dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold">
-                    Mua ngay
+                  <Button
+                    onClick={() => {
+                      handleClickBuyNow(item);
+                    }}
+                    className="text-white dark:text-[#00193B] flex-1 hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9] text-sm font-semibold"
+                  >
+                    <Link href="/checkout">Mua ngay</Link>
                   </Button>
                 </li>
               </>
             );
           } else {
             return (
-              <li key={idx} className=" p-4  flex flex-col gap-2 ">
+              <li key={idx} className="p-4  flex flex-col gap-2 ">
                 <div className="flex w-full h-full items-center justify-center flex-col gap-1"></div>
               </li>
             );

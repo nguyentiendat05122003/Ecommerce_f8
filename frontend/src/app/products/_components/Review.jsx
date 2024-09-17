@@ -301,55 +301,57 @@ export default function Review({ review, idProduct, ratingsAverage }) {
           </Dialog>
         </div>
       </div>
-      <div className="w-ful border-t-min border-solid border-accent mt-2">
-        <div className="flex items-start w-full py-[15px] gap-2">
-          <p className="text-sm font-normal block text-header mt-2 min-w-[100px]">
-            Lọc xem theo:
-          </p>
-          <Tabs value={tab} onValueChange={onTabChange} className="w-full">
-            <TabsList>
-              <TabsTrigger value="all">Tất cả</TabsTrigger>
-              <TabsTrigger value="5">5 sao</TabsTrigger>
-              <TabsTrigger value="4">4 sao</TabsTrigger>
-              <TabsTrigger value="3">3 sao</TabsTrigger>
-              <TabsTrigger value="2">2 sao</TabsTrigger>
-              <TabsTrigger value="1">1 sao</TabsTrigger>
-            </TabsList>
-            <TabsContent className="w-full min-h-[160px]" value={tab}>
-              {listRating?.length > 0 ? (
-                listRating.map((item, idx) => {
-                  return (
-                    <Message
-                      reviewId={item._id}
-                      key={idx}
-                      name={user?.name || user?.email}
-                      message={item.review}
-                      time={formatTimeMessage(item.createdAt)}
-                      ratingNumber={item.rating}
-                      avatar={item?.user?.photo || user.photo}
-                      isDelete={(item.user?._id || item.user) === user?._id}
-                      onDelete={handleDeleteReview}
-                    />
-                  );
-                })
-              ) : (
-                <>
-                  <div className="p-[24px] flex flex-col items-center justify-center ">
-                    <Image
-                      className=" w-[126px]"
-                      src={reviewImage}
-                      alt="review"
-                    />
-                  </div>
-                  <div className="text-md font-medium text-center">
-                    Không tìm thấy đánh giá phù hợp
-                  </div>
-                </>
-              )}
-            </TabsContent>
-          </Tabs>
+      {baseReview.length > 0 && (
+        <div className="w-ful border-t-min border-solid border-accent mt-2">
+          <div className="flex items-start w-full py-[15px] gap-2">
+            <p className="text-sm font-normal block text-header mt-2 min-w-[100px]">
+              Lọc xem theo:
+            </p>
+            <Tabs value={tab} onValueChange={onTabChange} className="w-full">
+              <TabsList>
+                <TabsTrigger value="all">Tất cả</TabsTrigger>
+                <TabsTrigger value="5">5 sao</TabsTrigger>
+                <TabsTrigger value="4">4 sao</TabsTrigger>
+                <TabsTrigger value="3">3 sao</TabsTrigger>
+                <TabsTrigger value="2">2 sao</TabsTrigger>
+                <TabsTrigger value="1">1 sao</TabsTrigger>
+              </TabsList>
+              <TabsContent className="w-full min-h-[160px]" value={tab}>
+                {listRating?.length > 0 ? (
+                  listRating.map((item, idx) => {
+                    return (
+                      <Message
+                        reviewId={item._id}
+                        key={idx}
+                        name={user?.name || user?.email}
+                        message={item.review}
+                        time={formatTimeMessage(item.createdAt)}
+                        ratingNumber={item.rating}
+                        avatar={item?.user?.photo || user.photo}
+                        isDelete={(item.user?._id || item.user) === user?._id}
+                        onDelete={handleDeleteReview}
+                      />
+                    );
+                  })
+                ) : (
+                  <>
+                    <div className="p-[24px] flex flex-col items-center justify-center ">
+                      <Image
+                        className=" w-[126px]"
+                        src={reviewImage}
+                        alt="review"
+                      />
+                    </div>
+                    <div className="text-md font-medium text-center">
+                      Không tìm thấy đánh giá phù hợp
+                    </div>
+                  </>
+                )}
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

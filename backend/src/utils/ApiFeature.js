@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
@@ -8,12 +10,22 @@ class APIFeatures {
     const queryObj = { ...this.queryString };
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
+    if (queryObj.name === "") {
+      delete queryObj.name;
+    }
+    if (queryObj.name && queryObj.name !== "") {
+      this.query = this.query.find({
+        name: { $regex: queryObj.name, $options: "i" },
+      });
+    } else {
+      let queryStr = JSON.stringify(queryObj);
+      queryStr = queryStr.replace(
+        /\b(gte|gt|lte|lt)\b/g,
+        (match) => `$${match}`
+      );
+      this.query = this.query.find(JSON.parse(queryStr));
+    }
 
-    let queryStr = JSON.stringify(queryObj);
-    console.log("queryStr", queryStr);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-
-    this.query = this.query.find(JSON.parse(queryStr)).lean();
     return this;
   }
 
@@ -48,6 +60,26 @@ class APIFeatures {
 
     return this;
   }
+  searchByName() {
+    if (!this.queryString.name || this.queryString.name.trim() === "") {
+      return this;
+    }
+    this.query = this.query
+      .find({ name: { $regex: this.queryString.name, $options: "i" } })
+      .lean();
+
+    return this;
+  }
 }
+export const applyFilterByObjectIds = (features, queryString) => {
+  const filterFields = ["brand", "typeProduct", "cpu", "disk", "ram", "card"];
+  filterFields.forEach((field) => {
+    if (queryString[field]) {
+      const ids = queryString[field].split(",").map((id) => id);
+      features.query = features.query.find({ [field]: { $in: ids } });
+    }
+  });
+  return features;
+};
 
 export default APIFeatures;

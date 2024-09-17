@@ -1,11 +1,22 @@
 "use client";
 import ListCompare from "@/components/ListCompare";
+import RatingStart from "@/components/RatingStart";
 import { formatPrice } from "@/lib/utils";
 import { Star, StarHalf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 export default function ProductItem({ item }) {
-  const { _id, name, price, detailProduct, card, cpu, thumbs, screen } = item;
+  const {
+    _id,
+    name,
+    price,
+    detailProduct,
+    card,
+    cpu,
+    thumbs,
+    screen,
+    ratingsAverage,
+  } = item;
   return (
     <div className="d-flex flex-col relative">
       <Link
@@ -33,23 +44,16 @@ export default function ProductItem({ item }) {
         <h6 className="text-base line-clamp-3 font-bold text-input leading-[1.4] max-w-[180px] transition-all hover:text-accent">
           {name}
         </h6>
-        <div className="price flex items-center gap-2">
-          <p className="font-normal text-sm line-through">12.690.000₫</p>
-          <p className="font-normal text-[15px]">-23%</p>
-        </div>
+
         <p className="font-bold text-base leading-[1.4] text-accent">
           {formatPrice(price)}
         </p>
         <div className="flex">
-          <Star size={18} fill="#F8D518" strokeWidth={0} />
-          <Star size={18} fill="#F8D518" strokeWidth={0} />
-          <Star size={18} fill="#F8D518" strokeWidth={0} />
-          <Star size={18} fill="#F8D518" strokeWidth={0} />
-          <StarHalf size={18} fill="#F8D518" strokeWidth={0} />
+          <RatingStart number={ratingsAverage} />
         </div>
         <div className="desc flex flex-col mt-[7px] gap-1">
           <p className="font-light text-xs ">
-            Màn hình: "{screen.screenSize.size}"
+            Màn hình: "{screen.screenSize.size} inch"
           </p>
           <p className="font-light text-xs ">CPU: {cpu.value}</p>
           <p className="font-light text-xs ">Card: {card.value}</p>
@@ -57,7 +61,7 @@ export default function ProductItem({ item }) {
             Pin: {detailProduct.chargeCapacity}
           </p>
           <p className="font-light text-xs ">
-            Khối lượng: {detailProduct.size}
+            Khối lượng: {detailProduct.size} kg
           </p>
         </div>
       </Link>

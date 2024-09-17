@@ -12,7 +12,9 @@ export default function ListFilterFollow({ data, onClick }) {
     const updatedData = [...data[0].data];
     updatedData.forEach((group) => {
       group.data.forEach((item) => {
-        if (itemClick.activeData.includes(item.value)) {
+        if (
+          itemClick.activeData.includes(item.value || item.size || item.name)
+        ) {
           item.active = false;
         }
       });
@@ -31,7 +33,7 @@ export default function ListFilterFollow({ data, onClick }) {
                   handleRemoveFilter(item);
                 }}
                 key={index}
-                className="text-red border-min border-red border-solid drop-shadow-main flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget"
+                className="text-red border-min border-red border-solid  flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget"
               >
                 <CircleX size={16} />
                 {formatFilterFollow(item)}

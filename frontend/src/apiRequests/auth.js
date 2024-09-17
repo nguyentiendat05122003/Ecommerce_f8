@@ -7,6 +7,7 @@ const authApiRequest = {
     }),
   login: (body) => http.post("/users/login", body, { credentials: "include" }),
   register: (body) => http.post("/users/signup", body),
+  deleteUser: (id) => http.delete(`/users/${id}`),
   logout: () => http.post("/users/logout", null),
   refresh: (accessToken) =>
     http.post("/users/refreshToken", null, {

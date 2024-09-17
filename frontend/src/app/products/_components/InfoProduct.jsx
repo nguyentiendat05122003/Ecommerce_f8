@@ -1,18 +1,19 @@
 import { Cpu, FileImage, HardDrive, MemoryStick, Monitor } from "lucide-react";
-export default function InfoProduct() {
+export default function InfoProduct({ disk, cpu, ram, card, screen }) {
   return (
     <div className="hidden max-w-[585px] card xl:flex gap-3 flex-col px-[20px] py-[15px] bg-widget drop-shadow-main rounded-[6px] transition-all">
       <h6 className="flex gap-1 items-center text-sm font-bold text-input cursor-pointer">
         <FileImage size={20} />
-        AMD Radeon Graphics
+        {card.value}
       </h6>
       <h6 className="flex gap-1 items-center text-sm font-bold text-input cursor-pointer">
         <Monitor size={20} />
-        14 inch, 1920 x 1080 Pixels, IPS, 60, Anti-Glare
+        {screen.screenSize.size}, {screen.screenResolution.value},{" "}
+        {screen.screenRefreshRate.value}
       </h6>
       <h6 className="flex gap-1 items-center text-sm font-bold text-input cursor-pointer">
         <Cpu size={20} />
-        AMD, Ryzen 5, 7520U
+        {ram.value} {ram.typeRam.value} {ram.typeRam.desc}
       </h6>
       <h6 className="flex gap-1 items-center text-sm font-bold text-input cursor-pointer">
         <MemoryStick size={20} />8 GB (1 thanh 8 GB), DDR4

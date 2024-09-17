@@ -63,7 +63,60 @@ io.on("connection", (socket) => {
       });
     }
   });
+  //message
+  socket.on("sendMessage", ({ sender, receiver, content, createdAt, date }) => {
+    if (receiver) {
+      const user = getUser(receiver);
+      io.to(user?.socketId).emit("getMessage", {
+        content,
+        createdAt,
+        receiver,
+        date,
+      });
+    } else {
+      const listUserAdmin = users.filter((item) => item.role === "admin");
+      if (listUserAdmin.length > 0) {
+        listUserAdmin.forEach((item) => {
+          const user = getUser(item.userId);
+          io.to(user?.socketId).emit("getMessage", {
+            sender,
+            content,
+            createdAt,
+            date,
+          });
+        });
+      }
+    }
+  });
 
+  socket.on("sendTypeMessage", ({ sender, receiver }) => {
+    if (receiver) {
+      const user = getUser(receiver);
+      io.to(user?.socketId).emit("typeMessage");
+    } else {
+      const listUserAdmin = users.filter((item) => item.role === "admin");
+      if (listUserAdmin.length > 0) {
+        listUserAdmin.forEach((item) => {
+          const user = getUser(item.userId);
+          io.to(user?.socketId).emit("typeMessage");
+        });
+      }
+    }
+  });
+  socket.on("sendTurnOffTypeMessage", ({ sender, receiver }) => {
+    if (receiver) {
+      const user = getUser(receiver);
+      io.to(user?.socketId).emit("getTurnOffTypeMessage");
+    } else {
+      const listUserAdmin = users.filter((item) => item.role === "admin");
+      if (listUserAdmin.length > 0) {
+        listUserAdmin.forEach((item) => {
+          const user = getUser(item.userId);
+          io.to(user?.socketId).emit("getTurnOffTypeMessage");
+        });
+      }
+    }
+  });
   socket.on("disconnect", () => {
     removeUser(socket.id);
     io.emit("getUsers", users);

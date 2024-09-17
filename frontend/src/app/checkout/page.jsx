@@ -68,7 +68,7 @@ export default function Checkout() {
     const userId = JSON.parse(localStorage.getItem("user"))._id;
     const fetchApi = async () => {
       setIsLoading(true);
-      fetch("https://vapi.vnappmob.com/api/province")
+      fetch("https://vapi.vnappmob.com/api/province/")
         .then((response) => response.json())
         .then((json) => setProvince(json.results));
       const responseAddress =

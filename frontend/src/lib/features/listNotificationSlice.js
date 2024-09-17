@@ -27,6 +27,7 @@ export const fetchAddNotifications = createAsyncThunk(
     }
   }
 );
+
 export const listNotificationSlice = createSlice({
   name: "listNotification",
   initialState,

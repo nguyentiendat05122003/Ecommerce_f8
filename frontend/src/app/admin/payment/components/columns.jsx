@@ -11,7 +11,10 @@ export const columns = [
     header: "STT",
     cell: ({ row }) => {
       return (
-        <p className="line-clamp-2 text-base font-normal max-w-[155px]">1</p>
+        <p className="line-clamp-2 text-base font-normal max-w-[155px]">
+          {" "}
+          {row.index + 1}
+        </p>
       );
     },
   },

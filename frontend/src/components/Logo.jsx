@@ -1,23 +1,20 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { formatTimeMessage } from "@/lib/utils";
-import { AlignJustify, Bell, LayoutDashboard } from "lucide-react";
+import { SIDEBAR_ADMIN } from "@/constants";
+import { AlignJustify } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LogoDark from "../app/assets/img/icons/logo_dark.svg";
 import LogoLight from "../app/assets/img/icons/logo_light.svg";
-import { SIDEBAR_ADMIN } from "@/constants";
 export default function Logo({ className = "", textOnly = true }) {
   const { theme } = useTheme();
   const [isAdmin, setIsAdmin] = useState();
@@ -77,7 +74,7 @@ export default function Logo({ className = "", textOnly = true }) {
                     <h4 className="text-header">ShopPoint</h4>
                   </Link>
                 </SheetTitle>
-                <div className="flex flex-col gap-5 pt-[30px]">
+                <div className="flex flex-col gap-4 pt-[25px]">
                   {listItemSideBar.map((item, idx) => {
                     const Icon = item.Icon;
                     return (

@@ -7,11 +7,9 @@ const productSchema = new mongoose.Schema(
     },
     thumbs: {
       type: Array,
-      // required: true,
     },
     detailImages: {
       type: Array,
-      // required: true,
     },
     video: {
       type: String,
@@ -20,10 +18,9 @@ const productSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    slug: String,
     ratingsAverage: {
       type: Number,
-      default: 4.5,
+      default: 5,
       min: [1, "Rating must above 1.0"],
       max: [5, "Rating must under 5.0"],
       set: (val) => Math.round(val * 10) / 10,
@@ -39,7 +36,6 @@ const productSchema = new mongoose.Schema(
     active: {
       type: Boolean,
       default: true,
-      select: false,
     },
     brand: {
       type: mongoose.Schema.ObjectId,
@@ -98,6 +94,9 @@ const productSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+// productSchema.index({ name: "text" });
+
 productSchema.virtual("reviews", {
   ref: "Review",
   localField: "_id",

@@ -3,36 +3,52 @@ import ProductApiRequest from "@/apiRequests/product";
 import FilterProperty from "@/components/FilterProperty";
 import LazyLoadingProduct from "@/components/LazyLoadingProduct";
 import ListProduct from "@/components/ListProduct";
-import { updateFloor } from "@/lib/features/bookSlice";
-import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hook";
-import { clientSessionToken } from "@/lib/http";
-import { filterPropertyActive } from "@/lib/utils";
-import { socket } from "@/socket";
+import ListTypeProduct from "@/components/ListTypeProduct";
+import { convertFiltersToQueryString, filterPropertyActive } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export default function ListFilters() {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [sortPrice, setSortPrice] = useState("-price");
 
   const handleClickResult = (data) => {
     const newFilter = filterPropertyActive(data);
     setFilters(newFilter);
   };
+  const handleClickTypeProduct = (id, value) => {
+    setFilters((prev) => {
+      return [...prev, { name: "typeProduct", value: [value], id: [id] }];
+    });
+  };
+  const handleSortPrice = (value) => {
+    setSortPrice(value);
+  };
   useEffect(() => {
     setLoading(true);
     async function fetchData() {
       setTimeout(async () => {
-        const { data } = await ProductApiRequest.getAllProducts();
+        console.log("filters", filters);
+        const stringifyFilter = convertFiltersToQueryString(filters);
+        console.log("string", stringifyFilter);
+        const { data } = await ProductApiRequest.getAllProducts(
+          stringifyFilter,
+          sortPrice
+        );
         setData(data);
         setLoading(false);
       }, 200);
     }
     fetchData();
-  }, [filters]);
+  }, [filters, sortPrice]);
   return (
     <>
-      <FilterProperty onClick={handleClickResult} />
+      <ListTypeProduct onClick={handleClickTypeProduct} />
+      <FilterProperty
+        onClickPrice={handleSortPrice}
+        onClick={handleClickResult}
+      />
       <div className="main_container flex items-start gap-5">
         {isLoading ? (
           <LazyLoadingProduct number={5} />

@@ -31,13 +31,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 import ScrollTop from "@/components/ScrollTop";
-
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ProductBody } from "@/schemaValidations/product.schema";
 export default function AddProductForm({ product }) {
   const [ram, setRam] = useState([]);
   const [disk, setDisk] = useState([]);
@@ -79,8 +81,8 @@ export default function AddProductForm({ product }) {
     fetchApi();
   }, [product]);
   const defaultValues = {
-    detailImages: product?.detailImages || [],
     name: product?.name || "",
+    detailImages: product?.detailImages || [],
     desc: product?.desc || "",
     brand: product?.brand._id || "",
     typeProduct: product?.typeProduct._id || "",
@@ -99,6 +101,7 @@ export default function AddProductForm({ product }) {
     launchTime: product?.detailProduct.launchTime || "",
     card: product?.card._id || "",
     price: product?.price || "",
+    active: product?.active ? "true" : "false" || "true",
   };
   const form = useForm({
     defaultValues: defaultValues,
@@ -112,8 +115,7 @@ export default function AddProductForm({ product }) {
     }
   }
   const updateProduct = async (values) => {
-    // setIsLoading(true);
-    console.log(values);
+    setIsLoading(true);
     const {
       detailImages,
       thumbs,
@@ -136,6 +138,7 @@ export default function AddProductForm({ product }) {
       launchTime,
       card,
       price,
+      active,
     } = values;
     try {
       const formData = new FormData();
@@ -168,11 +171,11 @@ export default function AddProductForm({ product }) {
       formData.append("os", os);
       formData.append("launchTime", launchTime);
       formData.append("card", card);
+      formData.append("active", active === "true" ? true : false);
       const result = await productApiRequest.updateProduct(
         formData,
         product?._id
       );
-      console.log(result);
       toast({
         title: "Thông báo",
         description: "Sửa sản phẩm thành công",
@@ -354,6 +357,41 @@ export default function AddProductForm({ product }) {
                     )}
                   />
                 </div>
+              </div>
+              <div className="block">
+                <FormField
+                  control={form.control}
+                  name="active"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="false" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Ngừng hoạt động
+                            </FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="true" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Hoạt động
+                            </FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
             <div className="flex-1">
@@ -893,7 +931,10 @@ export default function AddProductForm({ product }) {
             </div>
           </div>
           <div className="mt-3 flex justify-end">
-            <Button className="text-white px-[26px] text-base  hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9]  font-bold rounded-[23px]">
+            <Button
+              type="submit"
+              className="text-white px-[26px] text-base  hover:bg-[#02A189] bg-[#00BA9D] border-min border-solid border-[#01C8A9]  font-bold rounded-[23px]"
+            >
               {product ? "Sửa sản phẩm" : "Thêm sản phẩm"}
             </Button>
           </div>

@@ -12,6 +12,7 @@ import {
   fetchUpdateProductsInCart,
 } from "@/lib/features/cartSlice";
 import CustomDeleteDialog from "@/components/CustomDeleteDialog";
+import { useToast } from "@/components/ui/use-toast";
 
 export const columns = [
   {
@@ -41,8 +42,6 @@ export const columns = [
     header: "Sản phẩm",
     cell: ({ row }) => {
       const product = row?.original?.productId;
-      console.log(row);
-      console.log(product.thumbs);
       return (
         <div className="flex items-center max-w-[315px] gap-2">
           <Image
@@ -80,18 +79,30 @@ export const columns = [
     header: "Số lượng",
     cell: ({ row }) => {
       const [quantity, setQuantity] = useState(row.getValue("quantity"));
+      const { toast } = useToast();
       const productId = row.original.productId._id;
+      const quantityProduct = row.original.productId.quantity;
       const userId = JSON.parse(localStorage.getItem("user"))._id;
       const dispatch = useDispatch();
       const handleIncrease = () => {
-        setQuantity((prev) => prev + 1);
-        dispatch(
-          fetchUpdateProductsInCart({
-            productId: productId,
-            cart_userId: userId,
-            quantity: quantity + 1,
-          })
-        );
+        if (quantity + 1 > quantityProduct) {
+          toast({
+            title: "Thông báo",
+            description: "Sản phẩm này không đủ số lượng",
+            variant: "error",
+            duration: 2000,
+          });
+          return;
+        } else {
+          setQuantity((prev) => prev + 1);
+          dispatch(
+            fetchUpdateProductsInCart({
+              productId: productId,
+              cart_userId: userId,
+              quantity: quantity + 1,
+            })
+          );
+        }
       };
 
       const handleDecrease = () => {

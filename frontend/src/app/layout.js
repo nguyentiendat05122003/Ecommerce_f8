@@ -1,11 +1,10 @@
-import "./globals.css";
-import localFont from "next/font/local";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import AppProvider from "@/app/AppProvider";
-import { cookies } from "next/headers";
-import { Toaster } from "@/components/ui/toaster";
-import SlideSession from "@/components/SlideSession";
 import StoreProvider from "@/app/StoreProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
+import localFont from "next/font/local";
+import { cookies } from "next/headers";
+import "./globals.css";
 
 const archivo = localFont({
   src: [
@@ -64,6 +63,7 @@ export default function RootLayout({ children }) {
           <AppProvider initialSessionToken={{ accessToken, refreshToken }}>
             <StoreProvider>{children}</StoreProvider>
             <Toaster />
+
             {/* <SlideSession /> */}
           </AppProvider>
         </ThemeProvider>

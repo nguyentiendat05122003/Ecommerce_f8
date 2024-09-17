@@ -13,7 +13,6 @@ import {
 import { ChevronDown, CircleDollarSign, CircleHelp } from "lucide-react";
 import { useState } from "react";
 export default function ItemFilter({ filter, onClick }) {
-  //active : text-red border-min border-red border-solid
   const [open, setOpen] = useState(false);
   const [openChild, setOpenChild] = useState(false);
   const [showBtn, setShowBtn] = useState(false);
@@ -25,9 +24,9 @@ export default function ItemFilter({ filter, onClick }) {
       const newListItem = prev.map((items) => {
         if (items.id === id) {
           const tmp = items.data.map((item) => {
-            if (item.id === itemChoose.id && item.active) {
+            if (item._id === itemChoose._id && item.active) {
               return { ...item, active: false };
-            } else if (item.id === itemChoose.id) {
+            } else if (item._id === itemChoose._id) {
               return { ...item, active: true };
             } else {
               return item;
@@ -52,7 +51,7 @@ export default function ItemFilter({ filter, onClick }) {
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger
-          className={`border-min drop-shadow-main flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget`}
+          className={`border-min  flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget`}
         >
           {Icon && <Icon size={16} />}
           {title}
@@ -96,20 +95,20 @@ export default function ItemFilter({ filter, onClick }) {
                   </div>
                   {
                     <ul className="mb-3 flex flex-wrap items-center gap-1">
-                      {item.data.map((item) => {
+                      {item.data.map((item, idx) => {
                         return (
                           <li
                             onClick={() => {
                               handleClickItem(item, index + 1);
                             }}
-                            key={item.id}
+                            key={idx}
                             className={`cursor-pointer text-xs font-normal border-min px-[10px] py-[5px] rounded-[10px] ${
                               item.active === true
                                 ? "text-red border-min border-red border-solid"
                                 : ""
                             }`}
                           >
-                            {item.value}
+                            {item.value || item.name || item.size}
                           </li>
                         );
                       })}
@@ -141,9 +140,9 @@ export default function ItemFilter({ filter, onClick }) {
       </Popover>
       {listItem.map((item, index) => {
         return (
-          <Popover key={item.id}>
+          <Popover key={index}>
             <PopoverTrigger
-              className={`border-min drop-shadow-main flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget
+              className={`border-min  flex items-center text-xs font-normal gap-1 cursor-pointer rounded-[10px] h-[34px] py-[5px] px-[10px] mb-[10px] mr-[10px] bg-widget
             `}
             >
               {item.Icon && <item.Icon size={16} />}
@@ -166,20 +165,20 @@ export default function ItemFilter({ filter, onClick }) {
             </PopoverTrigger>
             <PopoverContent className={`bg-widget rounded-lg`}>
               <ul className="mb-3 flex items-center gap-2 flex-wrap">
-                {item.data.map((item) => {
+                {item.data.map((item, idx) => {
                   return (
                     <li
                       onClick={() => {
                         handleClickItem(item, index + 1);
                       }}
-                      key={item.id}
+                      key={idx}
                       className={`cursor-pointer text-xs font-normal border-min px-[10px] py-[5px] rounded-[10px] ${
                         item.active === true
                           ? "text-red border-min border-red border-solid"
                           : ""
                       }`}
                     >
-                      {item.value}
+                      {item.value || item.name || item.size}
                     </li>
                   );
                 })}

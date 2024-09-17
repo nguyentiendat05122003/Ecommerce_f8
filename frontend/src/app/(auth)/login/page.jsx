@@ -5,6 +5,7 @@ import Facebook from "../../assets/img/icons/facebook.png";
 import LogoDark from "../../assets/img/icons/logo_dark.svg";
 import Google from "../../assets/img/icons/google.png";
 import LoginForm from "./LoginForm";
+import Link from "next/link";
 export default function Login() {
   return (
     <div>
@@ -22,8 +23,7 @@ export default function Login() {
             <h4 className="text-header">ShopPoint</h4>
           </div>
           <p className="text-center tracking-[0.2px] font-semibold text-lg leading-6 max-w-[540px] my-7 mx-auto">
-            Gain data-based insights, view progress at a glance, and manage your
-            organization smarter
+            Cửa hàng bán máy tính uy tín số 1 Việt Nam
           </p>
           <Image
             className="max-w-[520px] h-[438px] object-cover"
@@ -36,7 +36,7 @@ export default function Login() {
           <div className="flex flex-col gap-2.5 text-center">
             <h1 className="text-[38px]">Welcome back!</h1>
             <p className="lg:max-w-[300px] m-auto 4xl:max-w-[unset]">
-              Etiam quis quam urna. Aliquam odio erat, accumsan eu nulla in
+              Chào mừng trở lại với chúng tôi
             </p>
           </div>
           <LoginForm />
@@ -67,9 +67,11 @@ export default function Login() {
             </div>
             <div className="flex justify-center items-center gap-2.5 leading-none">
               <p>Don’t have an account?</p>
-              <button className="text-accent font-semibold text-base">
-                Sign Up
-              </button>
+              <Link href={"/register"}>
+                <button className="text-accent font-semibold text-base">
+                  Sign Up
+                </button>
+              </Link>
             </div>
           </div>
         </div>

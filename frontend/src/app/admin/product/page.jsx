@@ -7,25 +7,43 @@ import CustomDeleteDialog from "@/components/CustomDeleteDialog";
 import { DataTable } from "@/components/DataTable";
 import PageHeader from "@/components/PageHeader";
 import PaginationComp from "@/components/Pagination";
-
+import { useSearchParams } from "next/navigation";
 import { CirclePlus, Trash } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function ProductManager() {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const [listProduct, setListProduct] = useState([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [listProductSelect, setListProductSelect] = useState([]);
-  const [tableKey, setTableKey] = useState(Date.now()); // State để giữ key cho DataTable
+  const [tableKey, setTableKey] = useState(Date.now());
+
+  const queryParams = useMemo(() => {
+    return {
+      page: searchParams.get("page") || 1,
+      limit: searchParams.get("limit") || 6,
+      search: searchParams.get("name") || "",
+    };
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchApi = async () => {
-      const { data } = await productApiRequest.getAllProducts();
+      setLoading(true);
+      const { data, result } = await productApiRequest.getAllProductsPagination(
+        queryParams
+      );
+      setTotal(result);
       setListProduct(data);
       setLoading(false);
     };
     fetchApi();
-  }, []);
+  }, [queryParams]);
 
   const handleSelectItem = (items) => {
     setListProductSelect(items);
@@ -47,14 +65,30 @@ export default function ProductManager() {
     setTableKey(Date.now());
   };
 
+  const handleClickPage = (id) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", id);
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleChangeSearch = useDebouncedCallback((value) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set("name", value);
+    } else {
+      params.delete("name");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
   return (
     <div>
-      <PageHeader title="Products Management" />
+      <PageHeader title="Quản Lý Sản Phẩm" />
       <div className="flex flex-col-reverse gap-4 mb-5 md:flex-col lg:flex-row lg:justify-between">
         <div className="flex flex-col gap-4 md:flex-row md:gap-[14px]">
           <Link href="/admin/product/add">
             <button className="bg-green border-min border-solid border-green text-white h-searchHeight rounded-[23px] flex items-center justify-center gap-[16px] text-base px-[26px] transition-all cursor-pointer font-semibold">
-              Add new product <CirclePlus size={18} />
+              Thêm sản phẩm mới <CirclePlus size={18} />
             </button>
           </Link>
 
@@ -62,22 +96,25 @@ export default function ProductManager() {
             onClick={() => handleDeleteProduct()}
             Component={
               <button className="bg-red border-min border-solid border-red text-white h-searchHeight rounded-[23px] flex items-center justify-center gap-[16px] text-base px-[26px] transition-all cursor-pointer font-semibold">
-                Delete products <Trash size={18} />
+                Xóa sản phẩm <Trash size={18} />
               </button>
             }
             title="Bạn chắc có chắc muốn xóa sản phẩm này không ?"
           />
         </div>
-        <SearchComp className="lg:w-[326px]" placeholder="Search Product" />
+        <SearchComp
+          onChange={handleChangeSearch}
+          className="lg:w-[326px]"
+          defaultValue={searchParams.get("name")?.toString()}
+          placeholder="Tìm kiếm sản phẩm"
+        />
       </div>
       <div className="flex flex-col flex-1">
         <div className="flex flex-wrap gap-2 mb-4">
-          <span className="text-header">Products:</span>
+          <span className="text-header">Sản phẩm:</span>
           <button className="pr-[14px] mr-[14px] border-right-[2px] border-solid border-header inline-flex items-center gap-[8px]">
-            <span className="text-header text-sm font-bold ">All</span>
-            <span className="text-[#E2E1E1] text-sm">
-              ({listProduct.length})
-            </span>
+            <span className="text-header text-sm font-bold ">Tất cả</span>
+            <span className="text-[#E2E1E1] text-sm">({total})</span>
           </button>
         </div>
       </div>
@@ -90,6 +127,11 @@ export default function ProductManager() {
             onSelect={handleSelectItem}
             data={listProduct}
             columns={columns}
+          />
+          <PaginationComp
+            totalPages={Math.ceil(total / queryParams.limit)}
+            currentPage={parseInt(queryParams.page, 10)}
+            onPageChange={handleClickPage}
           />
         </div>
       )}

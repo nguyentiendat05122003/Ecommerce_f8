@@ -95,10 +95,16 @@ export const columns = [
     accessorKey: "quantity",
     header: () => <div className="">Số lượng</div>,
     cell: ({ row }) => {
-      // const product = row?.original;
+      const quantity = row?.original.quantity;
+      const { title, className } =
+        quantity === 0
+          ? { title: "Hết hàng", className: "text-red" }
+          : quantity < 10
+          ? { title: "Sắp hết", className: "text-green" }
+          : { title: "Còn hàng", className: "text-green" };
       return (
         <>
-          <span className="text-green">In stock </span>(120)
+          <span className={`${className}`}>{title} </span>({quantity})
         </>
       );
     },
@@ -111,6 +117,22 @@ export const columns = [
       return (
         <span className="text-[10px] text-accent font-bold lg:text-sm">
           {formatPrice(product.price)}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "state",
+    header: () => <div className="">Trạng thái</div>,
+    cell: ({ row }) => {
+      const state = row?.original.active;
+      const title = state ? "Hoạt động" : "Ngừng hoạt động";
+      let className = state ? "text-green" : "text-red";
+      return (
+        <span
+          className={`text-[10px] text-accent font-bold lg:text-sm ${className}`}
+        >
+          {title}
         </span>
       );
     },

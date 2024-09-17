@@ -55,17 +55,116 @@ const createProduct = async (req) => {
 };
 const getAllProduct = factory.getAll(Product);
 const updateProduct = async (req) => {
-  // const doc = await Product.findByIdAndUpdate(req.params.id, req.body, {
-  //   new: true,
-  //   runValidators: true,
-  // }).lean();
-  // if (!doc) {
-  //   throw new AppError("No document found with that ID", 404);
-  // }
-  // return {
-  //   data: doc,
-  // };
-  return;
+  try {
+    let thumbs = [];
+    let detailImages = [];
+    if (req.files && req.files.thumbs) {
+      for (const file of req.files.thumbs) {
+        const { path } = file;
+        const newPath = await uploadThumbProduct({ path });
+        thumbs.push(newPath);
+      }
+    } else {
+      const existingProduct = await Product.findById(req.params.id);
+      thumbs = existingProduct.thumbs;
+    }
+    if (req.files && req.files.detailImages) {
+      for (const file of req.files.detailImages) {
+        const { path } = file;
+        const newPath = await uploadDetailImageProduct({ path });
+        detailImages.push(newPath);
+      }
+    } else {
+      const existingProduct = await Product.findById(req.params.id);
+      detailImages = existingProduct.detailImages;
+    }
+    req.body.thumbs = thumbs;
+    req.body.detailImages = detailImages;
+
+    const {
+      name,
+      desc,
+      price,
+      brand,
+      typeProduct,
+      cpu,
+      disk,
+      ram,
+      typeBrand,
+      specialFeatures,
+      screen,
+      card,
+      active,
+      keyboard_backlight,
+      size,
+      material,
+      battery,
+      chargeCapacity,
+      os,
+      launchTime,
+    } = req.body;
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        desc,
+        price,
+        brand,
+        typeProduct,
+        cpu,
+        disk,
+        ram,
+        typeBrand,
+        specialFeatures,
+        screen,
+        card,
+        active,
+        thumbs,
+        detailImages,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).lean();
+
+    if (!updatedProduct) {
+      throw new AppError("No document found with that ID", 404);
+    }
+
+    const detailProductUpdateData = {
+      keyboard_backlight,
+      size,
+      material,
+      battery,
+      chargeCapacity,
+      os,
+      launchTime,
+    };
+
+    const updatedDetailProduct = await DetailProduct.findByIdAndUpdate(
+      updatedProduct.detailProduct,
+      detailProductUpdateData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).lean();
+
+    if (!updatedDetailProduct) {
+      throw new AppError("No detail product found with that ID", 404);
+    }
+
+    return {
+      data: {
+        ...updatedProduct,
+        detailProduct: updatedDetailProduct,
+      },
+    };
+  } catch (error) {
+    console.error("Error updating product:", error);
+  }
 };
 const deleteOneProduct = factory.deleteOne(Product);
 

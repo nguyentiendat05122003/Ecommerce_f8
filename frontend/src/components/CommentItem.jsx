@@ -121,7 +121,7 @@ export default function CommentItem({ comment, onClick, onDelete }) {
                   : `Xem thêm ${comment.subComments.length} phản hồi`}
               </button>
               {showReplies && (
-                <div style={{ marginTop: 10 }}>
+                <div style={{ marginTop: 2 }}>
                   {comment.subComments.map((subComment) => (
                     <CommentItem
                       onClick={onClick}

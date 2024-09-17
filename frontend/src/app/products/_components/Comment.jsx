@@ -74,10 +74,6 @@ export default function Comment({ listComments, productId }) {
           Send
         </Button>
       </div>
-      <div className=" text-md font-medium text-left">
-        {listComments.length} hỏi đáp về “Laptop HP 245 G10
-        R5-7520U/8GB/256GB/14"FHD/Win11 (9H8X8PT)”
-      </div>
       <div className="">
         {commentsTree.length > 0 &&
           commentsTree.map((comment) => (
@@ -88,6 +84,10 @@ export default function Comment({ listComments, productId }) {
               comment={comment}
             />
           ))}
+      </div>
+      <div className=" text-md font-medium text-left">
+        {listComments.length} hỏi đáp về “Laptop HP 245 G10
+        R5-7520U/8GB/256GB/14"FHD/Win11 (9H8X8PT)”
       </div>
     </div>
   );

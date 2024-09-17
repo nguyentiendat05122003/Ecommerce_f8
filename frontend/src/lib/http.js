@@ -32,7 +32,7 @@ const request = async (method = "GET", url, options = {}) => {
     ? JSON.stringify(options.body)
     : undefined;
   const baseHeaders = {
-    ...(isFormData ? {} : { "Content-Type": "application/json" }), // Only set Content-Type if not FormData
+    ...(isFormData ? {} : { "Content-Type": "application/json" }),
   };
   const baseUrl =
     options?.baseUrl === undefined

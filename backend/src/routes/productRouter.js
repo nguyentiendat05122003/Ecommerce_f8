@@ -18,7 +18,11 @@ router
 router
   .route("/:id")
   .get(catchAsync(productController.getProduct))
-  .patch(authController.protect, catchAsync(productController.updateProduct))
+  .patch(
+    authController.protect,
+    uploadProductImages,
+    catchAsync(productController.updateProduct)
+  )
   .delete(authController.protect, catchAsync(productController.deleteProduct));
 
 export default router;

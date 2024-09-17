@@ -1,6 +1,8 @@
 "use client";
+import statisticalApiRequest from "@/apiRequests/statistical";
 import { numFormatter } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { useWindowSize } from "react-use";
 import {
   Bar,
@@ -11,20 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-const data = [
-  { name: "Jan", revenue: 4000, expense: 2400 },
-  { name: "Feb", revenue: 3000, expense: 1398 },
-  { name: "Mar", revenue: 2000, expense: 9800 },
-  { name: "Apr", revenue: 3450, expense: 3908 },
-  { name: "May", revenue: 8000, expense: 4800 },
-  { name: "Jun", revenue: 2390, expense: 6800 },
-  { name: "Jul", revenue: 1900, expense: 4300 },
-  { name: "Aug", revenue: 8900, expense: 4500 },
-  { name: "Sep", revenue: 5600, expense: 10000 },
-  { name: "Oct", revenue: 6450, expense: 1200 },
-  { name: "Nov", revenue: 7840, expense: 3000 },
-  { name: "Dec", revenue: 3490, expense: 4300 },
-];
+
 const CustomTooltip = ({ active = false, payload = [], label = "" }) => {
   if (active && payload && payload.length) {
     return (
@@ -50,23 +39,32 @@ const CustomTooltip = ({ active = false, payload = [], label = "" }) => {
 export default function SalesStats() {
   const { theme } = useTheme();
   const { width } = useWindowSize();
+  const [data, setData] = useState([]);
   const revenueColor = theme === "light" ? "var(--header)" : "#C4DEFF";
   const expenseColor = theme === "light" ? "var(--inputBorder)" : "#8D8D99";
+  useEffect(() => {
+    const fetchApi = async () => {
+      const year = new Date().getFullYear();
+      const data = await statisticalApiRequest.getMonthlyRevenue(year);
+      setData(data);
+    };
+    fetchApi();
+  }, []);
   return (
-    <div className="p-[26px] bg-widget rounded-sm drop-shadow-main flex flex-col h-[300px] md:h-[494px] lg:col-span-3 xl:col-span-1">
+    <div className="p-[26px] bg-widget rounded-sm drop-shadow-main flex flex-col h-[300px] md:h-[494px]">
       <div className="flex flex-col gap-2.5 mb-5 md:flex-row md:justify-between md:items-center">
-        <h4 className="text-2xl text-header ">Sales Statistic 2022</h4>
+        <h4 className="text-xl text-header ">Thống kê bán hàng năm 2024</h4>
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2.5">
             <span className="w-4 h-4 rounded-full bg-[#c4deff]" />
             <span className="font-heading font-semibold text-sm text-header">
-              Revenue
+              Doanh thu
             </span>
           </div>
           <div className="flex items-center gap-2.5">
             <span className="w-4 h-4 rounded-full bg-[#8d8d99]" />
             <span className="font-heading font-semibold text-sm text-header">
-              Expense
+              Chi phí
             </span>
           </div>
         </div>

@@ -1,30 +1,47 @@
-import React from "react";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
   PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
-export default function PaginationComp() {
+
+export default function PaginationComp({
+  totalPages,
+  currentPage,
+  onPageChange,
+}) {
+  const renderPaginationItems = () => {
+    const items = [];
+    for (let i = 1; i <= totalPages; i++) {
+      items.push(
+        <PaginationItem key={i}>
+          <PaginationLink
+            className={`font-bold ${
+              currentPage === i
+                ? "text-accent hover:text-white border-accent"
+                : ""
+            }`}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              onPageChange(i);
+            }}
+            isActive={currentPage === i}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    return items;
+  };
+
   return (
     <div>
       <Pagination className="mt-6">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationLink
-              className="font-bold text-accent hover:text-white border-accent"
-              href="#"
-              isActive
-            >
-              1
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>{/* <PaginationNext href="#" /> */}</PaginationItem>
-        </PaginationContent>
+        <PaginationContent>{renderPaginationItems()}</PaginationContent>
       </Pagination>
     </div>
   );

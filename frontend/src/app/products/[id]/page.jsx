@@ -31,6 +31,7 @@ export default async function ProductDetail({ params }) {
     specialFeatures,
     detailProduct,
     card,
+    quantity,
   } = data;
   return (
     <div>
@@ -58,17 +59,23 @@ export default async function ProductDetail({ params }) {
           {/* Slider */}
           <Slider detailImages={detailImages} />
           {/* info */}
-          <InfoProduct />
+          <InfoProduct
+            disk={disk}
+            cpu={cpu}
+            ram={ram}
+            screen={screen}
+            specialFeatures={specialFeatures}
+            detailProduct={detailProduct}
+            card={card}
+          />
           {/* Assurance */}
           <Insurance />
         </div>
         <div className="flex-1">
           <div className="price flex items-center gap-2">
             <h2 className="text-accent font-bold text-2xl">
-              {formatPrice(price)}đ
+              {formatPrice(price)}
             </h2>
-            <h3 className="font-normal line-through text-sm">13.290.000 ₫</h3>
-            <h3 className="font-normal text-sm text-red">-20%</h3>
           </div>
           <Promotion />
           <div className="location mt-3 flex items-center gap-1">
@@ -81,8 +88,8 @@ export default async function ProductDetail({ params }) {
             </p>
           </div>
           <div className="btn mt-4 flex gap-3">
-            <ButtonBuyNow product={data} />
-            <ButtonAddToCart productId={_id} />
+            <ButtonBuyNow quantity={quantity} product={data} />
+            <ButtonAddToCart quantity={quantity} productId={_id} />
           </div>
           <InfoDetail
             disk={disk}

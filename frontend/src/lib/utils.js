@@ -1,6 +1,7 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { toast } from "@/components/ui/use-toast";
+import queryString from "query-string";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -61,8 +62,11 @@ export const filterPropertyActive = (data) => {
     if (activeData.length > 0) {
       activeObjects.push({
         title: item.title,
-        id: item.id,
-        activeData: activeData.map((dataItem) => dataItem.value),
+        id: activeData.map((dataItem) => dataItem._id),
+        name: item.name,
+        activeData: activeData.map(
+          (dataItem) => dataItem.value || dataItem.size || dataItem.name
+        ),
       });
     }
   });
@@ -102,4 +106,52 @@ export const formatAddress = (address) => {
   return `${address?.province.provinceName || ""}, ${
     address?.district.districtName || ""
   }, ${address?.ward.wardName || ""}`;
+};
+
+export const convertFiltersToQueryString = (filters) => {
+  if (filters.length < 0) {
+    return {};
+  }
+  const queryObject = {};
+  filters.forEach((filter) => {
+    const key = filter.name;
+    if (Array.isArray(filter.id)) {
+      queryObject[key] = filter.id.join(",");
+    } else {
+      queryObject[key] = filter.id;
+    }
+  });
+
+  return queryString.stringify(queryObject);
+};
+
+export const convertTimeMessage = (createdAtString) => {
+  const timeFormatRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s[APap][Mm]$/;
+  if (timeFormatRegex.test(createdAtString)) {
+    return createdAtString;
+  }
+
+  const createdAtUTC = new Date(createdAtString);
+  const options = { hour: "numeric", minute: "numeric" };
+  const localTime = createdAtUTC.toLocaleTimeString("en-US", options);
+  return localTime;
+};
+
+export const handleAddMessage = (
+  listMessage,
+  formattedCurrentDate,
+  newMessage
+) => {
+  const lastDayIndex = listMessage.length - 1;
+  const lastDay = listMessage[lastDayIndex];
+  if (lastDay && lastDay._id === formattedCurrentDate) {
+    lastDay.messages.push(newMessage);
+  } else {
+    const newDay = {
+      _id: formattedCurrentDate,
+      messages: [newMessage],
+    };
+    listMessage.push(newDay);
+  }
+  return listMessage;
 };
